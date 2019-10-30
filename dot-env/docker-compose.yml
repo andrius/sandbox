@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+  blah:
+    image: alpine
+    network_mode: "none"
+    env_file: .env
