@@ -4,6 +4,8 @@ Signal trap for dockerised crystal application
 Production-ready crystal application in docker must process correctly several
 signals to shutdown properly. Here is [detailed explanation of topic](https://medium.com/@gchudnov/trapping-signals-in-docker-containers-7a57fdda7d86).
 
+Not familiar with crystal-lang? [Here is the main file with business logic](https://github.com/andrius/sandbox/blob/develop/crystal-signal-trap/src/signal_trap.cr)
+
 ## Installation
 
 Everything is dockerised, just get docker installed and download git repository.
