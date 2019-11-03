@@ -1,0 +1,17 @@
+name: api-browser
+
+description: |
+  Application that browse HTTP REST API page http://jsonplaceholder.typicode.com/posts/1
+
+version: 0.1.0
+
+authors:
+  - Andrius Kairiukstis <k@andrius.mobi>
+
+targets:
+  app:
+    main: src/app.cr
+
+crystal: 0.31.1
+
+license: MIT
