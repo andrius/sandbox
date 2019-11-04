@@ -15,15 +15,19 @@ Everything is dockerised, just get docker installed and download git repository.
 For development-mode application run this:
 
 ```bash
-docker build --pull --force-rm -t crystal-signal-trap --file ./Dockerfile . \
+docker build --pull --force-rm \
+  -t crystal-signal-trap \
+  --file ./Dockerfile . \
 && docker run -ti --rm --name=trap crystal-signal-trap
 ```
 
 But most important is to get signals trap working in production-ready docker,
-which is busybox or alpine-based. To test it, run following snippet:
+which is scratch, busybox or alpine-based. To test it, run following snippet:
 
 ```bash
-docker build --pull --force-rm -t crystal-signal-trap --file ./Dockerfile-production . \
+docker build --pull --force-rm \
+  -t crystal-signal-trap \
+  --file ./Dockerfile-production . \
 && docker run -ti --rm --name=trap crystal-signal-trap
 ```
 
