@@ -1,5 +1,5 @@
-Signal trap for dockerised crystal application
-==============================================
+Properly terminate crystal-lang service in docker
+=================================================
 
 Production-ready crystal application in docker must process correctly several
 signals to shutdown properly. Here is [detailed explanation of topic](https://medium.com/@gchudnov/trapping-signals-in-docker-containers-7a57fdda7d86).
