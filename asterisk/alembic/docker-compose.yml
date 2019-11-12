@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  alembic:
+    build: .
+    depends_on:
+      - mariadb
+    env_file: .env
+    # CURRENT_UID=$(id -u):$(id -g) docker-compose run ...
+    user: ${CURRENT_UID:-1000:1000}
+    volumes:
+      - ./data:/data
+
+  # mariadb:
+  #   image: mariadb
+  #   env_file: .env
+  #   environment:
+  #     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+
+  # postgres:
+  #   image: postgres:alpine
+  #   env_file: .env

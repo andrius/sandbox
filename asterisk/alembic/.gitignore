@@ -1,0 +1,8 @@
+# Credentials
+/.env
+/.env*
+!/.env*sample
+
+# SQL files
+/data/*
+!/data/.keep
