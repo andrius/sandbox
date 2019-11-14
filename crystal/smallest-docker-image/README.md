@@ -46,7 +46,7 @@ smallest-docker-image   alpine-static-no-dns    eea30ca4db2b        7 minutes ag
 
 Conclusion:
 
-Only ldd-based images works. `-- static` compilation option won't help
+Only ldd-based images works. `--static` compilation option won't help
 
 ```
 ❯ make test
