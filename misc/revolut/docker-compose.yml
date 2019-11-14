@@ -1,0 +1,6 @@
+version: '3.7'
+
+services:
+  revolut:
+    build: .
+    env_file: .env

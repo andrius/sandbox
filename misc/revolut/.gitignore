@@ -1,0 +1,10 @@
+/docs/
+/lib/
+/bin/
+/.shards/
+*.dwarf
+
+# Credentials
+/.env
+/.env*
+!/.env*sample
