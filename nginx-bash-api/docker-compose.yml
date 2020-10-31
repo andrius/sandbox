@@ -1,0 +1,42 @@
+# vim sw=2 ts=2 et
+version: '3.9'
+
+services:
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost"]
+      interval: 45s
+      timeout: 5s
+      retries: 3
+    env_file:
+      .env
+    volumes:
+      - ./nginx/conf-templates:/etc/nginx/templates
+      - ./nginx/www:/var/www
+    ports:
+      - "80:80"
+
+  certbot:
+    image: alpine
+    restart: unless-stopped
+    depends_on:
+      nginx:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c """
+        apk add --quiet --no-cache --no-progress curl; \\
+        sleep 10s && \\
+        trap exit TERM; \\
+        while :; do \\
+          echo 'certbot service is up, enter with command'; \\
+          echo 'docker-compose exec client'; \\
+          sleep 10s; \\
+          echo 'SSL certificated updated, reloading nginx'; \\
+          curl --fail --silent --user ${NGINX_USER}:${NGINX_PASSWORD} http://nginx/nginx/reload; \\
+          sleep 1h & wait $${!}; \\
+        done;
+      """
