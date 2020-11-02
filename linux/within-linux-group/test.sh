@@ -1,4 +1,5 @@
 #!/bin/sh
+# vim:sw=4:ts=4:et
 
 USER=$(whoami)
 GROUP=sudo
@@ -13,9 +14,9 @@ is_sudo() {
     local user=$(whoami)
     local group="sudo"
     if id -nG "${user}" | grep -qw "${group}"; then
-      return 0
+        return 0
     else
-      return 1
+        return 1
     fi
 }
 
