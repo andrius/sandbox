@@ -41,9 +41,9 @@ services:
       context: freeswitch
       dockerfile: Dockerfile
     restart: unless-stopped
-    volumes:
-      - ssl:/etc/letsencrypt:ro
-    env_file: .env
+    network_mode: host
+    cap_add:
+      - SYS_NICE
     ports:
       - 0.0.0.0:${FS_INTERNAL_SIP_PORT}:${FS_INTERNAL_SIP_PORT}/tcp
       - 0.0.0.0:${FS_INTERNAL_SIP_PORT}:${FS_INTERNAL_SIP_PORT}/udp
@@ -53,3 +53,7 @@ services:
       - 0.0.0.0:${FS_WSS_PORT}:${FS_WSS_PORT}/tcp
       - 0.0.0.0:${FS_RTP_START_PORT}-${FS_RTP_END_PORT}:${FS_RTP_START_PORT}-${FS_RTP_END_PORT}/udp
       - 0.0.0.0:${FS_ESL_PORT}:${FS_ESL_PORT}/tcp
+    env_file: .env
+    volumes:
+      - ssl:/etc/letsencrypt:ro
+      - ./freeswitch/docker-entrypoint.sh:/docker-entrypoint.sh

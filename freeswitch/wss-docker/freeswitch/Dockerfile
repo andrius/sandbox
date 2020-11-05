@@ -1,3 +1,4 @@
+# vim: set fenc=utf-8 ts=2 sw=2 sts=2 et ft=Dockerfile :
 FROM alpine:3.12
 
 LABEL maintainer="Andrius Kairiukstis <k@andrius.mobi>"
@@ -25,11 +26,10 @@ RUN apk --update --no-cache add \
       curl \
       freeswitch \
       freeswitch-sample-config \
+      freeswitch-sounds-en-us-callie-8000 \
+      freeswitch-sounds-music-8000 \
       less \
       sngrep \
-&&  sed -i "s|param name=\"listen-ip\" value=\"::\"|param name=\"listen-ip\" value=\"0.0.0.0\"|g" /etc/freeswitch/autoload_configs/event_socket.conf.xml \
-&&  sed -i "s|<!--param name=\"nat-options-ping\" value=\"true\"/>-->|<param name=\"nat-options-ping\" value=\"true\"/>|g" /etc/freeswitch/sip_profiles/internal.xml \
-&&  mkdir -p /etc/freeswitch/tls \
 &&  rm -f /etc/freeswitch/tls/* \
 &&  find / -type d -iname '*freeswitch*' -exec chown -R freeswitch:freeswitch {} + \
 &&  find /var/log -type f -exec rm -f {} + \
@@ -40,13 +40,20 @@ RUN apk --update --no-cache add \
 VOLUME /etc/freeswitch/tls
 VOLUME /var/lib/freeswitch/recordings
 
-RUN chown -R freeswitch:freeswitch /etc/freeswitch \
+COPY configs/autoload_configs/*   /etc/freeswitch/autoload_configs/
+COPY configs/sip_profiles         /etc/freeswitch/sip_profiles
+COPY configs/vars.xml             /etc/freeswitch/vars.xml
+
+RUN ln -s /var/lib/freeswitch/recordings /recordings \
+&&  sed -i "s|param name=\"listen-ip\" value=\"::\"|param name=\"listen-ip\" value=\"0.0.0.0\"|g" /etc/freeswitch/autoload_configs/event_socket.conf.xml \
+&&  chown -R freeswitch:freeswitch /etc/freeswitch \
+                                   /recordings \
                                    /var/lib/freeswitch/recordings
 
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-CMD ["/usr/bin/freeswitch", "-nf", "-u", "freeswitch", "-g", "freeswitch", "-reincarnate-reexec"]
-# CMD ["/usr/bin/freeswitch", "-nf", "-u", "freeswitch", "-g", "freeswitch", "-reincarnate-reexec", "-nonat", "-nonatmap", "-rp"]
+# CMD ["/usr/bin/freeswitch", "-nf", "-u", "freeswitch", "-g", "freeswitch", "-reincarnate-reexec"]
+CMD ["/usr/bin/freeswitch", "-nf", "-u", "freeswitch", "-g", "freeswitch", "-reincarnate-reexec", "-nonat"]
 
 RUN /usr/bin/freeswitch -version

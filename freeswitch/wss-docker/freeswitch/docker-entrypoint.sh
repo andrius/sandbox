@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# vim:sw=2:ts=2:et
+# vim: set fenc=utf-8 ts=2 sw=2 sts=2 et :
 
 set -ueox pipefail
 

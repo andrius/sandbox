@@ -1,4 +1,4 @@
-# vim:sw=4:ts=4:et:ft=nginx:
+# vim set sw=4 ts=4 et ft=nginx :
 
 server {
     listen 80;
