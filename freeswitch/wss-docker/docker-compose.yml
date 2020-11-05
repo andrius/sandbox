@@ -1,0 +1,55 @@
+version: '3.9'
+
+volumes:
+  ssl: {}
+
+services:
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost"]
+      interval: 45s
+      timeout: 5s
+      retries: 3
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file: .env
+    volumes:
+      - ./nginx/conf-templates:/etc/nginx/templates
+      - ssl:/etc/letsencrypt
+      - ssl:/var/www/certbot
+
+  certbot:
+    build:
+      context: certbot
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      nginx:
+        condition: service_healthy
+    env_file: .env
+    volumes:
+      - ssl:/etc/letsencrypt
+      - ssl:/var/www/certbot
+
+  freeswitch:
+    build:
+      context: freeswitch
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ssl:/etc/letsencrypt:ro
+    env_file: .env
+    ports:
+      - 0.0.0.0:${FS_INTERNAL_SIP_PORT}:${FS_INTERNAL_SIP_PORT}/tcp
+      - 0.0.0.0:${FS_INTERNAL_SIP_PORT}:${FS_INTERNAL_SIP_PORT}/udp
+      - 0.0.0.0:${FS_EXTERNAL_SIP_PORT}:${FS_EXTERNAL_SIP_PORT}/tcp
+      - 0.0.0.0:${FS_EXTERNAL_SIP_PORT}:${FS_EXTERNAL_SIP_PORT}/udp
+      - 0.0.0.0:${FS_WS_PORT}:${FS_WS_PORT}/tcp
+      - 0.0.0.0:${FS_WSS_PORT}:${FS_WSS_PORT}/tcp
+      - 0.0.0.0:${FS_RTP_START_PORT}-${FS_RTP_END_PORT}:${FS_RTP_START_PORT}-${FS_RTP_END_PORT}/udp
+      - 0.0.0.0:${FS_ESL_PORT}:${FS_ESL_PORT}/tcp
