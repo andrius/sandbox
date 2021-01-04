@@ -1,0 +1,5 @@
+FROM busybox
+
+COPY source-data/ /data/
+
+CMD ["sleep", "infinity"]
