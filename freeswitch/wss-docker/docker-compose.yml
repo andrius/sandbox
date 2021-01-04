@@ -52,7 +52,7 @@ services:
       - 0.0.0.0:${FS_WS_PORT}:${FS_WS_PORT}/tcp
       - 0.0.0.0:${FS_WSS_PORT}:${FS_WSS_PORT}/tcp
       - 0.0.0.0:${FS_ESL_PORT}:${FS_ESL_PORT}/tcp
-    #   - 0.0.0.0:${FS_RTP_START_PORT}-${FS_RTP_END_PORT}:${FS_RTP_START_PORT}-${FS_RTP_END_PORT}/udp
+      - 0.0.0.0:${FS_RTP_START_PORT}-${FS_RTP_END_PORT}:${FS_RTP_START_PORT}-${FS_RTP_END_PORT}/udp
     env_file: .env
     volumes:
       - ssl:/etc/letsencrypt:ro
