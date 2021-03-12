@@ -1,0 +1,8 @@
+FROM alpine:3.13
+
+RUN apk --update --no-cache add \
+      curl \
+      bash \
+      netcat-openbsd
+
+SHELL ["bash", "-c"]
