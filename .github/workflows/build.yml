@@ -1,0 +1,13 @@
+name: Debian Package Build Workflow
+on: push
+
+jobs:
+  build-debian-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Legacy Debian Packages
+        uses: ./github-actions/build-debian

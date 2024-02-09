@@ -1,0 +1,5 @@
+name: "Build Legacy Debian Packages"
+description: "Builds Debian Jessie packages"
+runs:
+  using: "docker"
+  image: "Dockerfile"
