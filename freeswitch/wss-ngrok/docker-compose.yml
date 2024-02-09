@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  freeswitch:
+    build:
+      context: freeswitch
+    depends_on:
+      ngrok:
+        condition: service_healthy
+    privileged: true
+    ports:
+      - 0.0.0.0:5060:5060
+    # cap_add:
+    #   - SYS_NICE
+
+  ngrok:
+    image: wernight/ngrok
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost:4040/api/tunnels"]
+      interval: 45s
+      timeout: 5s
+      retries: 3
+    ports:
+      - 0.0.0.0:443:443
+    environment:
+      - NGROK_REGION=eu
+      - NGROK_PROTOCOL=http
+      - NGROK_PORT=freeswitch:5066
