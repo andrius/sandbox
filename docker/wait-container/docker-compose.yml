@@ -1,0 +1,75 @@
+# vim sw=2 ts=2 et
+version: '3.9'
+
+services:
+  ##############################################################################
+  #
+  api:
+    build:
+      context: api
+      dockerfile: Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost"]
+      interval: 45s
+      timeout: 5s
+      retries: 3
+
+  api-client:
+    image: alpine
+    depends_on:
+      api:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c """
+        trap exit TERM; \\
+        while :; do \\
+          echo 'service is up, enter with \`docker-compose exec api-client\` command'; \\
+          sleep 1h & wait $${!}; \\
+        done;
+      """
+
+  ##############################################################################
+  #
+  service:
+    image: alpine
+    entrypoint: >
+      /bin/sh -c """
+        trap exit TERM; \\
+        while :; do \\
+          echo 'service is up'; \\
+          sleep 1h & wait $${!}; \\
+        done;
+      """
+
+  ping-test:
+    image: alpine
+    volumes:
+      - ./scripts:/scripts
+    command: >
+      /scripts/ping-test.sh
+
+
+  ##############################################################################
+  #
+  postgresql:
+    image: postgresql:alpine
+    environment:
+      - POSTGRES_USER=12345
+      - POSTGRES_PASSWORD=67890
+
+  memcached:
+    image: memcached:alpine
+
+  redis:
+    image: redis:alpine
+
+  port-test:
+    image: alpine
+    volumes:
+      - ./scripts:/scripts
+    command: >
+      sh  -c """
+        apk --update --no-cache --no-progress add bash; \\
+        /scripts/port-test.sh
+      """
+
