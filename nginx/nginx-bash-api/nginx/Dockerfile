@@ -1,4 +1,4 @@
-FROM nginx:1.19-alpine
+FROM nginx:1.29.0-alpine
 
 RUN set -x \
 &&  apk add --no-cache \
