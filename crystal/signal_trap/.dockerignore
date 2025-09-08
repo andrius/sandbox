@@ -1,0 +1,11 @@
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+*.md
+.crystal/
+lib/
+shard.lock
+.env*
+*.log

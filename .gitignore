@@ -1,0 +1,70 @@
+# Credentials and secrets
+.env
+*.key
+*.pem
+*.crt
+*.p12
+*.jks
+*secret*
+*password*
+*credential*
+
+# IDE and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Language specific
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.pyc
+__pycache__/
+*.gem
+*.rbc
+.bundle/
+vendor/bundle
+.crystal/
+lib/
+*.o
+*.so
+*.a
+target/
+*.class
+*.jar
+*.war
+
+# Logs
+*.log
+logs/
+
+# Docker
+.docker/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+
+# Build artifacts
+build/
+dist/
+out/
+bin/
+obj/
