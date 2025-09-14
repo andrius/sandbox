@@ -1,0 +1,95 @@
+# Flutter .dockerignore - optimized for build performance
+
+# Dart/Flutter build artifacts
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Version control
+.git/
+.gitignore
+.gitattributes
+
+# Documentation and non-essential files
+README.md
+docs/
+*.md
+!pubspec.yaml
+!analysis_options.yaml
+
+# Test files (exclude from production builds)
+test/
+integration_test/
+*_test.dart
+
+# Development dependencies
+.packages
+pubspec.lock
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+
+# Docker files (avoid recursive copies)
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Environment files
+.env*
+!.env.template
+
+# Coverage and analysis
+coverage/
+.lcov
+
+# Platform specific (iOS - not needed for this project)
+ios/
+macos/
+
+# Large dependencies that should be installed in container
+node_modules/
+
+# Build caches
+.pub-cache/
+
+# Android specific files that don't need to be copied
+android/.gradle/
+android/app/build/
+android/build/
+android/gradle/
+android/gradlew*
+android/local.properties
+android/key.properties
+
+# Web specific generated files
+web/favicon.png
+web/icons/
+web/manifest.json
+
+# Linux build artifacts
+linux/flutter/ephemeral/
+
+# Windows build artifacts (if applicable)
+windows/flutter/ephemeral/
+
+# Development overrides
+docker-compose.override.yml

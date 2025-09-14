@@ -1,0 +1,42 @@
+services:
+  flutter-app:
+    build:
+      context: .
+      target: production
+      args:
+        BUILD_WEB: "${BUILD_WEB:-true}"
+        BUILD_ANDROID: "${BUILD_ANDROID:-true}"
+        BUILD_LINUX: "${BUILD_LINUX:-true}"
+    ports:
+      - "${WEB_PORT:-80}:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    volumes:
+      - build-artifacts:/builds
+    networks:
+      - flutter-network
+
+  flutter-builder:
+    build:
+      context: .
+      target: builder
+      args:
+        BUILD_WEB: "${BUILD_WEB:-true}"
+        BUILD_ANDROID: "${BUILD_ANDROID:-true}"
+        BUILD_LINUX: "${BUILD_LINUX:-true}"
+    volumes:
+      - build-artifacts:/app/build
+      - .:/app:ro
+    networks:
+      - flutter-network
+    profiles:
+      - build
+
+volumes:
+  build-artifacts:
+    driver: local
+
+networks:
+  flutter-network:
+    driver: bridge

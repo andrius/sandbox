@@ -1,0 +1,87 @@
+# Development override template
+# Copy this to docker-compose.override.yml and customize as needed
+# git add docker-compose.override.yml to .gitignore
+
+services:
+  flutter-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "${DEV_WEB_PORT:-3000}:3000"
+      - "${DEV_DEBUG_PORT:-8080}:8080"
+      - "${DEV_VM_SERVICE_PORT:-9100}:9100"
+    environment:
+      - FLUTTER_WEB_AUTO_DETECT=true
+      - FLUTTER_WEB_USE_SKIA=false
+    volumes:
+      # Source code for hot reload
+      - .:/app
+      # Preserve pub cache between runs
+      - flutter-pub-cache:/root/.pub-cache
+      # Preserve flutter cache
+      - flutter-cache:/opt/flutter/.pub-cache
+      # Android SDK cache
+      - android-sdk-cache:/opt/android-sdk
+      # ADB socket for device access (if needed)
+      - /dev/bus/usb:/dev/bus/usb:rw
+    devices:
+      # USB devices for Android debugging
+      - /dev/bus/usb
+    privileged: false
+    # Enable for Android device access
+    # privileged: true
+    networks:
+      - flutter-network
+    stdin_open: true
+    tty: true
+    working_dir: /app
+    command: >
+      bash -c "
+        echo 'Starting Flutter development environment...' &&
+        if [ ! -f pubspec.yaml ]; then
+          echo 'Creating Flutter project...' &&
+          flutter create --platforms=android,web,linux . --project-name=flutter_poc
+        fi &&
+        flutter pub get &&
+        echo 'Flutter dev server starting on port 3000' &&
+        echo 'Available commands:' &&
+        echo '  flutter run -d web-server --web-hostname 0.0.0.0 --web-port 3000' &&
+        echo '  flutter run -d linux' &&
+        echo '  flutter build apk' &&
+        bash
+      "
+
+  # Optional: Separate Android development service
+  flutter-android:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      - ADB_SERVER_SOCKET=tcp:host-gateway:5037
+    volumes:
+      - .:/app
+      - flutter-pub-cache:/root/.pub-cache
+      - android-sdk-cache:/opt/android-sdk
+    networks:
+      - flutter-network
+    profiles:
+      - android
+    command: >
+      bash -c "
+        adb start-server &&
+        flutter devices &&
+        bash
+      "
+
+volumes:
+  flutter-pub-cache:
+    driver: local
+  flutter-cache:
+    driver: local
+  android-sdk-cache:
+    driver: local
+
+networks:
+  flutter-network:
+    driver: bridge
