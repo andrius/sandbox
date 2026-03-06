@@ -30,9 +30,17 @@ This folder is the starting point for migrating
 4. Add unit tests that mirror core upstream behavior.
 5. Port selected examples from the Go repository for parity checks.
 
-## Run (once Crystal is installed)
+## Run locally
 
 ```bash
 cd crystal/bubbletea
 crystal run examples/counter.cr
+```
+
+## Run with Docker (Crystal 1.19)
+
+```bash
+cd crystal/bubbletea
+docker build -t bubbletea-crystal:1.19 .
+docker run --rm -it bubbletea-crystal:1.19
 ```
