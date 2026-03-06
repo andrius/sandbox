@@ -22,11 +22,11 @@ class CounterModel < BubbleTea::Model
     when BubbleTea::UserInputMessage
       case msg.data.strip
       when "+"
-        return {self, -> { IncrementMessage.new }}
+        return {self, -> { IncrementMessage.new.as(BubbleTea::Msg?) }}
       when "-"
-        return {self, -> { DecrementMessage.new }}
+        return {self, -> { DecrementMessage.new.as(BubbleTea::Msg?) }}
       when "q", "quit"
-        return {self, -> { BubbleTea::QuitMessage.new }}
+        return {self, -> { BubbleTea::QuitMessage.new.as(BubbleTea::Msg?) }}
       end
     when IncrementMessage
       @count += 1
