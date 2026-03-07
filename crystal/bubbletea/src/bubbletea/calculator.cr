@@ -39,6 +39,8 @@ module BubbleTea
     @history : Array(String)
     @error : String?
     @color_enabled : Bool
+    @width : Int32
+    @height : Int32
 
     def initialize(*, @color_enabled : Bool = Style.enabled_for?(STDOUT))
       @accumulator = nil
@@ -46,6 +48,8 @@ module BubbleTea
       @input_buffer = ""
       @history = [] of String
       @error = nil
+      @width = 0
+      @height = 0
     end
 
     def init : Cmd?
@@ -55,31 +59,14 @@ module BubbleTea
     def update(msg : Msg) : Tuple(Model, Cmd?)
       case msg
       when UserInputMessage
-        token = msg.data.strip
-        return {self, nil} if token.empty?
-
-        normalized = token.downcase
-
-        case normalized
-        when "q", "quit", "exit"
-          return {self, -> { QuitMessage.new.as(Msg?) }}
-        when "c", "clear"
-          return {self, -> { ClearAllMessage.new.as(Msg?) }}
-        when "ce"
-          return {self, -> { ClearEntryMessage.new.as(Msg?) }}
-        when "bs", "back"
-          return {self, -> { BackspaceMessage.new.as(Msg?) }}
-        when "+", "-", "*", "/"
-          return {self, -> { OperatorMessage.new(normalized).as(Msg?) }}
-        when "=", "enter"
-          return {self, -> { EvaluateMessage.new.as(Msg?) }}
-        else
-          if token.matches?(/\A\d+\z/)
-            return {self, -> { NumberInputMessage.new(token).as(Msg?) }}
-          end
-
-          return {self, -> { InvalidInputMessage.new(token).as(Msg?) }}
-        end
+        cmd = command_for_token(msg.data.strip)
+        return {self, cmd}
+      when KeyMessage
+        cmd = command_for_key(msg)
+        return {self, cmd} if cmd
+      when WindowSizeMessage
+        @width = msg.width
+        @height = msg.height
       when NumberInputMessage
         append_number(msg.token)
       when OperatorMessage
@@ -102,6 +89,11 @@ module BubbleTea
     def view : String
       recent_history = rendered_history
       error_line = rendered_error_line
+      size_line = if @width > 0 && @height > 0
+                    Style.dim("Terminal  : #{@width}x#{@height}", @color_enabled)
+                  else
+                    Style.dim("Terminal  : (unknown)", @color_enabled)
+                  end
 
       <<-TEXT
 #{Style.bold(Style.cyan("Interactive calculator (Bubble Tea Crystal draft)", @color_enabled), @color_enabled)}
@@ -119,6 +111,7 @@ Display   : #{Style.green(display_value, @color_enabled)}
 #{error_line}
 #{Style.bold("History:", @color_enabled)}
 #{recent_history}
+#{size_line}
 TEXT
     end
 
@@ -259,6 +252,71 @@ TEXT
         "Error     : #{Style.red(error, @color_enabled)}"
       else
         "Error     : #{Style.dim("(none)", @color_enabled)}"
+      end
+    end
+
+    private def command_for_key(msg : KeyMessage) : Cmd?
+      case msg.type
+      when KeyType::Rune
+        rune = msg.rune
+        return nil if rune.nil?
+        return command_for_rune(rune.not_nil!)
+      when KeyType::Enter
+        -> { EvaluateMessage.new.as(Msg?) }
+      when KeyType::Backspace
+        -> { BackspaceMessage.new.as(Msg?) }
+      when KeyType::CtrlC, KeyType::CtrlD, KeyType::Escape
+        BubbleTea.quit
+      else
+        nil
+      end
+    end
+
+    private def command_for_rune(rune : String) : Cmd?
+      case rune
+      when "+", "-", "*", "/"
+        -> { OperatorMessage.new(rune).as(Msg?) }
+      when "="
+        -> { EvaluateMessage.new.as(Msg?) }
+      when "c", "C"
+        -> { ClearAllMessage.new.as(Msg?) }
+      when "b", "B"
+        -> { BackspaceMessage.new.as(Msg?) }
+      when "q", "Q"
+        BubbleTea.quit
+      else
+        if rune.matches?(/\A\d\z/)
+          -> { NumberInputMessage.new(rune).as(Msg?) }
+        else
+          nil
+        end
+      end
+    end
+
+    private def command_for_token(token : String) : Cmd?
+      return nil if token.empty?
+
+      normalized = token.downcase
+
+      case normalized
+      when "q", "quit", "exit"
+        BubbleTea.quit
+      when "c", "clear"
+        -> { ClearAllMessage.new.as(Msg?) }
+      when "ce"
+        -> { ClearEntryMessage.new.as(Msg?) }
+      when "bs", "back"
+        -> { BackspaceMessage.new.as(Msg?) }
+      when "+", "-", "*", "/"
+        -> { OperatorMessage.new(normalized).as(Msg?) }
+      when "=", "enter"
+        -> { EvaluateMessage.new.as(Msg?) }
+      else
+        if token.matches?(/\A\d+\z/)
+          -> { NumberInputMessage.new(token).as(Msg?) }
+        else
+          -> { InvalidInputMessage.new(token).as(Msg?) }
+        end
       end
     end
   end
