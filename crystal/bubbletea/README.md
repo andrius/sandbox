@@ -53,8 +53,9 @@ crystal run examples/calculator.cr
 
 Color behavior:
 
-- Colors are enabled automatically when stdout is a TTY.
-- Set `NO_COLOR=1` to force plain output.
+- The calculator demo (`examples/calculator.cr`) is color-on by default.
+- Set `DEMO_NO_COLOR=1` to force plain output for the demo.
+- In library mode, `FORCE_COLOR=1` enables colors and overrides `NO_COLOR`.
 
 ## Run with Docker (Crystal 1.19)
 

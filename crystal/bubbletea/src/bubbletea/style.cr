@@ -3,8 +3,9 @@ module BubbleTea
     RESET = "\e[0m"
 
     def self.enabled_for?(io : IO) : Bool
+      force_color = ENV["FORCE_COLOR"]?
+      return true if force_color && force_color != "0"
       return false if ENV["NO_COLOR"]?
-      return true if ENV["FORCE_COLOR"]?
 
       io.tty?
     end
