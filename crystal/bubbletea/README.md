@@ -14,6 +14,8 @@ This folder is the starting point for migrating
 - Example apps:
   - `examples/counter.cr`
   - `examples/calculator.cr` (interactive calculator)
+- Tests:
+  - `spec/calculator_spec.cr`
 
 ## Structure
 
@@ -24,6 +26,7 @@ This folder is the starting point for migrating
 - `src/bubbletea/program.cr` - minimal runtime loop
 - `examples/counter.cr` - quick smoke example
 - `examples/calculator.cr` - interactive calculator example
+- `spec/calculator_spec.cr` - calculator behavior tests
 
 ## Next migration milestones
 
@@ -52,3 +55,15 @@ cd crystal/bubbletea
 docker build -t bubbletea-crystal:1.19 .
 docker run --rm -it bubbletea-crystal:1.19
 ```
+
+## Run tests
+
+```bash
+cd crystal/bubbletea
+crystal spec
+```
+
+Test run artifacts generated in this repo:
+
+- `artifacts/spec-run-output.txt`
+- `artifacts/spec-run-screenshot.png`
