@@ -1,0 +1,91 @@
+$ printf "12\n+\n7\n=\nq\n" | crystal run examples/calculator.cr
+Interactive calculator (Bubble Tea Crystal draft)
+Enter one token per line:
+  number : 12
+  op     : + - * /
+  =      : evaluate
+  ce     : clear entry
+  c      : clear all
+  bs     : backspace
+  q      : quit
+
+Expression: _ _ _
+Display   : 0
+Error     : (none)
+History:
+  (empty)
+Interactive calculator (Bubble Tea Crystal draft)
+Enter one token per line:
+  number : 12
+  op     : + - * /
+  =      : evaluate
+  ce     : clear entry
+  c      : clear all
+  bs     : backspace
+  q      : quit
+
+Expression: _ _ 12
+Display   : 12
+Error     : (none)
+History:
+  (empty)
+Interactive calculator (Bubble Tea Crystal draft)
+Enter one token per line:
+  number : 12
+  op     : + - * /
+  =      : evaluate
+  ce     : clear entry
+  c      : clear all
+  bs     : backspace
+  q      : quit
+
+Expression: 12 + _
+Display   : 12
+Error     : (none)
+History:
+  (empty)
+Interactive calculator (Bubble Tea Crystal draft)
+Enter one token per line:
+  number : 12
+  op     : + - * /
+  =      : evaluate
+  ce     : clear entry
+  c      : clear all
+  bs     : backspace
+  q      : quit
+
+Expression: 12 + 7
+Display   : 7
+Error     : (none)
+History:
+  (empty)
+Interactive calculator (Bubble Tea Crystal draft)
+Enter one token per line:
+  number : 12
+  op     : + - * /
+  =      : evaluate
+  ce     : clear entry
+  c      : clear all
+  bs     : backspace
+  q      : quit
+
+Expression: 19 _ _
+Display   : 19
+Error     : (none)
+History:
+  12 + 7 = 19
+Interactive calculator (Bubble Tea Crystal draft)
+Enter one token per line:
+  number : 12
+  op     : + - * /
+  =      : evaluate
+  ce     : clear entry
+  c      : clear all
+  bs     : backspace
+  q      : quit
+
+Expression: 19 _ _
+Display   : 19
+Error     : (none)
+History:
+  12 + 7 = 19

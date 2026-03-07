@@ -1,5 +1,0 @@
-$ crystal spec
-.....
-
-Finished in 202 microseconds
-5 examples, 0 failures, 0 errors, 0 pending

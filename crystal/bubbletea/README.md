@@ -16,6 +16,7 @@ This folder is the starting point for migrating
   - `examples/calculator.cr` (interactive calculator)
 - Tests:
   - `spec/calculator_spec.cr`
+  - `spec/calculator_app_spec.cr`
 
 ## Structure
 
@@ -27,6 +28,7 @@ This folder is the starting point for migrating
 - `examples/counter.cr` - quick smoke example
 - `examples/calculator.cr` - interactive calculator example
 - `spec/calculator_spec.cr` - calculator behavior tests
+- `spec/calculator_app_spec.cr` - calculator app integration tests
 
 ## Next migration milestones
 
@@ -65,5 +67,5 @@ crystal spec
 
 Test run artifacts generated in this repo:
 
-- `artifacts/spec-run-output.txt`
-- `artifacts/spec-run-screenshot.png`
+- `artifacts/calculator-app-run-output.txt`
+- `artifacts/calculator-app-run-screenshot.png`

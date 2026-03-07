@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import argparse
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -6,8 +7,25 @@ from PIL import Image, ImageDraw, ImageFont
 
 def main() -> None:
     project_root = Path(__file__).resolve().parents[1]
-    input_path = project_root / "artifacts" / "spec-run-output.txt"
-    output_path = project_root / "artifacts" / "spec-run-screenshot.png"
+    parser = argparse.ArgumentParser(
+        description="Render plain-text console output into a PNG screenshot."
+    )
+    parser.add_argument(
+        "--input",
+        dest="input_path",
+        default=str(project_root / "artifacts" / "console-output.txt"),
+        help="Path to input text file.",
+    )
+    parser.add_argument(
+        "--output",
+        dest="output_path",
+        default=str(project_root / "artifacts" / "console-screenshot.png"),
+        help="Path to output PNG file.",
+    )
+    args = parser.parse_args()
+
+    input_path = Path(args.input_path)
+    output_path = Path(args.output_path)
 
     text = input_path.read_text(encoding="utf-8")
     lines = text.splitlines() or [""]
