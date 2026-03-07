@@ -3,7 +3,10 @@ module BubbleTea
     RESET = "\e[0m"
 
     def self.enabled_for?(io : IO) : Bool
-      io.tty? && ENV["NO_COLOR"]?.nil?
+      return false if ENV["NO_COLOR"]?
+      return true if ENV["FORCE_COLOR"]?
+
+      io.tty?
     end
 
     def self.decorate(text : String, enabled : Bool, *codes : String) : String
