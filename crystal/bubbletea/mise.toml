@@ -12,6 +12,17 @@ sudo apt update
 sudo apt install -y build-essential libpcre2-dev libevent-dev libgc-dev libyaml-dev libssl-dev zlib1g-dev
 """
 
+[tasks.setup-macos]
+description = "Install native Crystal build deps (macOS/Homebrew)"
+run = """
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Homebrew is required: https://brew.sh"
+  exit 1
+fi
+brew update
+brew install libevent pcre2 bdw-gc libyaml openssl@3 pkg-config
+"""
+
 [tasks.run]
 description = "Run calculator demo"
 run = "crystal run examples/calculator.cr"
