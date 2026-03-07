@@ -28,6 +28,12 @@ module BubbleTea
   class ShowCursorMessage < Message
   end
 
+  class EnableMouseTrackingMessage < Message
+  end
+
+  class DisableMouseTrackingMessage < Message
+  end
+
   def self.quit : Cmd
     -> { QuitMessage.new.as(Msg?) }
   end
@@ -50,6 +56,14 @@ module BubbleTea
 
   def self.show_cursor : Cmd
     -> { ShowCursorMessage.new.as(Msg?) }
+  end
+
+  def self.enable_mouse_tracking : Cmd
+    -> { EnableMouseTrackingMessage.new.as(Msg?) }
+  end
+
+  def self.disable_mouse_tracking : Cmd
+    -> { DisableMouseTrackingMessage.new.as(Msg?) }
   end
 
   def self.batch(*cmds : Cmd?) : Cmd?

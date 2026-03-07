@@ -36,4 +36,29 @@ describe BubbleTea::InputReader do
       BubbleTea::KeyType::Left,
     ])
   end
+
+  it "parses mouse sgr events" do
+    io = IO::Memory.new("\e[<0;10;5M\e[<0;10;5m\e[<64;15;8M")
+    reader = BubbleTea::InputReader.new(io, BubbleTea::InputMode::Key)
+    mouse_messages = [] of BubbleTea::MouseMessage
+
+    reader.each_message do |msg|
+      mouse_messages << msg.as(BubbleTea::MouseMessage) if msg.is_a?(BubbleTea::MouseMessage)
+    end
+
+    mouse_messages.size.should eq(3)
+
+    first = mouse_messages[0]
+    first.button.should eq(BubbleTea::MouseButton::Left)
+    first.action.should eq(BubbleTea::MouseAction::Press)
+    first.x.should eq(10)
+    first.y.should eq(5)
+
+    second = mouse_messages[1]
+    second.action.should eq(BubbleTea::MouseAction::Release)
+
+    third = mouse_messages[2]
+    third.button.should eq(BubbleTea::MouseButton::WheelUp)
+    third.action.should eq(BubbleTea::MouseAction::Press)
+  end
 end

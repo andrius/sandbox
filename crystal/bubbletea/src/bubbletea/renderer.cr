@@ -4,6 +4,7 @@ module BubbleTea
     @use_alt_screen : Bool
     @use_diff : Bool
     @hide_cursor : Bool
+    @mouse_enabled : Bool
     @started : Bool
     @last_lines : Array(String)
 
@@ -11,6 +12,7 @@ module BubbleTea
       @use_alt_screen = use_alt_screen
       @use_diff = use_diff
       @hide_cursor = hide_cursor
+      @mouse_enabled = false
       @started = false
       @last_lines = [] of String
     end
@@ -31,6 +33,7 @@ module BubbleTea
     def stop
       return unless @started
 
+      disable_mouse_tracking if @mouse_enabled
       @output << "\e[?25h" if @hide_cursor
       @output << "\e[?1049l" if @use_alt_screen
       @output.flush
@@ -86,6 +89,25 @@ module BubbleTea
       @hide_cursor = false
       @output << "\e[?25h"
       @output.flush
+    end
+
+    def enable_mouse_tracking
+      return if @mouse_enabled
+
+      # Enable button-event tracking + SGR extended coordinates.
+      @output << "\e[?1002h"
+      @output << "\e[?1006h"
+      @output.flush
+      @mouse_enabled = true
+    end
+
+    def disable_mouse_tracking
+      return unless @mouse_enabled
+
+      @output << "\e[?1002l"
+      @output << "\e[?1006l"
+      @output.flush
+      @mouse_enabled = false
     end
 
     private def render_frame(view : String)

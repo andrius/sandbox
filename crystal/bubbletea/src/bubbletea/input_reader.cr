@@ -53,27 +53,90 @@ module BubbleTea
       end
 
       if second == 91_u8
-        third = read_byte_or_nil
-        if third
-          case third
-          when 65_u8
-            yield KeyMessage.new(KeyType::Up, raw: "\e[A")
-          when 66_u8
-            yield KeyMessage.new(KeyType::Down, raw: "\e[B")
-          when 67_u8
-            yield KeyMessage.new(KeyType::Right, raw: "\e[C")
-          when 68_u8
-            yield KeyMessage.new(KeyType::Left, raw: "\e[D")
-          else
-            yield KeyMessage.new(KeyType::Unknown, raw: "\e[#{third.chr}")
-          end
-          return
-        end
+        parse_csi_sequence { |msg| yield msg }
+        return
       end
 
       yield KeyMessage.new(KeyType::Escape, raw: "\e")
       trailing = String.build { |str| str.write_byte(second) }
       yield KeyMessage.new(KeyType::Rune, rune: trailing, raw: trailing)
+    end
+
+    private def parse_csi_sequence(&block : Msg ->)
+      csi = read_csi
+      unless csi
+        yield KeyMessage.new(KeyType::Escape, raw: "\e[")
+        return
+      end
+
+      raw = "\e[#{csi}"
+      case csi
+      when "A"
+        yield KeyMessage.new(KeyType::Up, raw: raw)
+      when "B"
+        yield KeyMessage.new(KeyType::Down, raw: raw)
+      when "C"
+        yield KeyMessage.new(KeyType::Right, raw: raw)
+      when "D"
+        yield KeyMessage.new(KeyType::Left, raw: raw)
+      else
+        if mouse = parse_mouse_sgr(csi, raw)
+          yield mouse
+        else
+          yield KeyMessage.new(KeyType::Unknown, raw: raw)
+        end
+      end
+    end
+
+    private def read_csi : String?
+      String.build do |str|
+        loop do
+          byte = read_byte_or_nil
+          return nil unless byte
+
+          str.write_byte(byte)
+          break if byte.in?(64_u8..126_u8)
+        end
+      end
+    end
+
+    private def parse_mouse_sgr(csi : String, raw : String) : MouseMessage?
+      match = /<(\d+);(\d+);(\d+)([Mm])/.match(csi)
+      return nil unless match
+
+      cb = match[1].to_i
+      cx = match[2].to_i
+      cy = match[3].to_i
+      final = match[4]
+
+      shift = (cb & 4) != 0
+      alt = (cb & 8) != 0
+      ctrl = (cb & 16) != 0
+      motion_bit = (cb & 32) != 0
+      wheel_bit = (cb & 64) != 0
+
+      button = if wheel_bit
+                 (cb & 1) == 0 ? MouseButton::WheelUp : MouseButton::WheelDown
+               else
+                 case cb & 3
+                 when 0 then MouseButton::Left
+                 when 1 then MouseButton::Middle
+                 when 2 then MouseButton::Right
+                 else MouseButton::None
+                 end
+               end
+
+      action = if final == "m"
+                 MouseAction::Release
+               elsif motion_bit && button != MouseButton::None
+                 MouseAction::Drag
+               elsif motion_bit
+                 MouseAction::Motion
+               else
+                 MouseAction::Press
+               end
+
+      MouseMessage.new(cx, cy, button, action, shift: shift, alt: alt, ctrl: ctrl, raw: raw)
     end
 
     private def read_byte_or_nil : UInt8?

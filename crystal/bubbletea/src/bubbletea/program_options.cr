@@ -10,6 +10,7 @@ module BubbleTea
     property enable_renderer_diff : Bool
     property hide_cursor : Bool
     property listen_window_size : Bool
+    property enable_mouse : Bool
     property color_enabled : Bool?
     property read_input : Bool
 
@@ -19,6 +20,7 @@ module BubbleTea
       @enable_renderer_diff : Bool = true,
       @hide_cursor : Bool = false,
       @listen_window_size : Bool = true,
+      @enable_mouse : Bool = false,
       @color_enabled : Bool? = nil,
       @read_input : Bool = true
     )

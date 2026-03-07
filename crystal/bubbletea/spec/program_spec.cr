@@ -32,7 +32,9 @@ class ProgramControlModel < BubbleTea::Model
   def init : BubbleTea::Cmd?
     BubbleTea.sequence(
       BubbleTea.enter_alt_screen,
+      BubbleTea.enable_mouse_tracking,
       BubbleTea.clear_screen,
+      BubbleTea.disable_mouse_tracking,
       BubbleTea.exit_alt_screen,
       BubbleTea.quit
     )
@@ -69,7 +71,9 @@ describe BubbleTea::Program do
 
     content = output_io.to_s
     content.should contain("\e[?1049h")
+    content.should contain("\e[?1002h")
     content.should contain("\e[2J\e[H")
+    content.should contain("\e[?1002l")
     content.should contain("\e[?1049l")
   end
 end

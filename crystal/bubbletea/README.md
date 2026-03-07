@@ -17,6 +17,7 @@ Implemented runtime features:
   - line-mode input and key-mode input
   - best-effort raw terminal mode for key input
   - optional window size message dispatch (`WindowSizeMessage`)
+  - optional mouse tracking dispatch (`MouseMessage`)
 - Renderer:
   - full-frame rendering
   - diff rendering mode
@@ -29,6 +30,7 @@ Implemented runtime features:
   - `BubbleTea.tick`
   - `BubbleTea.every`
   - renderer control commands (`enter_alt_screen`, `exit_alt_screen`, etc.)
+  - mouse tracking commands (`enable_mouse_tracking`, `disable_mouse_tracking`)
 - Styling:
   - ANSI color helpers with `FORCE_COLOR` / `NO_COLOR` behavior.
 
@@ -49,6 +51,7 @@ Implemented runtime features:
 - `examples/counter.cr` - quick smoke example
 - `examples/calculator.cr` - interactive calculator (key mode + alt screen by default)
 - `examples/clock.cr` - ticking clock demo using async commands
+- `examples/events.cr` - key/mouse/window-size event inspector
 - `spec/*` - runtime, renderer, command helper, input, and app specs
 
 ## Run locally
@@ -68,12 +71,18 @@ cd crystal/bubbletea
 crystal run examples/clock.cr
 ```
 
+```bash
+cd crystal/bubbletea
+crystal run examples/events.cr
+```
+
 Color behavior:
 
 - The calculator demo (`examples/calculator.cr`) is color-on by default.
 - Set `DEMO_NO_COLOR=1` to force plain output for the demo.
 - In library mode, `FORCE_COLOR=1` enables colors and overrides `NO_COLOR`.
 - For calculator, use `DEMO_LINE_MODE=1` to run without raw key mode.
+- For mouse/key event demos, run in an interactive terminal (not piped output).
 
 ## Run with Docker (Crystal 1.19)
 

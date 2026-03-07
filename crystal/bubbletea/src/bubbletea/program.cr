@@ -63,6 +63,10 @@ module BubbleTea
         @renderer.hide_cursor
       when ShowCursorMessage
         @renderer.show_cursor
+      when EnableMouseTrackingMessage
+        @renderer.enable_mouse_tracking
+      when DisableMouseTrackingMessage
+        @renderer.disable_mouse_tracking
       else
         updated_model, cmd = @model.update(msg)
         @model = updated_model
@@ -105,6 +109,7 @@ module BubbleTea
       if @options.input_mode == InputMode::Key
         @raw_mode_guard = Terminal.enable_raw_mode
       end
+      @renderer.enable_mouse_tracking if @options.enable_mouse
     end
 
     private def teardown_terminal
