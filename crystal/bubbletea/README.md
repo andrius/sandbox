@@ -11,7 +11,9 @@ This folder is the starting point for migrating
   - `Cmd` (`Proc(Msg?)`)
   - `Model` (`init`, `update`, `view`)
   - `Program` (basic event loop)
-- First example added: `examples/counter.cr`.
+- Example apps:
+  - `examples/counter.cr`
+  - `examples/calculator.cr` (interactive calculator)
 
 ## Structure
 
@@ -21,6 +23,7 @@ This folder is the starting point for migrating
 - `src/bubbletea/model.cr` - abstract model contract
 - `src/bubbletea/program.cr` - minimal runtime loop
 - `examples/counter.cr` - quick smoke example
+- `examples/calculator.cr` - interactive calculator example
 
 ## Next migration milestones
 
@@ -35,6 +38,11 @@ This folder is the starting point for migrating
 ```bash
 cd crystal/bubbletea
 crystal run examples/counter.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/calculator.cr
 ```
 
 ## Run with Docker (Crystal 1.19)
