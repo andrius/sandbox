@@ -1,0 +1,21 @@
+[tools]
+crystal = "latest"
+# crystal = "1.9.2"
+
+[env]
+FORCE_COLOR = "1"
+
+[tasks.setup-linux]
+description = "Install native Crystal build deps (Ubuntu/Debian)"
+run = """
+sudo apt update
+sudo apt install -y build-essential libpcre2-dev libevent-dev libgc-dev libyaml-dev libssl-dev zlib1g-dev
+"""
+
+[tasks.run]
+description = "Run calculator demo"
+run = "crystal run examples/calculator.cr"
+
+[tasks.test]
+description = "Run specs"
+run = "crystal spec"
