@@ -11,6 +11,7 @@ This folder is the starting point for migrating
   - `Cmd` (`Proc(Msg?)`)
   - `Model` (`init`, `update`, `view`)
   - `Program` (basic event loop)
+- Calculator UI now supports ANSI colors when running in a TTY.
 - Example apps:
   - `examples/counter.cr`
   - `examples/calculator.cr` (interactive calculator)
@@ -49,6 +50,11 @@ crystal run examples/counter.cr
 cd crystal/bubbletea
 crystal run examples/calculator.cr
 ```
+
+Color behavior:
+
+- Colors are enabled automatically when stdout is a TTY.
+- Set `NO_COLOR=1` to force plain output.
 
 ## Run with Docker (Crystal 1.19)
 

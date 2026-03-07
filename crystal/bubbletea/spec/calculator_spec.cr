@@ -2,7 +2,7 @@ require "./spec_helper"
 
 describe BubbleTea::CalculatorModel do
   it "calculates addition and stores history" do
-    model = BubbleTea::CalculatorModel.new
+    model = BubbleTea::CalculatorModel.new(color_enabled: false)
     send_token(model, "12")
     send_token(model, "+")
     send_token(model, "7")
@@ -15,7 +15,7 @@ describe BubbleTea::CalculatorModel do
   end
 
   it "shows divide-by-zero error without crashing" do
-    model = BubbleTea::CalculatorModel.new
+    model = BubbleTea::CalculatorModel.new(color_enabled: false)
     send_token(model, "8")
     send_token(model, "/")
     send_token(model, "0")
@@ -26,7 +26,7 @@ describe BubbleTea::CalculatorModel do
   end
 
   it "supports backspace and clear entry" do
-    model = BubbleTea::CalculatorModel.new
+    model = BubbleTea::CalculatorModel.new(color_enabled: false)
     send_token(model, "123")
     send_token(model, "bs")
     model.view.should contain("Display   : 12")
@@ -38,7 +38,7 @@ describe BubbleTea::CalculatorModel do
   end
 
   it "clears all state with c" do
-    model = BubbleTea::CalculatorModel.new
+    model = BubbleTea::CalculatorModel.new(color_enabled: false)
     send_token(model, "9")
     send_token(model, "*")
     send_token(model, "5")
@@ -51,7 +51,7 @@ describe BubbleTea::CalculatorModel do
   end
 
   it "emits a quit message command for q input" do
-    model = BubbleTea::CalculatorModel.new
+    model = BubbleTea::CalculatorModel.new(color_enabled: false)
     _updated, cmd = model.update(BubbleTea::UserInputMessage.new("q"))
     cmd.should_not be_nil
 

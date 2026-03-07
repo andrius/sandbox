@@ -4,7 +4,7 @@ private def run_calculator_app(input_script : String) : String
   input = IO::Memory.new(input_script)
   output = IO::Memory.new
 
-  BubbleTea::Program.new(BubbleTea::CalculatorModel.new, input, output).start
+  BubbleTea::Program.new(BubbleTea::CalculatorModel.new(color_enabled: false), input, output).start
 
   output.to_s
 end

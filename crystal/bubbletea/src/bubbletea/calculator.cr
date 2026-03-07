@@ -38,8 +38,9 @@ module BubbleTea
     @input_buffer : String
     @history : Array(String)
     @error : String?
+    @color_enabled : Bool
 
-    def initialize
+    def initialize(*, @color_enabled : Bool = Style.enabled_for?(STDOUT))
       @accumulator = nil
       @pending_operator = nil
       @input_buffer = ""
@@ -99,29 +100,24 @@ module BubbleTea
     end
 
     def view : String
-      recent_history = if @history.empty?
-                         "  (empty)"
-                       else
-                         @history.last(5).map { |line| "  #{line}" }.join("\n")
-                       end
-
-      error_line = @error ? "Error     : #{@error}" : "Error     : (none)"
+      recent_history = rendered_history
+      error_line = rendered_error_line
 
       <<-TEXT
-Interactive calculator (Bubble Tea Crystal draft)
+#{Style.bold(Style.cyan("Interactive calculator (Bubble Tea Crystal draft)", @color_enabled), @color_enabled)}
 Enter one token per line:
-  number : 12
-  op     : + - * /
-  =      : evaluate
-  ce     : clear entry
-  c      : clear all
-  bs     : backspace
-  q      : quit
+  number : #{Style.green("12", @color_enabled)}
+  op     : #{Style.yellow("+ - * /", @color_enabled)}
+  =      : #{Style.blue("evaluate", @color_enabled)}
+  ce     : #{Style.blue("clear entry", @color_enabled)}
+  c      : #{Style.blue("clear all", @color_enabled)}
+  bs     : #{Style.blue("backspace", @color_enabled)}
+  q      : #{Style.magenta("quit", @color_enabled)}
 
-Expression: #{expression_preview}
-Display   : #{display_value}
+Expression: #{Style.yellow(expression_preview, @color_enabled)}
+Display   : #{Style.green(display_value, @color_enabled)}
 #{error_line}
-History:
+#{Style.bold("History:", @color_enabled)}
 #{recent_history}
 TEXT
     end
@@ -248,6 +244,22 @@ TEXT
       return @accumulator.not_nil!.to_s if @accumulator
 
       "0"
+    end
+
+    private def rendered_history : String
+      if @history.empty?
+        "  #{Style.dim("(empty)", @color_enabled)}"
+      else
+        @history.last(5).map { |line| "  #{Style.cyan(line, @color_enabled)}" }.join("\n")
+      end
+    end
+
+    private def rendered_error_line : String
+      if error = @error
+        "Error     : #{Style.red(error, @color_enabled)}"
+      else
+        "Error     : #{Style.dim("(none)", @color_enabled)}"
+      end
     end
   end
 end
