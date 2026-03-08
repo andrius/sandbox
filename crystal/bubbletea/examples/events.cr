@@ -38,7 +38,8 @@ class EventsModel < BubbleTea::Model
     when BubbleTea::PasteMessage
       push_line("paste content=#{msg.content.inspect}")
     when BubbleTea::KeyMessage
-      push_line("key #{msg.type} raw=#{msg.raw.inspect}")
+      detail = msg.rune ? " rune=#{msg.rune.inspect}" : ""
+      push_line("key #{msg.type}#{detail} mods=#{key_mods(msg)} raw=#{msg.raw.inspect}")
       if msg.type.in?({BubbleTea::KeyType::CtrlC, BubbleTea::KeyType::Escape})
         return {self, BubbleTea.quit}
       end
@@ -80,6 +81,14 @@ TEXT
   end
 
   private def mods(msg : BubbleTea::MouseMessage) : String
+    parts = [] of String
+    parts << "shift" if msg.shift
+    parts << "alt" if msg.alt
+    parts << "ctrl" if msg.ctrl
+    parts.empty? ? "-" : parts.join("+")
+  end
+
+  private def key_mods(msg : BubbleTea::KeyMessage) : String
     parts = [] of String
     parts << "shift" if msg.shift
     parts << "alt" if msg.alt

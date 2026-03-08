@@ -1,6 +1,7 @@
 module BubbleTea
   class Program
     getter model : Model
+    getter last_error : Exception?
 
     @running : Bool
     @input : IO
@@ -14,6 +15,7 @@ module BubbleTea
       @running = true
       @mailbox = Channel(Msg).new
       @raw_mode_guard = nil
+      @last_error = nil
       @renderer = Renderer.new(
         @output,
         use_alt_screen: @options.use_alt_screen,
@@ -22,7 +24,7 @@ module BubbleTea
       )
     end
 
-    def start : Model
+    def run : ProgramResult
       setup_terminal
       setup_window_size_listener
       start_input_reader if @options.read_input
@@ -37,9 +39,17 @@ module BubbleTea
         dispatch(@mailbox.receive)
       end
 
-      @model
+      ProgramResult.new(@model, @last_error)
+    rescue ex
+      @last_error = ex
+      ProgramResult.new(@model, ex)
     ensure
       teardown_terminal
+    end
+
+    # Backward-compatible API: returns only the final model.
+    def start : Model
+      run.model
     end
 
     private def dispatch(msg : Msg)
@@ -89,16 +99,24 @@ module BubbleTea
 
     private def schedule_cmd(cmd : Cmd)
       spawn do
-        msg = cmd.call
-        safe_send(msg) if msg
+        begin
+          msg = cmd.call
+          safe_send(msg) if msg
+        rescue ex
+          safe_send(ErrorMessage.new(ex))
+        end
       end
     end
 
     private def run_sequence(cmds : Array(Cmd))
       spawn do
         cmds.each do |cmd|
-          msg = cmd.call
-          safe_send(msg) if msg
+          begin
+            msg = cmd.call
+            safe_send(msg) if msg
+          rescue ex
+            safe_send(ErrorMessage.new(ex))
+          end
         end
       end
     end

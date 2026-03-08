@@ -95,4 +95,55 @@ describe BubbleTea::InputReader do
       BubbleTea::KeyType::PageDown,
     ])
   end
+
+  it "parses function keys from ss3 and csi sequences" do
+    io = IO::Memory.new("\eOP\eOQ\eOR\eOS\e[15~\e[17~\e[24~")
+    reader = BubbleTea::InputReader.new(io, BubbleTea::InputMode::Key)
+    key_types = [] of BubbleTea::KeyType
+
+    reader.each_message do |msg|
+      next unless msg.is_a?(BubbleTea::KeyMessage)
+      key_types << msg.type
+    end
+
+    key_types.should eq([
+      BubbleTea::KeyType::F1,
+      BubbleTea::KeyType::F2,
+      BubbleTea::KeyType::F3,
+      BubbleTea::KeyType::F4,
+      BubbleTea::KeyType::F5,
+      BubbleTea::KeyType::F6,
+      BubbleTea::KeyType::F12,
+    ])
+  end
+
+  it "parses modifier flags for csi keys and alt-prefixed runes" do
+    io = IO::Memory.new("\e[1;2A\e[1;3B\e[1;5C\e[1;8D\eX")
+    reader = BubbleTea::InputReader.new(io, BubbleTea::InputMode::Key)
+    keys = [] of BubbleTea::KeyMessage
+
+    reader.each_message do |msg|
+      keys << msg.as(BubbleTea::KeyMessage) if msg.is_a?(BubbleTea::KeyMessage)
+    end
+
+    keys.size.should eq(5)
+
+    keys[0].type.should eq(BubbleTea::KeyType::Up)
+    keys[0].shift.should be_true
+
+    keys[1].type.should eq(BubbleTea::KeyType::Down)
+    keys[1].alt.should be_true
+
+    keys[2].type.should eq(BubbleTea::KeyType::Right)
+    keys[2].ctrl.should be_true
+
+    keys[3].type.should eq(BubbleTea::KeyType::Left)
+    keys[3].shift.should be_true
+    keys[3].alt.should be_true
+    keys[3].ctrl.should be_true
+
+    keys[4].type.should eq(BubbleTea::KeyType::Rune)
+    keys[4].rune.should eq("X")
+    keys[4].alt.should be_true
+  end
 end

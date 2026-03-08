@@ -19,6 +19,18 @@ module BubbleTea
     Delete
     PageUp
     PageDown
+    F1
+    F2
+    F3
+    F4
+    F5
+    F6
+    F7
+    F8
+    F9
+    F10
+    F11
+    F12
     CtrlC
     CtrlD
     Unknown
@@ -27,9 +39,19 @@ module BubbleTea
   class KeyMessage < Message
     getter type : KeyType
     getter rune : String?
+    getter shift : Bool
+    getter alt : Bool
+    getter ctrl : Bool
     getter raw : String
 
-    def initialize(@type : KeyType, @rune : String? = nil, @raw : String = "")
+    def initialize(
+      @type : KeyType,
+      @rune : String? = nil,
+      @shift : Bool = false,
+      @alt : Bool = false,
+      @ctrl : Bool = false,
+      @raw : String = ""
+    )
     end
   end
 
@@ -96,6 +118,13 @@ module BubbleTea
     getter content : String
 
     def initialize(@content : String)
+    end
+  end
+
+  class ErrorMessage < Message
+    getter error : Exception
+
+    def initialize(@error : Exception)
     end
   end
 

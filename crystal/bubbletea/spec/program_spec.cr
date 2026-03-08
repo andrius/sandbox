@@ -53,6 +53,33 @@ class ProgramControlModel < BubbleTea::Model
   end
 end
 
+class ProgramErrorCaptureModel < BubbleTea::Model
+  getter seen_error : String?
+
+  def initialize
+    @seen_error = nil
+  end
+
+  def init : BubbleTea::Cmd?
+    -> do
+      raise "command failed"
+      nil.as(BubbleTea::Msg?)
+    end
+  end
+
+  def update(msg : BubbleTea::Msg) : Tuple(BubbleTea::Model, BubbleTea::Cmd?)
+    if msg.is_a?(BubbleTea::ErrorMessage)
+      @seen_error = msg.error.message
+      return {self, BubbleTea.quit}
+    end
+    {self, nil}
+  end
+
+  def view : String
+    @seen_error || "ok"
+  end
+end
+
 describe BubbleTea::Program do
   it "processes sequence commands asynchronously" do
     output_io = IO::Memory.new
@@ -83,5 +110,19 @@ describe BubbleTea::Program do
     content.should contain("\e[?1004l")
     content.should contain("\e[?1002l")
     content.should contain("\e[?1049l")
+  end
+
+  it "returns ProgramResult and forwards command errors as messages" do
+    output_io = IO::Memory.new
+    model = ProgramErrorCaptureModel.new
+    options = BubbleTea::ProgramOptions.new(read_input: false, listen_window_size: false, enable_renderer_diff: false)
+    program = BubbleTea::Program.new(model, IO::Memory.new, output_io, options: options)
+
+    result = program.run
+
+    result.ok?.should be_true
+    result.model.should be_a(ProgramErrorCaptureModel)
+    result.model.as(ProgramErrorCaptureModel).seen_error.should eq("command failed")
+    output_io.to_s.should contain("command failed")
   end
 end

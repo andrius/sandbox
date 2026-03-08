@@ -19,6 +19,7 @@ Implemented runtime features:
   - optional window size message dispatch (`WindowSizeMessage`)
   - optional mouse tracking dispatch (`MouseMessage`)
   - optional focus/blur and bracketed-paste dispatch
+  - `Program#run` result API (`ProgramResult`) alongside `Program#start`
 - Renderer:
   - full-frame rendering
   - diff rendering mode
@@ -34,6 +35,7 @@ Implemented runtime features:
   - mouse tracking commands (`enable_mouse_tracking`, `disable_mouse_tracking`)
   - focus reporting commands (`enable_focus_reporting`, `disable_focus_reporting`)
   - bracketed paste commands (`enable_bracketed_paste`, `disable_bracketed_paste`)
+  - command error forwarding as `ErrorMessage`
 - Styling:
   - ANSI color helpers with `FORCE_COLOR` / `NO_COLOR` behavior.
 
@@ -45,6 +47,7 @@ Implemented runtime features:
 - `src/bubbletea/model.cr` - abstract model contract
 - `src/bubbletea/program.cr` - runtime loop + mailbox
 - `src/bubbletea/program_options.cr` - runtime options
+- `src/bubbletea/program_result.cr` - run result type
 - `src/bubbletea/input_reader.cr` - line/key input parsing
 - `src/bubbletea/terminal.cr` - raw mode + window size helpers
 - `src/bubbletea/renderer.cr` - terminal frame renderer
@@ -56,6 +59,13 @@ Implemented runtime features:
 - `examples/clock.cr` - ticking clock demo using async commands
 - `examples/events.cr` - key/mouse/window-size event inspector
 - `spec/*` - runtime, renderer, command helper, input, and app specs
+
+Keyboard parsing includes:
+
+- arrows/home/end/page keys
+- function keys F1-F12
+- modifier flags (`shift`, `alt`, `ctrl`) on parsed key messages
+- alt-prefixed runes (`Esc`+key) as a single key message
 
 ## Run locally
 
