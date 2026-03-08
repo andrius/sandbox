@@ -33,7 +33,11 @@ class ProgramControlModel < BubbleTea::Model
     BubbleTea.sequence(
       BubbleTea.enter_alt_screen,
       BubbleTea.enable_mouse_tracking,
+      BubbleTea.enable_focus_reporting,
+      BubbleTea.enable_bracketed_paste,
       BubbleTea.clear_screen,
+      BubbleTea.disable_bracketed_paste,
+      BubbleTea.disable_focus_reporting,
       BubbleTea.disable_mouse_tracking,
       BubbleTea.exit_alt_screen,
       BubbleTea.quit
@@ -72,7 +76,11 @@ describe BubbleTea::Program do
     content = output_io.to_s
     content.should contain("\e[?1049h")
     content.should contain("\e[?1002h")
+    content.should contain("\e[?1004h")
+    content.should contain("\e[?2004h")
     content.should contain("\e[2J\e[H")
+    content.should contain("\e[?2004l")
+    content.should contain("\e[?1004l")
     content.should contain("\e[?1002l")
     content.should contain("\e[?1049l")
   end

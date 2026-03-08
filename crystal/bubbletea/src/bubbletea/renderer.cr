@@ -5,6 +5,8 @@ module BubbleTea
     @use_diff : Bool
     @hide_cursor : Bool
     @mouse_enabled : Bool
+    @focus_enabled : Bool
+    @bracketed_paste_enabled : Bool
     @started : Bool
     @last_lines : Array(String)
 
@@ -13,6 +15,8 @@ module BubbleTea
       @use_diff = use_diff
       @hide_cursor = hide_cursor
       @mouse_enabled = false
+      @focus_enabled = false
+      @bracketed_paste_enabled = false
       @started = false
       @last_lines = [] of String
     end
@@ -33,6 +37,8 @@ module BubbleTea
     def stop
       return unless @started
 
+      disable_bracketed_paste if @bracketed_paste_enabled
+      disable_focus_reporting if @focus_enabled
       disable_mouse_tracking if @mouse_enabled
       @output << "\e[?25h" if @hide_cursor
       @output << "\e[?1049l" if @use_alt_screen
@@ -108,6 +114,38 @@ module BubbleTea
       @output << "\e[?1006l"
       @output.flush
       @mouse_enabled = false
+    end
+
+    def enable_focus_reporting
+      return if @focus_enabled
+
+      @output << "\e[?1004h"
+      @output.flush
+      @focus_enabled = true
+    end
+
+    def disable_focus_reporting
+      return unless @focus_enabled
+
+      @output << "\e[?1004l"
+      @output.flush
+      @focus_enabled = false
+    end
+
+    def enable_bracketed_paste
+      return if @bracketed_paste_enabled
+
+      @output << "\e[?2004h"
+      @output.flush
+      @bracketed_paste_enabled = true
+    end
+
+    def disable_bracketed_paste
+      return unless @bracketed_paste_enabled
+
+      @output << "\e[?2004l"
+      @output.flush
+      @bracketed_paste_enabled = false
     end
 
     private def render_frame(view : String)

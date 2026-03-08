@@ -11,6 +11,8 @@ module BubbleTea
     property hide_cursor : Bool
     property listen_window_size : Bool
     property enable_mouse : Bool
+    property enable_focus_reporting : Bool
+    property enable_bracketed_paste : Bool
     property color_enabled : Bool?
     property read_input : Bool
 
@@ -21,6 +23,8 @@ module BubbleTea
       @hide_cursor : Bool = false,
       @listen_window_size : Bool = true,
       @enable_mouse : Bool = false,
+      @enable_focus_reporting : Bool = false,
+      @enable_bracketed_paste : Bool = false,
       @color_enabled : Bool? = nil,
       @read_input : Bool = true
     )

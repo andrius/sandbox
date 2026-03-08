@@ -61,4 +61,38 @@ describe BubbleTea::InputReader do
     third.button.should eq(BubbleTea::MouseButton::WheelUp)
     third.action.should eq(BubbleTea::MouseAction::Press)
   end
+
+  it "parses focus events and bracketed paste payloads" do
+    io = IO::Memory.new("\e[I\e[O\e[200~line1\nline2\e[201~")
+    reader = BubbleTea::InputReader.new(io, BubbleTea::InputMode::Key)
+    messages = [] of BubbleTea::Msg
+    reader.each_message { |msg| messages << msg }
+
+    messages[0].should be_a(BubbleTea::FocusMessage)
+    messages[1].should be_a(BubbleTea::BlurMessage)
+    messages[2].should be_a(BubbleTea::PasteStartMessage)
+    messages[3].should be_a(BubbleTea::PasteEndMessage)
+    messages[4].should be_a(BubbleTea::PasteMessage)
+    messages[4].as(BubbleTea::PasteMessage).content.should eq("line1\nline2")
+  end
+
+  it "parses csi editing keys" do
+    io = IO::Memory.new("\e[H\e[F\e[2~\e[3~\e[5~\e[6~")
+    reader = BubbleTea::InputReader.new(io, BubbleTea::InputMode::Key)
+    key_types = [] of BubbleTea::KeyType
+
+    reader.each_message do |msg|
+      next unless msg.is_a?(BubbleTea::KeyMessage)
+      key_types << msg.type
+    end
+
+    key_types.should eq([
+      BubbleTea::KeyType::Home,
+      BubbleTea::KeyType::End,
+      BubbleTea::KeyType::Insert,
+      BubbleTea::KeyType::Delete,
+      BubbleTea::KeyType::PageUp,
+      BubbleTea::KeyType::PageDown,
+    ])
+  end
 end

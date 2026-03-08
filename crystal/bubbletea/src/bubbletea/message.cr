@@ -13,6 +13,12 @@ module BubbleTea
     Down
     Left
     Right
+    Home
+    End
+    Insert
+    Delete
+    PageUp
+    PageDown
     CtrlC
     CtrlD
     Unknown
@@ -71,6 +77,25 @@ module BubbleTea
       @ctrl : Bool = false,
       @raw : String = ""
     )
+    end
+  end
+
+  class FocusMessage < Message
+  end
+
+  class BlurMessage < Message
+  end
+
+  class PasteStartMessage < Message
+  end
+
+  class PasteEndMessage < Message
+  end
+
+  class PasteMessage < Message
+    getter content : String
+
+    def initialize(@content : String)
     end
   end
 

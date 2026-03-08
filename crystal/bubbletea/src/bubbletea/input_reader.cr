@@ -2,8 +2,12 @@ module BubbleTea
   class InputReader
     @input : IO
     @mode : InputMode
+    @in_bracketed_paste : Bool
+    @paste_buffer : String
 
     def initialize(@input : IO, @mode : InputMode)
+      @in_bracketed_paste = false
+      @paste_buffer = ""
     end
 
     def each_message(&block : Msg ->)
@@ -23,6 +27,11 @@ module BubbleTea
 
     private def read_keys(&block : Msg ->)
       while (byte = read_byte_or_nil)
+        if @in_bracketed_paste
+          handle_paste_byte(byte) { |msg| yield msg }
+          next
+        end
+
         case byte
         when 3_u8
           yield KeyMessage.new(KeyType::CtrlC, raw: "\u0003")
@@ -79,6 +88,28 @@ module BubbleTea
         yield KeyMessage.new(KeyType::Right, raw: raw)
       when "D"
         yield KeyMessage.new(KeyType::Left, raw: raw)
+      when "H"
+        yield KeyMessage.new(KeyType::Home, raw: raw)
+      when "F"
+        yield KeyMessage.new(KeyType::End, raw: raw)
+      when "2~"
+        yield KeyMessage.new(KeyType::Insert, raw: raw)
+      when "3~"
+        yield KeyMessage.new(KeyType::Delete, raw: raw)
+      when "5~"
+        yield KeyMessage.new(KeyType::PageUp, raw: raw)
+      when "6~"
+        yield KeyMessage.new(KeyType::PageDown, raw: raw)
+      when "I"
+        yield FocusMessage.new
+      when "O"
+        yield BlurMessage.new
+      when "200~"
+        @in_bracketed_paste = true
+        @paste_buffer = ""
+        yield PasteStartMessage.new
+      when "201~"
+        # End marker without a start: ignore.
       else
         if mouse = parse_mouse_sgr(csi, raw)
           yield mouse
@@ -86,6 +117,41 @@ module BubbleTea
           yield KeyMessage.new(KeyType::Unknown, raw: raw)
         end
       end
+    end
+
+    private def handle_paste_byte(byte : UInt8, &block : Msg ->)
+      if byte != 27_u8
+        @paste_buffer += String.build { |str| str.write_byte(byte) }
+        return
+      end
+
+      second = read_byte_or_nil
+      unless second
+        @paste_buffer += "\e"
+        return
+      end
+
+      if second == 91_u8
+        csi = read_csi
+        unless csi
+          @paste_buffer += "\e["
+          return
+        end
+
+        if csi == "201~"
+          yield PasteEndMessage.new
+          yield PasteMessage.new(@paste_buffer)
+          @paste_buffer = ""
+          @in_bracketed_paste = false
+          return
+        end
+
+        @paste_buffer += "\e[#{csi}"
+        return
+      end
+
+      @paste_buffer += "\e"
+      @paste_buffer += String.build { |str| str.write_byte(second) }
     end
 
     private def read_csi : String?

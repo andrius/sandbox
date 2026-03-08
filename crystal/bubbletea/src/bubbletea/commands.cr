@@ -34,6 +34,18 @@ module BubbleTea
   class DisableMouseTrackingMessage < Message
   end
 
+  class EnableFocusReportingMessage < Message
+  end
+
+  class DisableFocusReportingMessage < Message
+  end
+
+  class EnableBracketedPasteMessage < Message
+  end
+
+  class DisableBracketedPasteMessage < Message
+  end
+
   def self.quit : Cmd
     -> { QuitMessage.new.as(Msg?) }
   end
@@ -64,6 +76,22 @@ module BubbleTea
 
   def self.disable_mouse_tracking : Cmd
     -> { DisableMouseTrackingMessage.new.as(Msg?) }
+  end
+
+  def self.enable_focus_reporting : Cmd
+    -> { EnableFocusReportingMessage.new.as(Msg?) }
+  end
+
+  def self.disable_focus_reporting : Cmd
+    -> { DisableFocusReportingMessage.new.as(Msg?) }
+  end
+
+  def self.enable_bracketed_paste : Cmd
+    -> { EnableBracketedPasteMessage.new.as(Msg?) }
+  end
+
+  def self.disable_bracketed_paste : Cmd
+    -> { DisableBracketedPasteMessage.new.as(Msg?) }
   end
 
   def self.batch(*cmds : Cmd?) : Cmd?

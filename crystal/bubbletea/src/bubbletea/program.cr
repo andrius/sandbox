@@ -67,6 +67,14 @@ module BubbleTea
         @renderer.enable_mouse_tracking
       when DisableMouseTrackingMessage
         @renderer.disable_mouse_tracking
+      when EnableFocusReportingMessage
+        @renderer.enable_focus_reporting
+      when DisableFocusReportingMessage
+        @renderer.disable_focus_reporting
+      when EnableBracketedPasteMessage
+        @renderer.enable_bracketed_paste
+      when DisableBracketedPasteMessage
+        @renderer.disable_bracketed_paste
       else
         updated_model, cmd = @model.update(msg)
         @model = updated_model
@@ -110,6 +118,8 @@ module BubbleTea
         @raw_mode_guard = Terminal.enable_raw_mode
       end
       @renderer.enable_mouse_tracking if @options.enable_mouse
+      @renderer.enable_focus_reporting if @options.enable_focus_reporting
+      @renderer.enable_bracketed_paste if @options.enable_bracketed_paste
     end
 
     private def teardown_terminal

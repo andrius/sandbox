@@ -27,6 +27,16 @@ class EventsModel < BubbleTea::Model
       push_line("resize #{@width}x#{@height}")
     when BubbleTea::MouseMessage
       push_line("mouse #{msg.action} #{msg.button} x=#{msg.x} y=#{msg.y} mods=#{mods(msg)}")
+    when BubbleTea::FocusMessage
+      push_line("focus gained")
+    when BubbleTea::BlurMessage
+      push_line("focus lost")
+    when BubbleTea::PasteStartMessage
+      push_line("paste start")
+    when BubbleTea::PasteEndMessage
+      push_line("paste end")
+    when BubbleTea::PasteMessage
+      push_line("paste content=#{msg.content.inspect}")
     when BubbleTea::KeyMessage
       push_line("key #{msg.type} raw=#{msg.raw.inspect}")
       if msg.type.in?({BubbleTea::KeyType::CtrlC, BubbleTea::KeyType::Escape})
@@ -88,7 +98,9 @@ options = BubbleTea::ProgramOptions.new(
   input_mode: input_mode,
   use_alt_screen: input_mode == BubbleTea::InputMode::Key && ENV["DEMO_NO_ALT_SCREEN"]? != "1",
   hide_cursor: input_mode == BubbleTea::InputMode::Key,
-  enable_mouse: input_mode == BubbleTea::InputMode::Key
+  enable_mouse: input_mode == BubbleTea::InputMode::Key,
+  enable_focus_reporting: input_mode == BubbleTea::InputMode::Key,
+  enable_bracketed_paste: input_mode == BubbleTea::InputMode::Key
 )
 
 BubbleTea::Program.new(EventsModel.new, options: options).start

@@ -45,4 +45,16 @@ describe "BubbleTea command helpers" do
     enable_msg.should be_a(BubbleTea::EnableMouseTrackingMessage)
     disable_msg.should be_a(BubbleTea::DisableMouseTrackingMessage)
   end
+
+  it "builds focus and paste control command messages" do
+    focus_on = BubbleTea.enable_focus_reporting.call
+    focus_off = BubbleTea.disable_focus_reporting.call
+    paste_on = BubbleTea.enable_bracketed_paste.call
+    paste_off = BubbleTea.disable_bracketed_paste.call
+
+    focus_on.should be_a(BubbleTea::EnableFocusReportingMessage)
+    focus_off.should be_a(BubbleTea::DisableFocusReportingMessage)
+    paste_on.should be_a(BubbleTea::EnableBracketedPasteMessage)
+    paste_off.should be_a(BubbleTea::DisableBracketedPasteMessage)
+  end
 end

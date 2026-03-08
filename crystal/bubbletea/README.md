@@ -18,6 +18,7 @@ Implemented runtime features:
   - best-effort raw terminal mode for key input
   - optional window size message dispatch (`WindowSizeMessage`)
   - optional mouse tracking dispatch (`MouseMessage`)
+  - optional focus/blur and bracketed-paste dispatch
 - Renderer:
   - full-frame rendering
   - diff rendering mode
@@ -31,6 +32,8 @@ Implemented runtime features:
   - `BubbleTea.every`
   - renderer control commands (`enter_alt_screen`, `exit_alt_screen`, etc.)
   - mouse tracking commands (`enable_mouse_tracking`, `disable_mouse_tracking`)
+  - focus reporting commands (`enable_focus_reporting`, `disable_focus_reporting`)
+  - bracketed paste commands (`enable_bracketed_paste`, `disable_bracketed_paste`)
 - Styling:
   - ANSI color helpers with `FORCE_COLOR` / `NO_COLOR` behavior.
 

@@ -45,4 +45,19 @@ describe BubbleTea::Renderer do
     content.should contain("\e[?1002l")
     content.should contain("\e[?1006l")
   end
+
+  it "enables and disables focus and bracketed paste sequences" do
+    output_io = IO::Memory.new
+    renderer = BubbleTea::Renderer.new(output_io, use_alt_screen: false, use_diff: false, hide_cursor: false)
+    renderer.enable_focus_reporting
+    renderer.enable_bracketed_paste
+    renderer.disable_bracketed_paste
+    renderer.disable_focus_reporting
+
+    content = output_io.to_s
+    content.should contain("\e[?1004h")
+    content.should contain("\e[?2004h")
+    content.should contain("\e[?2004l")
+    content.should contain("\e[?1004l")
+  end
 end
