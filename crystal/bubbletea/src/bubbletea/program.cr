@@ -13,7 +13,7 @@ module BubbleTea
 
     def initialize(@model : Model, @input : IO = STDIN, @output : IO = STDOUT, *, @options : ProgramOptions = ProgramOptions.new)
       @running = true
-      @mailbox = Channel(Msg).new
+      @mailbox = Channel(Msg).new(256)
       @raw_mode_guard = nil
       @last_error = nil
       @renderer = Renderer.new(
@@ -52,14 +52,26 @@ module BubbleTea
       run.model
     end
 
+    def send(msg : Msg)
+      spawn { safe_send(msg) }
+    end
+
+    def quit
+      send(QuitMessage.new)
+    end
+
     private def dispatch(msg : Msg)
-      case msg
+      msg = filter_message(msg)
+      return if msg.nil?
+      filtered = msg.not_nil!
+
+      case filtered
       when QuitMessage
         @running = false
       when BatchCommandMessage
-        msg.cmds.each { |cmd| schedule_cmd(cmd) }
+        filtered.cmds.each { |cmd| schedule_cmd(cmd) }
       when SequenceCommandMessage
-        run_sequence(msg.cmds)
+        run_sequence(filtered.cmds)
       when ClearScreenMessage
         @renderer.clear
         render
@@ -85,8 +97,12 @@ module BubbleTea
         @renderer.enable_bracketed_paste
       when DisableBracketedPasteMessage
         @renderer.disable_bracketed_paste
+      when SetWindowTitleMessage
+        @renderer.set_window_title(filtered.title)
+      when BeepMessage
+        @renderer.beep
       else
-        updated_model, cmd = @model.update(msg)
+        updated_model, cmd = @model.update(filtered)
         @model = updated_model
         schedule_cmd(cmd) if cmd
         render
@@ -165,6 +181,15 @@ module BubbleTea
       @mailbox.send(msg)
     rescue Channel::ClosedError
       # Ignore late sends after shutdown.
+    end
+
+    private def filter_message(msg : Msg) : Msg?
+      filter = @options.event_filter
+      return msg unless filter
+
+      filter.call(msg, @model)
+    rescue
+      msg
     end
   end
 end

@@ -59,10 +59,10 @@ module BubbleTea
     def update(msg : Msg) : Tuple(Model, Cmd?)
       case msg
       when UserInputMessage
-        cmd = command_for_token(msg.data.strip)
-        return {self, cmd}
+        cmd = apply_token(msg.data.strip)
+        return {self, cmd} if cmd
       when KeyMessage
-        cmd = command_for_key(msg)
+        cmd = apply_key(msg)
         return {self, cmd} if cmd
       when WindowSizeMessage
         @width = msg.width
@@ -255,16 +255,18 @@ TEXT
       end
     end
 
-    private def command_for_key(msg : KeyMessage) : Cmd?
+    private def apply_key(msg : KeyMessage) : Cmd?
       case msg.type
       when KeyType::Rune
         rune = msg.rune
         return nil if rune.nil?
-        return command_for_rune(rune.not_nil!)
+        return apply_rune(rune.not_nil!)
       when KeyType::Enter
-        -> { EvaluateMessage.new.as(Msg?) }
+        evaluate
+        nil
       when KeyType::Backspace
-        -> { BackspaceMessage.new.as(Msg?) }
+        backspace
+        nil
       when KeyType::CtrlC, KeyType::CtrlD, KeyType::Escape
         BubbleTea.quit
       else
@@ -272,28 +274,33 @@ TEXT
       end
     end
 
-    private def command_for_rune(rune : String) : Cmd?
+    private def apply_rune(rune : String) : Cmd?
       case rune
       when "+", "-", "*", "/"
-        -> { OperatorMessage.new(rune).as(Msg?) }
+        set_operator(rune)
+        nil
       when "="
-        -> { EvaluateMessage.new.as(Msg?) }
+        evaluate
+        nil
       when "c", "C"
-        -> { ClearAllMessage.new.as(Msg?) }
+        clear_all
+        nil
       when "b", "B"
-        -> { BackspaceMessage.new.as(Msg?) }
+        backspace
+        nil
       when "q", "Q"
         BubbleTea.quit
       else
         if rune.matches?(/\A\d\z/)
-          -> { NumberInputMessage.new(rune).as(Msg?) }
+          append_number(rune)
+          nil
         else
           nil
         end
       end
     end
 
-    private def command_for_token(token : String) : Cmd?
+    private def apply_token(token : String) : Cmd?
       return nil if token.empty?
 
       normalized = token.downcase
@@ -302,20 +309,27 @@ TEXT
       when "q", "quit", "exit"
         BubbleTea.quit
       when "c", "clear"
-        -> { ClearAllMessage.new.as(Msg?) }
+        clear_all
+        nil
       when "ce"
-        -> { ClearEntryMessage.new.as(Msg?) }
+        clear_entry
+        nil
       when "bs", "back"
-        -> { BackspaceMessage.new.as(Msg?) }
+        backspace
+        nil
       when "+", "-", "*", "/"
-        -> { OperatorMessage.new(normalized).as(Msg?) }
+        set_operator(normalized)
+        nil
       when "=", "enter"
-        -> { EvaluateMessage.new.as(Msg?) }
+        evaluate
+        nil
       else
         if token.matches?(/\A\d+\z/)
-          -> { NumberInputMessage.new(token).as(Msg?) }
+          append_number(token)
+          nil
         else
-          -> { InvalidInputMessage.new(token).as(Msg?) }
+          @error = "Unsupported input: #{token}"
+          nil
         end
       end
     end

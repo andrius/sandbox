@@ -35,6 +35,7 @@ Implemented runtime features:
   - mouse tracking commands (`enable_mouse_tracking`, `disable_mouse_tracking`)
   - focus reporting commands (`enable_focus_reporting`, `disable_focus_reporting`)
   - bracketed paste commands (`enable_bracketed_paste`, `disable_bracketed_paste`)
+  - terminal helpers (`set_window_title`, `beep`)
   - command error forwarding as `ErrorMessage`
 - Styling:
   - ANSI color helpers with `FORCE_COLOR` / `NO_COLOR` behavior.
@@ -58,6 +59,7 @@ Implemented runtime features:
 - `examples/calculator.cr` - interactive calculator (key mode + alt screen by default)
 - `examples/clock.cr` - ticking clock demo using async commands
 - `examples/events.cr` - key/mouse/window-size event inspector
+- `examples/terminal_controls.cr` - title/beep controls demo
 - `spec/*` - runtime, renderer, command helper, input, and app specs
 
 Keyboard parsing includes:
@@ -66,6 +68,14 @@ Keyboard parsing includes:
 - function keys F1-F12
 - modifier flags (`shift`, `alt`, `ctrl`) on parsed key messages
 - alt-prefixed runes (`Esc`+key) as a single key message
+
+Program control API:
+
+- `Program#run` returns `ProgramResult` (`model`, `error`)
+- `Program#start` remains backward-compatible and returns `model`
+- `Program#send(msg)` injects external messages
+- `Program#quit` requests shutdown
+- `ProgramOptions#event_filter` can transform/drop incoming messages
 
 ## Run locally
 
@@ -87,6 +97,11 @@ crystal run examples/clock.cr
 ```bash
 cd crystal/bubbletea
 crystal run examples/events.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/terminal_controls.cr
 ```
 
 Color behavior:

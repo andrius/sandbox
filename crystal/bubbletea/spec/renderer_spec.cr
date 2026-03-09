@@ -60,4 +60,15 @@ describe BubbleTea::Renderer do
     content.should contain("\e[?2004l")
     content.should contain("\e[?1004l")
   end
+
+  it "supports window title and beep control sequences" do
+    output_io = IO::Memory.new
+    renderer = BubbleTea::Renderer.new(output_io, use_alt_screen: false, use_diff: false, hide_cursor: false)
+    renderer.set_window_title("Hello")
+    renderer.beep
+
+    content = output_io.to_s
+    content.should contain("\e]2;Hello\a")
+    content.should contain("\a")
+  end
 end

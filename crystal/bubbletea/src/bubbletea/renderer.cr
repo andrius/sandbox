@@ -148,6 +148,17 @@ module BubbleTea
       @bracketed_paste_enabled = false
     end
 
+    def set_window_title(title : String)
+      safe_title = title.gsub('\a', "").gsub("\e", "")
+      @output << "\e]2;#{safe_title}\a"
+      @output.flush
+    end
+
+    def beep
+      @output << "\a"
+      @output.flush
+    end
+
     private def render_frame(view : String)
       lines = view.lines(chomp: true)
 

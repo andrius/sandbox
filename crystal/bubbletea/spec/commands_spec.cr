@@ -57,4 +57,13 @@ describe "BubbleTea command helpers" do
     paste_on.should be_a(BubbleTea::EnableBracketedPasteMessage)
     paste_off.should be_a(BubbleTea::DisableBracketedPasteMessage)
   end
+
+  it "builds title and beep command messages" do
+    title_msg = BubbleTea.set_window_title("demo").call
+    beep_msg = BubbleTea.beep.call
+
+    title_msg.should be_a(BubbleTea::SetWindowTitleMessage)
+    title_msg.as(BubbleTea::SetWindowTitleMessage).title.should eq("demo")
+    beep_msg.should be_a(BubbleTea::BeepMessage)
+  end
 end

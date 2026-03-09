@@ -1,4 +1,6 @@
 module BubbleTea
+  alias EventFilter = Proc(Msg, Model, Msg?)
+
   enum InputMode
     Line
     Key
@@ -15,6 +17,7 @@ module BubbleTea
     property enable_bracketed_paste : Bool
     property color_enabled : Bool?
     property read_input : Bool
+    property event_filter : EventFilter?
 
     def initialize(
       @input_mode : InputMode = InputMode::Line,
@@ -26,7 +29,8 @@ module BubbleTea
       @enable_focus_reporting : Bool = false,
       @enable_bracketed_paste : Bool = false,
       @color_enabled : Bool? = nil,
-      @read_input : Bool = true
+      @read_input : Bool = true,
+      @event_filter : EventFilter? = nil
     )
     end
   end

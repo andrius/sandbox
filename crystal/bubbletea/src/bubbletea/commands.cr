@@ -46,6 +46,16 @@ module BubbleTea
   class DisableBracketedPasteMessage < Message
   end
 
+  class SetWindowTitleMessage < Message
+    getter title : String
+
+    def initialize(@title : String)
+    end
+  end
+
+  class BeepMessage < Message
+  end
+
   def self.quit : Cmd
     -> { QuitMessage.new.as(Msg?) }
   end
@@ -92,6 +102,14 @@ module BubbleTea
 
   def self.disable_bracketed_paste : Cmd
     -> { DisableBracketedPasteMessage.new.as(Msg?) }
+  end
+
+  def self.set_window_title(title : String) : Cmd
+    -> { SetWindowTitleMessage.new(title).as(Msg?) }
+  end
+
+  def self.beep : Cmd
+    -> { BeepMessage.new.as(Msg?) }
   end
 
   def self.batch(*cmds : Cmd?) : Cmd?
