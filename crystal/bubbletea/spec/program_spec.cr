@@ -133,6 +133,27 @@ class ProgramSendModel < BubbleTea::Model
   end
 end
 
+class ProgramStartupModel < BubbleTea::Model
+  getter count : Int32
+
+  def initialize
+    @count = 0
+  end
+
+  def init : BubbleTea::Cmd?
+    BubbleTea.quit
+  end
+
+  def update(msg : BubbleTea::Msg) : Tuple(BubbleTea::Model, BubbleTea::Cmd?)
+    @count += 1 if msg.is_a?(ProgramStepMessage)
+    {self, nil}
+  end
+
+  def view : String
+    "startup=#{@count}"
+  end
+end
+
 describe BubbleTea::Program do
   it "processes sequence commands asynchronously" do
     output_io = IO::Memory.new
@@ -220,5 +241,56 @@ describe BubbleTea::Program do
 
     result = program.run
     result.model.as(ProgramSendModel).seen.should eq(["hello"])
+  end
+
+  it "runs startup commands before model init flow" do
+    output_io = IO::Memory.new
+    model = ProgramStartupModel.new
+    options = BubbleTea::ProgramOptions.new(
+      read_input: false,
+      listen_window_size: false,
+      enable_renderer_diff: false,
+      startup_commands: [-> { ProgramStepMessage.new.as(BubbleTea::Msg?) }]
+    )
+    program = BubbleTea::Program.new(model, IO::Memory.new, output_io, options: options)
+
+    result = program.run
+    result.model.as(ProgramStartupModel).count.should eq(1)
+  end
+
+  it "applies event filter chain in order" do
+    output_io = IO::Memory.new
+    model = ProgramSendModel.new
+    f1 = ->(msg : BubbleTea::Msg, m : BubbleTea::Model) do
+      if msg.is_a?(BubbleTea::UserInputMessage)
+        BubbleTea::UserInputMessage.new(msg.data + "-a").as(BubbleTea::Msg?)
+      else
+        msg.as(BubbleTea::Msg?)
+      end
+    end
+    f2 = ->(msg : BubbleTea::Msg, m : BubbleTea::Model) do
+      if msg.is_a?(BubbleTea::UserInputMessage)
+        BubbleTea::UserInputMessage.new(msg.data + "-b").as(BubbleTea::Msg?)
+      else
+        msg.as(BubbleTea::Msg?)
+      end
+    end
+    options = BubbleTea::ProgramOptions.new(
+      read_input: false,
+      listen_window_size: false,
+      enable_renderer_diff: false,
+      event_filters: [f1, f2]
+    )
+    program = BubbleTea::Program.new(model, IO::Memory.new, output_io, options: options)
+
+    spawn do
+      sleep 5.milliseconds
+      program.send(BubbleTea::UserInputMessage.new("msg"))
+      sleep 5.milliseconds
+      program.quit
+    end
+
+    result = program.run
+    result.model.as(ProgramSendModel).seen.should eq(["msg-a-b"])
   end
 end

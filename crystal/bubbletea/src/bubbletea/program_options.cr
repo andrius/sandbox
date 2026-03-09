@@ -15,9 +15,14 @@ module BubbleTea
     property enable_mouse : Bool
     property enable_focus_reporting : Bool
     property enable_bracketed_paste : Bool
+    property trap_signals : Bool
+    property quit_on_interrupt : Bool
+    property quit_on_terminate : Bool
     property color_enabled : Bool?
     property read_input : Bool
     property event_filter : EventFilter?
+    property event_filters : Array(EventFilter)
+    property startup_commands : Array(Cmd)
 
     def initialize(
       @input_mode : InputMode = InputMode::Line,
@@ -28,9 +33,14 @@ module BubbleTea
       @enable_mouse : Bool = false,
       @enable_focus_reporting : Bool = false,
       @enable_bracketed_paste : Bool = false,
+      @trap_signals : Bool = true,
+      @quit_on_interrupt : Bool = true,
+      @quit_on_terminate : Bool = true,
       @color_enabled : Bool? = nil,
       @read_input : Bool = true,
-      @event_filter : EventFilter? = nil
+      @event_filter : EventFilter? = nil,
+      @event_filters : Array(EventFilter) = [] of EventFilter,
+      @startup_commands : Array(Cmd) = [] of Cmd
     )
     end
   end

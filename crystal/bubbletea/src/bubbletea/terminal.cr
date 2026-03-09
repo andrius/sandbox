@@ -56,5 +56,17 @@ module BubbleTea
     rescue
       # Signal hooks are best effort in constrained environments.
     end
+
+    def self.on_interrupt(&block : ->)
+      Signal::INT.trap { block.call }
+    rescue
+      # Best effort in restricted environments.
+    end
+
+    def self.on_terminate(&block : ->)
+      Signal::TERM.trap { block.call }
+    rescue
+      # Best effort in restricted environments.
+    end
   end
 end

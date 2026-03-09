@@ -27,7 +27,9 @@ module BubbleTea
     def run : ProgramResult
       setup_terminal
       setup_window_size_listener
+      setup_signal_handlers
       start_input_reader if @options.read_input
+      @options.startup_commands.each { |cmd| schedule_cmd(cmd) }
 
       if cmd = @model.init
         schedule_cmd(cmd)
@@ -68,6 +70,24 @@ module BubbleTea
       case filtered
       when QuitMessage
         @running = false
+      when InterruptMessage
+        if @options.quit_on_interrupt
+          @running = false
+        else
+          updated_model, cmd = @model.update(filtered)
+          @model = updated_model
+          schedule_cmd(cmd) if cmd
+          render
+        end
+      when TerminateMessage
+        if @options.quit_on_terminate
+          @running = false
+        else
+          updated_model, cmd = @model.update(filtered)
+          @model = updated_model
+          schedule_cmd(cmd) if cmd
+          render
+        end
       when BatchCommandMessage
         filtered.cmds.each { |cmd| schedule_cmd(cmd) }
       when SequenceCommandMessage
@@ -177,6 +197,18 @@ module BubbleTea
       end
     end
 
+    private def setup_signal_handlers
+      return unless @options.trap_signals
+
+      Terminal.on_interrupt do
+        safe_send(InterruptMessage.new)
+      end
+
+      Terminal.on_terminate do
+        safe_send(TerminateMessage.new)
+      end
+    end
+
     private def safe_send(msg : Msg)
       @mailbox.send(msg)
     rescue Channel::ClosedError
@@ -185,11 +217,20 @@ module BubbleTea
 
     private def filter_message(msg : Msg) : Msg?
       filter = @options.event_filter
-      return msg unless filter
+      current : Msg? = msg
 
-      filter.call(msg, @model)
+      if filter && current
+        current = filter.call(current.not_nil!, @model)
+      end
+
+      @options.event_filters.each do |f|
+        break if current.nil?
+        current = f.call(current.not_nil!, @model)
+      end
+
+      current
     rescue
-      msg
+      current
     end
   end
 end

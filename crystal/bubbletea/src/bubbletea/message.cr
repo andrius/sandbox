@@ -128,6 +128,12 @@ module BubbleTea
     end
   end
 
+  class InterruptMessage < Message
+  end
+
+  class TerminateMessage < Message
+  end
+
   class UserInputMessage < Message
     getter data : String
 

@@ -16,9 +16,12 @@ Implemented runtime features:
   - internal mailbox/event loop
   - line-mode input and key-mode input
   - best-effort raw terminal mode for key input
+  - signal hooks for `INT` / `TERM` (configurable)
   - optional window size message dispatch (`WindowSizeMessage`)
   - optional mouse tracking dispatch (`MouseMessage`)
   - optional focus/blur and bracketed-paste dispatch
+  - startup commands via program options
+  - event filter pipeline (`event_filter` + `event_filters`)
   - `Program#run` result API (`ProgramResult`) alongside `Program#start`
 - Renderer:
   - full-frame rendering
@@ -60,6 +63,7 @@ Implemented runtime features:
 - `examples/clock.cr` - ticking clock demo using async commands
 - `examples/events.cr` - key/mouse/window-size event inspector
 - `examples/terminal_controls.cr` - title/beep controls demo
+- `examples/external_send.cr` - external message injection demo (`Program#send`)
 - `spec/*` - runtime, renderer, command helper, input, and app specs
 
 Keyboard parsing includes:
@@ -102,6 +106,11 @@ crystal run examples/events.cr
 ```bash
 cd crystal/bubbletea
 crystal run examples/terminal_controls.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/external_send.cr
 ```
 
 Color behavior:
