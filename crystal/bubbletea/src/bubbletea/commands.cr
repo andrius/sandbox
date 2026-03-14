@@ -34,6 +34,9 @@ module BubbleTea
   class DisableMouseTrackingMessage < Message
   end
 
+  class EnableMouseAllMotionTrackingMessage < Message
+  end
+
   class EnableFocusReportingMessage < Message
   end
 
@@ -92,6 +95,10 @@ module BubbleTea
 
   def self.disable_mouse_tracking : Cmd
     -> { DisableMouseTrackingMessage.new.as(Msg?) }
+  end
+
+  def self.enable_mouse_all_motion_tracking : Cmd
+    -> { EnableMouseAllMotionTrackingMessage.new.as(Msg?) }
   end
 
   def self.enable_focus_reporting : Cmd

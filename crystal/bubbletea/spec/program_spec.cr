@@ -34,6 +34,7 @@ class ProgramControlModel < BubbleTea::Model
       BubbleTea.set_window_title("BubbleTea Crystal Test"),
       BubbleTea.enter_alt_screen,
       BubbleTea.enable_mouse_tracking,
+      BubbleTea.enable_mouse_all_motion_tracking,
       BubbleTea.enable_focus_reporting,
       BubbleTea.enable_bracketed_paste,
       BubbleTea.beep,
@@ -196,6 +197,7 @@ describe BubbleTea::Program do
     content.should contain("\e]2;BubbleTea Crystal Test\a")
     content.should contain("\e[?1049h")
     content.should contain("\e[?1002h")
+    content.should contain("\e[?1003h")
     content.should contain("\e[?1004h")
     content.should contain("\e[?2004h")
     content.should contain("\e[2J\e[H")

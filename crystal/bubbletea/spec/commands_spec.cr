@@ -40,9 +40,11 @@ describe "BubbleTea command helpers" do
 
   it "builds mouse tracking command messages" do
     enable_msg = BubbleTea.enable_mouse_tracking.call
+    enable_all_msg = BubbleTea.enable_mouse_all_motion_tracking.call
     disable_msg = BubbleTea.disable_mouse_tracking.call
 
     enable_msg.should be_a(BubbleTea::EnableMouseTrackingMessage)
+    enable_all_msg.should be_a(BubbleTea::EnableMouseAllMotionTrackingMessage)
     disable_msg.should be_a(BubbleTea::DisableMouseTrackingMessage)
   end
 

@@ -108,6 +108,7 @@ options = BubbleTea::ProgramOptions.new(
   use_alt_screen: input_mode == BubbleTea::InputMode::Key && ENV["DEMO_NO_ALT_SCREEN"]? != "1",
   hide_cursor: input_mode == BubbleTea::InputMode::Key,
   enable_mouse: input_mode == BubbleTea::InputMode::Key,
+  mouse_mode: BubbleTea::MouseMode::AllMotion,
   enable_focus_reporting: input_mode == BubbleTea::InputMode::Key,
   enable_bracketed_paste: input_mode == BubbleTea::InputMode::Key
 )

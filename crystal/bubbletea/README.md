@@ -23,6 +23,7 @@ Implemented runtime features:
   - optional focus/blur and bracketed-paste dispatch
   - startup commands via program options
   - event filter pipeline (`event_filter` + `event_filters`)
+  - option-builder helpers (`with_*`) and `new_program(...)` constructor
   - `Program#run` result API (`ProgramResult`) alongside `Program#start`
 - Renderer:
   - full-frame rendering
@@ -41,6 +42,7 @@ Implemented runtime features:
   - bracketed paste commands (`enable_bracketed_paste`, `disable_bracketed_paste`)
   - terminal helpers (`set_window_title`, `beep`)
   - lifecycle helpers (`suspend`, `resume`)
+  - mouse modes (`enable_mouse_tracking`, `enable_mouse_all_motion_tracking`)
   - command error forwarding as `ErrorMessage`
 - Styling:
   - ANSI color helpers with `FORCE_COLOR` / `NO_COLOR` behavior.
@@ -83,6 +85,7 @@ Program control API:
 - `Program#send(msg)` injects external messages
 - `Program#quit` requests shutdown
 - `ProgramOptions#event_filter` can transform/drop incoming messages
+- `BubbleTea.new_program(model, ..., BubbleTea.with_alt_screen, ...)` provides option-builder style setup
 
 ## Run locally
 

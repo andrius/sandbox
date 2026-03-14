@@ -1,6 +1,12 @@
 module BubbleTea
   alias EventFilter = Proc(Msg, Model, Msg?)
 
+  enum MouseMode
+    Off
+    CellMotion
+    AllMotion
+  end
+
   enum InputMode
     Line
     Key
@@ -13,6 +19,7 @@ module BubbleTea
     property hide_cursor : Bool
     property listen_window_size : Bool
     property enable_mouse : Bool
+    property mouse_mode : MouseMode
     property enable_focus_reporting : Bool
     property enable_bracketed_paste : Bool
     property trap_signals : Bool
@@ -32,6 +39,7 @@ module BubbleTea
       @hide_cursor : Bool = false,
       @listen_window_size : Bool = true,
       @enable_mouse : Bool = false,
+      @mouse_mode : MouseMode = MouseMode::Off,
       @enable_focus_reporting : Bool = false,
       @enable_bracketed_paste : Bool = false,
       @trap_signals : Bool = true,

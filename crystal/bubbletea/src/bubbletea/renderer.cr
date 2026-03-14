@@ -5,6 +5,7 @@ module BubbleTea
     @use_diff : Bool
     @hide_cursor : Bool
     @mouse_enabled : Bool
+    @mouse_mode : MouseMode
     @focus_enabled : Bool
     @bracketed_paste_enabled : Bool
     @started : Bool
@@ -15,6 +16,7 @@ module BubbleTea
       @use_diff = use_diff
       @hide_cursor = hide_cursor
       @mouse_enabled = false
+      @mouse_mode = MouseMode::Off
       @focus_enabled = false
       @bracketed_paste_enabled = false
       @started = false
@@ -98,22 +100,41 @@ module BubbleTea
     end
 
     def enable_mouse_tracking
-      return if @mouse_enabled
+      if @mouse_enabled
+        return if @mouse_mode == MouseMode::CellMotion
+        disable_mouse_tracking
+      end
 
       # Enable button-event tracking + SGR extended coordinates.
       @output << "\e[?1002h"
       @output << "\e[?1006h"
       @output.flush
       @mouse_enabled = true
+      @mouse_mode = MouseMode::CellMotion
+    end
+
+    def enable_mouse_all_motion_tracking
+      if @mouse_enabled
+        return if @mouse_mode == MouseMode::AllMotion
+        disable_mouse_tracking
+      end
+
+      @output << "\e[?1003h"
+      @output << "\e[?1006h"
+      @output.flush
+      @mouse_enabled = true
+      @mouse_mode = MouseMode::AllMotion
     end
 
     def disable_mouse_tracking
       return unless @mouse_enabled
 
       @output << "\e[?1002l"
+      @output << "\e[?1003l"
       @output << "\e[?1006l"
       @output.flush
       @mouse_enabled = false
+      @mouse_mode = MouseMode::Off
     end
 
     def enable_focus_reporting

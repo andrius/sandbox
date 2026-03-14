@@ -113,6 +113,8 @@ module BubbleTea
         @renderer.show_cursor
       when EnableMouseTrackingMessage
         @renderer.enable_mouse_tracking
+      when EnableMouseAllMotionTrackingMessage
+        @renderer.enable_mouse_all_motion_tracking
       when DisableMouseTrackingMessage
         @renderer.disable_mouse_tracking
       when EnableFocusReportingMessage
@@ -181,7 +183,14 @@ module BubbleTea
       if @options.input_mode == InputMode::Key
         @raw_mode_guard = Terminal.enable_raw_mode
       end
-      @renderer.enable_mouse_tracking if @options.enable_mouse
+      mouse_mode = resolved_mouse_mode
+      case mouse_mode
+      when MouseMode::CellMotion
+        @renderer.enable_mouse_tracking
+      when MouseMode::AllMotion
+        @renderer.enable_mouse_all_motion_tracking
+      else
+      end
       @renderer.enable_focus_reporting if @options.enable_focus_reporting
       @renderer.enable_bracketed_paste if @options.enable_bracketed_paste
     end
@@ -271,6 +280,13 @@ module BubbleTea
       apply_terminal_modes
       @suspended = false
       render
+    end
+
+    private def resolved_mouse_mode : MouseMode
+      mode = @options.mouse_mode
+      return mode unless mode == MouseMode::Off
+
+      @options.enable_mouse ? MouseMode::CellMotion : MouseMode::Off
     end
   end
 end
