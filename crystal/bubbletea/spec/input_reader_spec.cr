@@ -146,4 +146,24 @@ describe BubbleTea::InputReader do
     keys[4].rune.should eq("X")
     keys[4].alt.should be_true
   end
+
+  it "parses utf-8 runes and alt-prefixed utf-8 runes" do
+    io = IO::Memory.new("ž\eö")
+    reader = BubbleTea::InputReader.new(io, BubbleTea::InputMode::Key)
+    keys = [] of BubbleTea::KeyMessage
+
+    reader.each_message do |msg|
+      keys << msg.as(BubbleTea::KeyMessage) if msg.is_a?(BubbleTea::KeyMessage)
+    end
+
+    keys.size.should eq(2)
+
+    keys[0].type.should eq(BubbleTea::KeyType::Rune)
+    keys[0].rune.should eq("ž")
+    keys[0].alt.should be_false
+
+    keys[1].type.should eq(BubbleTea::KeyType::Rune)
+    keys[1].rune.should eq("ö")
+    keys[1].alt.should be_true
+  end
 end

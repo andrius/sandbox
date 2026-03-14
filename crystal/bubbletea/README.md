@@ -80,6 +80,7 @@ Keyboard parsing includes:
 - function keys F1-F12
 - modifier flags (`shift`, `alt`, `ctrl`) on parsed key messages
 - alt-prefixed runes (`Esc`+key) as a single key message
+- UTF-8 rune decoding (including Alt+UTF-8 runes)
 
 Program control API:
 

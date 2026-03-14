@@ -56,8 +56,8 @@ module BubbleTea
             yield KeyMessage.new(KeyType::Unknown, raw: raw)
           end
         else
-          rune = String.build { |str| str.write_byte(byte) }
-          yield KeyMessage.new(KeyType::Rune, rune: rune, raw: rune)
+          rune, raw = decode_rune_from_first_byte(byte)
+          yield KeyMessage.new(KeyType::Rune, rune: rune, raw: raw)
         end
       end
     end
@@ -278,9 +278,9 @@ module BubbleTea
       when 1_u8..26_u8
         ctrl = ctrl_key_message(second)
         ctrl ? KeyMessage.new(ctrl.type, rune: ctrl.rune, alt: true, ctrl: ctrl.ctrl, raw: "\e#{ctrl.raw}") : nil
-      when 33_u8..126_u8
-        rune = String.build { |str| str.write_byte(second) }
-        KeyMessage.new(KeyType::Rune, rune: rune, alt: true, raw: "\e#{rune}")
+      when 33_u8..255_u8
+        rune, raw = decode_rune_from_first_byte(second)
+        KeyMessage.new(KeyType::Rune, rune: rune, alt: true, raw: "\e#{raw}")
       else
         nil
       end
@@ -290,6 +290,33 @@ module BubbleTea
       return nil unless byte.in?(1_u8..26_u8)
       letter = (byte + 96).chr.to_s
       KeyMessage.new(KeyType::Rune, rune: letter, ctrl: true, raw: String.build { |str| str.write_byte(byte) })
+    end
+
+    private def decode_rune_from_first_byte(first : UInt8) : Tuple(String, String)
+      bytes = [first]
+      trailing = utf8_trailing_count(first)
+      trailing.times do
+        nxt = read_byte_or_nil
+        break unless nxt
+        bytes << nxt
+      end
+
+      raw = String.build do |str|
+        bytes.each { |b| str.write_byte(b) }
+      end
+      {raw, raw}
+    rescue
+      raw = String.build { |str| str.write_byte(first) }
+      {raw, raw}
+    end
+
+    private def utf8_trailing_count(first : UInt8) : Int32
+      return 0 if (first & 0b1000_0000) == 0
+      return 1 if (first & 0b1110_0000) == 0b1100_0000
+      return 2 if (first & 0b1111_0000) == 0b1110_0000
+      return 3 if (first & 0b1111_1000) == 0b1111_0000
+
+      0
     end
 
     private def parse_tilde_code_and_mods(params : String) : Tuple(Int32, Bool, Bool, Bool)
