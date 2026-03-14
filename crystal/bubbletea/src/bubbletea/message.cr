@@ -150,5 +150,21 @@ module BubbleTea
   class QuitMessage < Message
   end
 
+  alias KeyMsg = KeyMessage
+  alias WindowSizeMsg = WindowSizeMessage
+  alias MouseMsg = MouseMessage
+  alias FocusMsg = FocusMessage
+  alias BlurMsg = BlurMessage
+  alias PasteStartMsg = PasteStartMessage
+  alias PasteEndMsg = PasteEndMessage
+  alias PasteMsg = PasteMessage
+  alias UserInputMsg = UserInputMessage
+  alias QuitMsg = QuitMessage
+  alias InterruptMsg = InterruptMessage
+  alias TerminateMsg = TerminateMessage
+  alias SuspendMsg = SuspendMessage
+  alias ResumeMsg = ResumeMessage
+  alias ErrorMsg = ErrorMessage
+
   alias Msg = Message
 end

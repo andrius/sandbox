@@ -237,6 +237,10 @@ describe BubbleTea::Program do
     result.model.should be_a(ProgramErrorCaptureModel)
     result.model.as(ProgramErrorCaptureModel).seen_error.should eq("command failed")
     output_io.to_s.should contain("command failed")
+
+    tuple = program.run_model_error
+    tuple[0].should be_a(ProgramErrorCaptureModel)
+    tuple[1].should be_nil
   end
 
   it "supports event filters that can drop messages" do

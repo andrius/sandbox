@@ -24,6 +24,7 @@ Implemented runtime features:
   - startup commands via program options
   - event filter pipeline (`event_filter` + `event_filters`)
   - option-builder helpers (`with_*`) and `new_program(...)` constructor
+  - module-level wrappers `BubbleTea.run(...)` / `BubbleTea.start(...)`
   - `Program#run` result API (`ProgramResult`) alongside `Program#start`
 - Renderer:
   - full-frame rendering
@@ -88,8 +89,13 @@ Program control API:
 - `Program#start` remains backward-compatible and returns `model`
 - `Program#send(msg)` injects external messages
 - `Program#quit` requests shutdown
+- `Program#run_model_error` returns `{model, error}`
 - `ProgramOptions#event_filter` can transform/drop incoming messages
 - `BubbleTea.new_program(model, ..., BubbleTea.with_alt_screen, ...)` provides option-builder style setup
+
+Compatibility aliases:
+
+- `KeyMsg`, `WindowSizeMsg`, `MouseMsg`, `PasteMsg`, `QuitMsg`, `ErrorMsg`, etc.
 
 ## Run locally
 

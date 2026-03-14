@@ -9,5 +9,9 @@ module BubbleTea
     def ok? : Bool
       @error.nil?
     end
+
+    def to_tuple : Tuple(Model, Exception?)
+      {@model, @error}
+    end
   end
 end

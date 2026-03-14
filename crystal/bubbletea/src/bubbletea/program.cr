@@ -56,6 +56,11 @@ module BubbleTea
       run.model
     end
 
+    # Compatibility helper matching Go-style (model, err) flow.
+    def run_model_error : Tuple(Model, Exception?)
+      run.to_tuple
+    end
+
     def send(msg : Msg)
       spawn { safe_send(msg) }
     end
