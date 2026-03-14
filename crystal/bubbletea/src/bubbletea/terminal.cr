@@ -68,5 +68,17 @@ module BubbleTea
     rescue
       # Best effort in restricted environments.
     end
+
+    def self.on_suspend(&block : ->)
+      Signal::TSTP.trap { block.call }
+    rescue
+      # Best effort in restricted environments.
+    end
+
+    def self.on_continue(&block : ->)
+      Signal::CONT.trap { block.call }
+    rescue
+      # Best effort in restricted environments.
+    end
   end
 end

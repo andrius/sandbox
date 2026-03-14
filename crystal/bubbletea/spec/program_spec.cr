@@ -154,6 +154,24 @@ class ProgramStartupModel < BubbleTea::Model
   end
 end
 
+class ProgramSuspendModel < BubbleTea::Model
+  def init : BubbleTea::Cmd?
+    BubbleTea.sequence(
+      BubbleTea.suspend,
+      BubbleTea.resume,
+      BubbleTea.quit
+    )
+  end
+
+  def update(msg : BubbleTea::Msg) : Tuple(BubbleTea::Model, BubbleTea::Cmd?)
+    {self, nil}
+  end
+
+  def view : String
+    "suspend-resume"
+  end
+end
+
 describe BubbleTea::Program do
   it "processes sequence commands asynchronously" do
     output_io = IO::Memory.new
@@ -292,5 +310,22 @@ describe BubbleTea::Program do
 
     result = program.run
     result.model.as(ProgramSendModel).seen.should eq(["msg-a-b"])
+  end
+
+  it "supports suspend and resume program control messages" do
+    output_io = IO::Memory.new
+    model = ProgramSuspendModel.new
+    options = BubbleTea::ProgramOptions.new(
+      read_input: false,
+      listen_window_size: false,
+      enable_renderer_diff: false,
+      hide_cursor: true
+    )
+    program = BubbleTea::Program.new(model, IO::Memory.new, output_io, options: options)
+    program.run
+
+    content = output_io.to_s
+    content.scan(/\e\[\?25l/).size.should be >= 2
+    content.scan(/\e\[\?25h/).size.should be >= 2
   end
 end

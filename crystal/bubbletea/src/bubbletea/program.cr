@@ -10,11 +10,13 @@ module BubbleTea
     @renderer : Renderer
     @mailbox : Channel(Msg)
     @raw_mode_guard : Terminal::RawModeGuard?
+    @suspended : Bool
 
     def initialize(@model : Model, @input : IO = STDIN, @output : IO = STDOUT, *, @options : ProgramOptions = ProgramOptions.new)
       @running = true
       @mailbox = Channel(Msg).new(256)
       @raw_mode_guard = nil
+      @suspended = false
       @last_error = nil
       @renderer = Renderer.new(
         @output,
@@ -88,6 +90,10 @@ module BubbleTea
           schedule_cmd(cmd) if cmd
           render
         end
+      when SuspendProgramMessage, SuspendMessage
+        suspend_runtime
+      when ResumeProgramMessage, ResumeMessage
+        resume_runtime
       when BatchCommandMessage
         filtered.cmds.each { |cmd| schedule_cmd(cmd) }
       when SequenceCommandMessage
@@ -125,7 +131,7 @@ module BubbleTea
         updated_model, cmd = @model.update(filtered)
         @model = updated_model
         schedule_cmd(cmd) if cmd
-        render
+        render unless @suspended
       end
     end
 
@@ -168,6 +174,10 @@ module BubbleTea
     end
 
     private def setup_terminal
+      apply_terminal_modes
+    end
+
+    private def apply_terminal_modes
       if @options.input_mode == InputMode::Key
         @raw_mode_guard = Terminal.enable_raw_mode
       end
@@ -177,8 +187,13 @@ module BubbleTea
     end
 
     private def teardown_terminal
+      restore_terminal_modes
+    end
+
+    private def restore_terminal_modes
       @renderer.stop
       @raw_mode_guard.try(&.restore)
+      @raw_mode_guard = nil
     end
 
     private def setup_window_size_listener
@@ -207,6 +222,16 @@ module BubbleTea
       Terminal.on_terminate do
         safe_send(TerminateMessage.new)
       end
+
+      return unless @options.trap_suspend_continue
+
+      Terminal.on_suspend do
+        safe_send(SuspendMessage.new)
+      end
+
+      Terminal.on_continue do
+        safe_send(ResumeMessage.new)
+      end
     end
 
     private def safe_send(msg : Msg)
@@ -231,6 +256,21 @@ module BubbleTea
       current
     rescue
       current
+    end
+
+    private def suspend_runtime
+      return if @suspended
+
+      restore_terminal_modes
+      @suspended = true
+    end
+
+    private def resume_runtime
+      return unless @suspended
+
+      apply_terminal_modes
+      @suspended = false
+      render
     end
   end
 end

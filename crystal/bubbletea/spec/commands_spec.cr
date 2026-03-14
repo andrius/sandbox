@@ -66,4 +66,12 @@ describe "BubbleTea command helpers" do
     title_msg.as(BubbleTea::SetWindowTitleMessage).title.should eq("demo")
     beep_msg.should be_a(BubbleTea::BeepMessage)
   end
+
+  it "builds suspend and resume command messages" do
+    suspend_msg = BubbleTea.suspend.call
+    resume_msg = BubbleTea.resume.call
+
+    suspend_msg.should be_a(BubbleTea::SuspendProgramMessage)
+    resume_msg.should be_a(BubbleTea::ResumeProgramMessage)
+  end
 end

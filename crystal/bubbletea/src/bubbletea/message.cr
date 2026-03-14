@@ -134,6 +134,12 @@ module BubbleTea
   class TerminateMessage < Message
   end
 
+  class SuspendMessage < Message
+  end
+
+  class ResumeMessage < Message
+  end
+
   class UserInputMessage < Message
     getter data : String
 

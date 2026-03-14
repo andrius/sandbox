@@ -16,6 +16,7 @@ module BubbleTea
     property enable_focus_reporting : Bool
     property enable_bracketed_paste : Bool
     property trap_signals : Bool
+    property trap_suspend_continue : Bool
     property quit_on_interrupt : Bool
     property quit_on_terminate : Bool
     property color_enabled : Bool?
@@ -34,6 +35,7 @@ module BubbleTea
       @enable_focus_reporting : Bool = false,
       @enable_bracketed_paste : Bool = false,
       @trap_signals : Bool = true,
+      @trap_suspend_continue : Bool = true,
       @quit_on_interrupt : Bool = true,
       @quit_on_terminate : Bool = true,
       @color_enabled : Bool? = nil,

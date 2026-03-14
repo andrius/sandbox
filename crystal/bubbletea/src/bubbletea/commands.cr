@@ -56,6 +56,12 @@ module BubbleTea
   class BeepMessage < Message
   end
 
+  class SuspendProgramMessage < Message
+  end
+
+  class ResumeProgramMessage < Message
+  end
+
   def self.quit : Cmd
     -> { QuitMessage.new.as(Msg?) }
   end
@@ -110,6 +116,14 @@ module BubbleTea
 
   def self.beep : Cmd
     -> { BeepMessage.new.as(Msg?) }
+  end
+
+  def self.suspend : Cmd
+    -> { SuspendProgramMessage.new.as(Msg?) }
+  end
+
+  def self.resume : Cmd
+    -> { ResumeProgramMessage.new.as(Msg?) }
   end
 
   def self.batch(*cmds : Cmd?) : Cmd?

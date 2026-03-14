@@ -17,6 +17,7 @@ Implemented runtime features:
   - line-mode input and key-mode input
   - best-effort raw terminal mode for key input
   - signal hooks for `INT` / `TERM` (configurable)
+  - suspend/resume lifecycle hooks (`TSTP` / `CONT`) and program commands
   - optional window size message dispatch (`WindowSizeMessage`)
   - optional mouse tracking dispatch (`MouseMessage`)
   - optional focus/blur and bracketed-paste dispatch
@@ -39,6 +40,7 @@ Implemented runtime features:
   - focus reporting commands (`enable_focus_reporting`, `disable_focus_reporting`)
   - bracketed paste commands (`enable_bracketed_paste`, `disable_bracketed_paste`)
   - terminal helpers (`set_window_title`, `beep`)
+  - lifecycle helpers (`suspend`, `resume`)
   - command error forwarding as `ErrorMessage`
 - Styling:
   - ANSI color helpers with `FORCE_COLOR` / `NO_COLOR` behavior.
@@ -64,6 +66,7 @@ Implemented runtime features:
 - `examples/events.cr` - key/mouse/window-size event inspector
 - `examples/terminal_controls.cr` - title/beep controls demo
 - `examples/external_send.cr` - external message injection demo (`Program#send`)
+- `examples/suspend_resume.cr` - suspend/resume lifecycle demo
 - `spec/*` - runtime, renderer, command helper, input, and app specs
 
 Keyboard parsing includes:
@@ -111,6 +114,11 @@ crystal run examples/terminal_controls.cr
 ```bash
 cd crystal/bubbletea
 crystal run examples/external_send.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/suspend_resume.cr
 ```
 
 Color behavior:
