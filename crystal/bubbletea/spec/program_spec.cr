@@ -173,6 +173,23 @@ class ProgramSuspendModel < BubbleTea::Model
   end
 end
 
+class ProgramPrintModel < BubbleTea::Model
+  def init : BubbleTea::Cmd?
+    BubbleTea.sequence(
+      BubbleTea.println("hello from cmd"),
+      BubbleTea.quit
+    )
+  end
+
+  def update(msg : BubbleTea::Msg) : Tuple(BubbleTea::Model, BubbleTea::Cmd?)
+    {self, nil}
+  end
+
+  def view : String
+    "print-view"
+  end
+end
+
 describe BubbleTea::Program do
   it "processes sequence commands asynchronously" do
     output_io = IO::Memory.new
@@ -329,5 +346,15 @@ describe BubbleTea::Program do
     content = output_io.to_s
     content.scan(/\e\[\?25l/).size.should be >= 2
     content.scan(/\e\[\?25h/).size.should be >= 2
+  end
+
+  it "handles print command messages" do
+    output_io = IO::Memory.new
+    model = ProgramPrintModel.new
+    options = BubbleTea::ProgramOptions.new(read_input: false, listen_window_size: false, enable_renderer_diff: false)
+    program = BubbleTea::Program.new(model, IO::Memory.new, output_io, options: options)
+    program.run
+
+    output_io.to_s.should contain("hello from cmd")
   end
 end

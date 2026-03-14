@@ -43,6 +43,8 @@ Implemented runtime features:
   - terminal helpers (`set_window_title`, `beep`)
   - lifecycle helpers (`suspend`, `resume`)
   - mouse modes (`enable_mouse_tracking`, `enable_mouse_all_motion_tracking`)
+  - print helpers (`print`, `println`, `printf`)
+  - `request_window_size`
   - command error forwarding as `ErrorMessage`
 - Styling:
   - ANSI color helpers with `FORCE_COLOR` / `NO_COLOR` behavior.
@@ -69,6 +71,7 @@ Implemented runtime features:
 - `examples/terminal_controls.cr` - title/beep controls demo
 - `examples/external_send.cr` - external message injection demo (`Program#send`)
 - `examples/suspend_resume.cr` - suspend/resume lifecycle demo
+- `examples/print_commands.cr` - print/printf/window-size command demo
 - `spec/*` - runtime, renderer, command helper, input, and app specs
 
 Keyboard parsing includes:
@@ -122,6 +125,11 @@ crystal run examples/external_send.cr
 ```bash
 cd crystal/bubbletea
 crystal run examples/suspend_resume.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/print_commands.cr
 ```
 
 Color behavior:

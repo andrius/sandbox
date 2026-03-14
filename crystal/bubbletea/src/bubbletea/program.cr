@@ -129,6 +129,11 @@ module BubbleTea
         @renderer.set_window_title(filtered.title)
       when BeepMessage
         @renderer.beep
+      when PrintMessage
+        @renderer.print(filtered.text, newline: filtered.newline)
+      when RequestWindowSizeMessage
+        size_msg = Terminal.window_size
+        safe_send(size_msg.not_nil!) if size_msg
       else
         updated_model, cmd = @model.update(filtered)
         @model = updated_model

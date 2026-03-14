@@ -74,4 +74,17 @@ describe BubbleTea::Renderer do
     content.should contain("\e]2;Hello\a")
     content.should contain("\a")
   end
+
+  it "prints text outside alt screen and ignores inside alt screen" do
+    output_io = IO::Memory.new
+    renderer = BubbleTea::Renderer.new(output_io, use_alt_screen: false, use_diff: false, hide_cursor: false)
+    renderer.print("line-a", newline: false)
+    renderer.print("line-b", newline: true)
+    output_io.to_s.should contain("line-aline-b\n")
+
+    output_io_alt = IO::Memory.new
+    renderer_alt = BubbleTea::Renderer.new(output_io_alt, use_alt_screen: true, use_diff: true, hide_cursor: false)
+    renderer_alt.print("ignored", newline: true)
+    output_io_alt.to_s.should_not contain("ignored")
+  end
 end

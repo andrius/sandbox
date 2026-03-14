@@ -180,6 +180,15 @@ module BubbleTea
       @output.flush
     end
 
+    def print(text : String, *, newline : Bool)
+      # Match Bubble Tea behavior: print commands are ignored in alt screen mode.
+      return if @use_alt_screen
+
+      @output << text
+      @output << "\n" if newline
+      @output.flush
+    end
+
     private def render_frame(view : String)
       lines = view.lines(chomp: true)
 

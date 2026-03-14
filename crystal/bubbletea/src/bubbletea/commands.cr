@@ -65,6 +65,17 @@ module BubbleTea
   class ResumeProgramMessage < Message
   end
 
+  class PrintMessage < Message
+    getter text : String
+    getter newline : Bool
+
+    def initialize(@text : String, @newline : Bool)
+    end
+  end
+
+  class RequestWindowSizeMessage < Message
+  end
+
   def self.quit : Cmd
     -> { QuitMessage.new.as(Msg?) }
   end
@@ -131,6 +142,23 @@ module BubbleTea
 
   def self.resume : Cmd
     -> { ResumeProgramMessage.new.as(Msg?) }
+  end
+
+  def self.print(text : String) : Cmd
+    -> { PrintMessage.new(text, false).as(Msg?) }
+  end
+
+  def self.println(text : String) : Cmd
+    -> { PrintMessage.new(text, true).as(Msg?) }
+  end
+
+  def self.printf(format : String, *args) : Cmd
+    formatted = format % args
+    -> { PrintMessage.new(formatted, false).as(Msg?) }
+  end
+
+  def self.request_window_size : Cmd
+    -> { RequestWindowSizeMessage.new.as(Msg?) }
   end
 
   def self.batch(*cmds : Cmd?) : Cmd?

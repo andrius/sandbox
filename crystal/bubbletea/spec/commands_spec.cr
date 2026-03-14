@@ -76,4 +76,22 @@ describe "BubbleTea command helpers" do
     suspend_msg.should be_a(BubbleTea::SuspendProgramMessage)
     resume_msg.should be_a(BubbleTea::ResumeProgramMessage)
   end
+
+  it "builds print and window-size request messages" do
+    print_msg = BubbleTea.print("x").call
+    println_msg = BubbleTea.println("y").call
+    printf_msg = BubbleTea.printf("n=%d", 42).call
+    request_msg = BubbleTea.request_window_size.call
+
+    print_msg.should be_a(BubbleTea::PrintMessage)
+    print_msg.as(BubbleTea::PrintMessage).newline.should be_false
+
+    println_msg.should be_a(BubbleTea::PrintMessage)
+    println_msg.as(BubbleTea::PrintMessage).newline.should be_true
+
+    printf_msg.should be_a(BubbleTea::PrintMessage)
+    printf_msg.as(BubbleTea::PrintMessage).text.should eq("n=42")
+
+    request_msg.should be_a(BubbleTea::RequestWindowSizeMessage)
+  end
 end
