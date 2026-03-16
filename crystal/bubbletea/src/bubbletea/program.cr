@@ -22,7 +22,8 @@ module BubbleTea
         @output,
         use_alt_screen: @options.use_alt_screen,
         use_diff: @options.enable_renderer_diff && @output.tty?,
-        hide_cursor: @options.hide_cursor
+        hide_cursor: @options.hide_cursor,
+        disabled: @options.disable_renderer
       )
     end
 
@@ -200,6 +201,9 @@ module BubbleTea
       when MouseMode::AllMotion
         @renderer.enable_mouse_all_motion_tracking
       else
+      end
+      if title = @options.window_title
+        @renderer.set_window_title(title)
       end
       @renderer.enable_focus_reporting if @options.enable_focus_reporting
       @renderer.enable_bracketed_paste if @options.enable_bracketed_paste

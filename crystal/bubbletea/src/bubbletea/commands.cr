@@ -161,6 +161,28 @@ module BubbleTea
     -> { RequestWindowSizeMessage.new.as(Msg?) }
   end
 
+  def self.exec_process(command : String, args : Array(String) = [] of String) : Cmd
+    -> do
+      output_io = IO::Memory.new
+      error_io = IO::Memory.new
+      status = Process.run(command, args, output: output_io, error: error_io)
+      ExecProcessResultMessage.new(
+        command,
+        args,
+        output_io.to_s,
+        error_io.to_s,
+        status.exit_code,
+        status.success?
+      ).as(Msg?)
+    rescue ex
+      ErrorMessage.new(ex).as(Msg?)
+    end
+  end
+
+  def self.exec(command_line : String) : Cmd
+    exec_process("sh", ["-lc", command_line])
+  end
+
   def self.batch(*cmds : Cmd?) : Cmd?
     filtered = cmds.to_a.compact
     return nil if filtered.empty?

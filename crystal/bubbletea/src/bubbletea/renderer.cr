@@ -8,10 +8,11 @@ module BubbleTea
     @mouse_mode : MouseMode
     @focus_enabled : Bool
     @bracketed_paste_enabled : Bool
+    @disabled : Bool
     @started : Bool
     @last_lines : Array(String)
 
-    def initialize(@output : IO, *, use_alt_screen : Bool, use_diff : Bool, hide_cursor : Bool)
+    def initialize(@output : IO, *, use_alt_screen : Bool, use_diff : Bool, hide_cursor : Bool, disabled : Bool = false)
       @use_alt_screen = use_alt_screen
       @use_diff = use_diff
       @hide_cursor = hide_cursor
@@ -19,11 +20,16 @@ module BubbleTea
       @mouse_mode = MouseMode::Off
       @focus_enabled = false
       @bracketed_paste_enabled = false
+      @disabled = disabled
       @started = false
       @last_lines = [] of String
     end
 
     def start
+      if @disabled
+        @started = true
+        return
+      end
       return if @started
 
       if @use_alt_screen
@@ -39,6 +45,11 @@ module BubbleTea
     def stop
       return unless @started
 
+      if @disabled
+        @started = false
+        return
+      end
+
       disable_bracketed_paste if @bracketed_paste_enabled
       disable_focus_reporting if @focus_enabled
       disable_mouse_tracking if @mouse_enabled
@@ -49,6 +60,7 @@ module BubbleTea
     end
 
     def render(view : String)
+      return if @disabled
       start unless @started
 
       if @use_alt_screen || @use_diff
@@ -61,12 +73,14 @@ module BubbleTea
     end
 
     def clear
+      return if @disabled
       @output << "\e[2J\e[H"
       @output.flush
       @last_lines = [] of String
     end
 
     def enter_alt_screen
+      return if @disabled
       return if @use_alt_screen
 
       @use_alt_screen = true
@@ -76,6 +90,7 @@ module BubbleTea
     end
 
     def exit_alt_screen
+      return if @disabled
       return unless @use_alt_screen
 
       @use_alt_screen = false
@@ -84,6 +99,7 @@ module BubbleTea
     end
 
     def hide_cursor
+      return if @disabled
       return if @hide_cursor
 
       @hide_cursor = true
@@ -92,6 +108,7 @@ module BubbleTea
     end
 
     def show_cursor
+      return if @disabled
       return unless @hide_cursor
 
       @hide_cursor = false
@@ -100,6 +117,7 @@ module BubbleTea
     end
 
     def enable_mouse_tracking
+      return if @disabled
       if @mouse_enabled
         return if @mouse_mode == MouseMode::CellMotion
         disable_mouse_tracking
@@ -114,6 +132,7 @@ module BubbleTea
     end
 
     def enable_mouse_all_motion_tracking
+      return if @disabled
       if @mouse_enabled
         return if @mouse_mode == MouseMode::AllMotion
         disable_mouse_tracking
@@ -127,6 +146,7 @@ module BubbleTea
     end
 
     def disable_mouse_tracking
+      return if @disabled
       return unless @mouse_enabled
 
       @output << "\e[?1002l"
@@ -138,6 +158,7 @@ module BubbleTea
     end
 
     def enable_focus_reporting
+      return if @disabled
       return if @focus_enabled
 
       @output << "\e[?1004h"
@@ -146,6 +167,7 @@ module BubbleTea
     end
 
     def disable_focus_reporting
+      return if @disabled
       return unless @focus_enabled
 
       @output << "\e[?1004l"
@@ -154,6 +176,7 @@ module BubbleTea
     end
 
     def enable_bracketed_paste
+      return if @disabled
       return if @bracketed_paste_enabled
 
       @output << "\e[?2004h"
@@ -162,6 +185,7 @@ module BubbleTea
     end
 
     def disable_bracketed_paste
+      return if @disabled
       return unless @bracketed_paste_enabled
 
       @output << "\e[?2004l"
@@ -170,12 +194,14 @@ module BubbleTea
     end
 
     def set_window_title(title : String)
+      return if @disabled
       safe_title = title.gsub('\a', "").gsub("\e", "")
       @output << "\e]2;#{safe_title}\a"
       @output.flush
     end
 
     def beep
+      return if @disabled
       @output << "\a"
       @output.flush
     end

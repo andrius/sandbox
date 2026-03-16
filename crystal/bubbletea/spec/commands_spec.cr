@@ -94,4 +94,23 @@ describe "BubbleTea command helpers" do
 
     request_msg.should be_a(BubbleTea::RequestWindowSizeMessage)
   end
+
+  it "runs exec process helper and returns process result message" do
+    msg = BubbleTea.exec_process("sh", ["-lc", "printf hi"]).call
+
+    msg.should be_a(BubbleTea::ExecProcessResultMessage)
+    result = msg.as(BubbleTea::ExecProcessResultMessage)
+    result.success.should be_true
+    result.stdout.should eq("hi")
+    result.exit_code.should eq(0)
+  end
+
+  it "runs exec helper and captures non-zero exit code" do
+    msg = BubbleTea.exec("exit 3").call
+
+    msg.should be_a(BubbleTea::ExecProcessResultMessage)
+    result = msg.as(BubbleTea::ExecProcessResultMessage)
+    result.success.should be_false
+    result.exit_code.should eq(3)
+  end
 end

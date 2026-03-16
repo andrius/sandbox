@@ -173,6 +173,20 @@ class ProgramSuspendModel < BubbleTea::Model
   end
 end
 
+class ProgramNoRenderModel < BubbleTea::Model
+  def init : BubbleTea::Cmd?
+    BubbleTea.quit
+  end
+
+  def update(msg : BubbleTea::Msg) : Tuple(BubbleTea::Model, BubbleTea::Cmd?)
+    {self, nil}
+  end
+
+  def view : String
+    "should-not-render"
+  end
+end
+
 class ProgramPrintModel < BubbleTea::Model
   def init : BubbleTea::Cmd?
     BubbleTea.sequence(
@@ -360,5 +374,34 @@ describe BubbleTea::Program do
     program.run
 
     output_io.to_s.should contain("hello from cmd")
+  end
+
+  it "supports window title option at startup" do
+    output_io = IO::Memory.new
+    model = ProgramNoRenderModel.new
+    options = BubbleTea::ProgramOptions.new(
+      read_input: false,
+      listen_window_size: false,
+      enable_renderer_diff: false,
+      window_title: "TitleFromOption"
+    )
+    program = BubbleTea::Program.new(model, IO::Memory.new, output_io, options: options)
+    program.run
+
+    output_io.to_s.should contain("\e]2;TitleFromOption\a")
+  end
+
+  it "supports disabling renderer entirely" do
+    output_io = IO::Memory.new
+    model = ProgramNoRenderModel.new
+    options = BubbleTea::ProgramOptions.new(
+      read_input: false,
+      listen_window_size: false,
+      disable_renderer: true
+    )
+    program = BubbleTea::Program.new(model, IO::Memory.new, output_io, options: options)
+    program.run
+
+    output_io.to_s.should eq("")
   end
 end

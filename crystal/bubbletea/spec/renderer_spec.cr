@@ -87,4 +87,16 @@ describe BubbleTea::Renderer do
     renderer_alt.print("ignored", newline: true)
     output_io_alt.to_s.should_not contain("ignored")
   end
+
+  it "is a no-op when renderer is disabled" do
+    output_io = IO::Memory.new
+    renderer = BubbleTea::Renderer.new(output_io, use_alt_screen: true, use_diff: true, hide_cursor: true, disabled: true)
+    renderer.start
+    renderer.render("x")
+    renderer.beep
+    renderer.set_window_title("Noop")
+    renderer.stop
+
+    output_io.to_s.should eq("")
+  end
 end

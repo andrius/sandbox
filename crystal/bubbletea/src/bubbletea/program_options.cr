@@ -22,6 +22,8 @@ module BubbleTea
     property mouse_mode : MouseMode
     property enable_focus_reporting : Bool
     property enable_bracketed_paste : Bool
+    property disable_renderer : Bool
+    property window_title : String?
     property trap_signals : Bool
     property trap_suspend_continue : Bool
     property quit_on_interrupt : Bool
@@ -42,6 +44,8 @@ module BubbleTea
       @mouse_mode : MouseMode = MouseMode::Off,
       @enable_focus_reporting : Bool = false,
       @enable_bracketed_paste : Bool = false,
+      @disable_renderer : Bool = false,
+      @window_title : String? = nil,
       @trap_signals : Bool = true,
       @trap_suspend_continue : Bool = true,
       @quit_on_interrupt : Bool = true,

@@ -56,12 +56,16 @@ describe "BubbleTea option builders" do
     opts = BubbleTea.with_focus_reporting(true).call(opts)
     opts = BubbleTea.with_bracketed_paste(true).call(opts)
     opts = BubbleTea.with_signal_handlers(false).call(opts)
+    opts = BubbleTea.with_window_title("Demo").call(opts)
+    opts = BubbleTea.without_renderer.call(opts)
     opts = BubbleTea.with_mouse_all_motion.call(opts)
     opts = BubbleTea.with_mouse_disabled.call(opts)
 
     opts.enable_focus_reporting.should be_true
     opts.enable_bracketed_paste.should be_true
     opts.trap_signals.should be_false
+    opts.window_title.should eq("Demo")
+    opts.disable_renderer.should be_true
     opts.enable_mouse.should be_false
     opts.mouse_mode.should eq(BubbleTea::MouseMode::Off)
   end

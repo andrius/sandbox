@@ -25,6 +25,8 @@ Implemented runtime features:
   - event filter pipeline (`event_filter` + `event_filters`)
   - option-builder helpers (`with_*`) and `new_program(...)` constructor
   - module-level wrappers `BubbleTea.run(...)` / `BubbleTea.start(...)`
+  - optional renderer disable mode (`without_renderer`)
+  - startup window title option (`with_window_title`)
   - `Program#run` result API (`ProgramResult`) alongside `Program#start`
 - Renderer:
   - full-frame rendering
@@ -46,6 +48,7 @@ Implemented runtime features:
   - mouse modes (`enable_mouse_tracking`, `enable_mouse_all_motion_tracking`)
   - print helpers (`print`, `println`, `printf`)
   - `request_window_size`
+  - process helpers (`exec_process`, `exec`)
   - command error forwarding as `ErrorMessage`
 - Styling:
   - ANSI color helpers with `FORCE_COLOR` / `NO_COLOR` behavior.
@@ -73,6 +76,7 @@ Implemented runtime features:
 - `examples/external_send.cr` - external message injection demo (`Program#send`)
 - `examples/suspend_resume.cr` - suspend/resume lifecycle demo
 - `examples/print_commands.cr` - print/printf/window-size command demo
+- `examples/exec_process.cr` - process execution command demo
 - `spec/*` - runtime, renderer, command helper, input, and app specs
 
 Keyboard parsing includes:
@@ -92,6 +96,7 @@ Program control API:
 - `Program#run_model_error` returns `{model, error}`
 - `ProgramOptions#event_filter` can transform/drop incoming messages
 - `BubbleTea.new_program(model, ..., BubbleTea.with_alt_screen, ...)` provides option-builder style setup
+- `BubbleTea.without_renderer` disables terminal rendering output
 
 Compatibility aliases:
 
@@ -137,6 +142,11 @@ crystal run examples/suspend_resume.cr
 ```bash
 cd crystal/bubbletea
 crystal run examples/print_commands.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/exec_process.cr
 ```
 
 Color behavior:

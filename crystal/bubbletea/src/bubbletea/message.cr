@@ -128,6 +128,25 @@ module BubbleTea
     end
   end
 
+  class ExecProcessResultMessage < Message
+    getter command : String
+    getter args : Array(String)
+    getter stdout : String
+    getter stderr : String
+    getter exit_code : Int32
+    getter success : Bool
+
+    def initialize(
+      @command : String,
+      @args : Array(String),
+      @stdout : String,
+      @stderr : String,
+      @exit_code : Int32,
+      @success : Bool
+    )
+    end
+  end
+
   class InterruptMessage < Message
   end
 
@@ -165,6 +184,7 @@ module BubbleTea
   alias SuspendMsg = SuspendMessage
   alias ResumeMsg = ResumeMessage
   alias ErrorMsg = ErrorMessage
+  alias ExecProcessResultMsg = ExecProcessResultMessage
 
   alias Msg = Message
 end

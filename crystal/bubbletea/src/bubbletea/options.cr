@@ -32,9 +32,23 @@ module BubbleTea
     end
   end
 
+  def self.with_window_title(title : String) : ProgramOption
+    ->(opts : ProgramOptions) do
+      opts.window_title = title
+      opts
+    end
+  end
+
   def self.with_renderer_diff(enabled : Bool = true) : ProgramOption
     ->(opts : ProgramOptions) do
       opts.enable_renderer_diff = enabled
+      opts
+    end
+  end
+
+  def self.without_renderer : ProgramOption
+    ->(opts : ProgramOptions) do
+      opts.disable_renderer = true
       opts
     end
   end
