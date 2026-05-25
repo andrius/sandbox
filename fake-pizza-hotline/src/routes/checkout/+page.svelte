@@ -40,17 +40,48 @@
 	const steps = $derived($t('checkout.processing.steps') as string[]);
 	const successStages = $derived($t('checkout.success.stages') as string[]);
 
+	function setError(field: string, msg: string | null) {
+		if (msg) {
+			errors = { ...errors, [field]: msg };
+		} else if (errors[field]) {
+			const next = { ...errors };
+			delete next[field];
+			errors = next;
+		}
+	}
+	const clearError = (field: string) => setError(field, null);
+
+	function validateField(field: string) {
+		const req = $t('checkout.errors.required');
+		if (field === 'name') setError('name', name.trim() ? null : req);
+		else if (field === 'email')
+			setError(
+				'email',
+				!email.trim() ? req : /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? null : $t('checkout.errors.email')
+			);
+		else if (field === 'card') {
+			const d = card.replace(/\s/g, '');
+			setError('card', !d ? req : d.length < 16 ? $t('checkout.errors.card') : null);
+		} else if (field === 'expiry')
+			setError('expiry', /^\d{2}\/\d{2}$/.test(expiry) ? null : $t('checkout.errors.expiry'));
+		else if (field === 'cvc') setError('cvc', cvc.length >= 3 ? null : $t('checkout.errors.cvc'));
+		else if (field === 'agree') setError('agree', agree ? null : $t('checkout.errors.agree'));
+	}
+
 	function onCardInput(e: Event) {
 		const digits = (e.currentTarget as HTMLInputElement).value.replace(/\D/g, '').slice(0, 16);
 		card = digits.replace(/(.{4})/g, '$1 ').trim();
+		clearError('card');
 	}
 	function onExpiryInput(e: Event) {
 		let v = (e.currentTarget as HTMLInputElement).value.replace(/\D/g, '').slice(0, 4);
 		if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
 		expiry = v;
+		clearError('expiry');
 	}
 	function onCvcInput(e: Event) {
 		cvc = (e.currentTarget as HTMLInputElement).value.replace(/\D/g, '').slice(0, 3);
+		clearError('cvc');
 	}
 
 	function useTestCard() {
@@ -227,12 +258,12 @@
 					<div class="mt-4 grid gap-4 sm:grid-cols-2">
 						<div class="sm:col-span-2">
 							<label class="label" for="name">{$t('checkout.form.name')}</label>
-							<input id="name" class="field" class:invalid={errors.name} bind:value={name} placeholder={$t('checkout.form.namePlaceholder')} autocomplete="name" />
+							<input id="name" class="field" class:invalid={errors.name} bind:value={name} oninput={() => clearError('name')} onblur={() => validateField('name')} placeholder={$t('checkout.form.namePlaceholder')} autocomplete="name" />
 							{#if errors.name}<p class="mt-1.5 text-xs text-tomato-400">{errors.name}</p>{/if}
 						</div>
 						<div>
 							<label class="label" for="email">{$t('checkout.form.email')}</label>
-							<input id="email" class="field" class:invalid={errors.email} bind:value={email} placeholder={$t('checkout.form.emailPlaceholder')} inputmode="email" autocomplete="email" />
+							<input id="email" class="field" class:invalid={errors.email} bind:value={email} oninput={() => clearError('email')} onblur={() => validateField('email')} placeholder={$t('checkout.form.emailPlaceholder')} inputmode="email" autocomplete="email" />
 							{#if errors.email}<p class="mt-1.5 text-xs text-tomato-400">{errors.email}</p>{/if}
 						</div>
 						<div>
@@ -274,19 +305,19 @@
 						<div class="sm:col-span-2">
 							<label class="label" for="card">{$t('checkout.form.card')}</label>
 							<div class="relative">
-								<input id="card" class="field pr-12" class:invalid={errors.card} value={card} oninput={onCardInput} placeholder={$t('checkout.form.cardPlaceholder')} inputmode="numeric" autocomplete="off" />
+								<input id="card" class="field pr-12" class:invalid={errors.card} value={card} oninput={onCardInput} onblur={() => validateField('card')} placeholder={$t('checkout.form.cardPlaceholder')} inputmode="numeric" autocomplete="off" />
 								<span class="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-lg">💳</span>
 							</div>
 							{#if errors.card}<p class="mt-1.5 text-xs text-tomato-400">{errors.card}</p>{/if}
 						</div>
 						<div>
 							<label class="label" for="expiry">{$t('checkout.form.expiry')}</label>
-							<input id="expiry" class="field" class:invalid={errors.expiry} value={expiry} oninput={onExpiryInput} placeholder={$t('checkout.form.expiryPlaceholder')} inputmode="numeric" autocomplete="off" />
+							<input id="expiry" class="field" class:invalid={errors.expiry} value={expiry} oninput={onExpiryInput} onblur={() => validateField('expiry')} placeholder={$t('checkout.form.expiryPlaceholder')} inputmode="numeric" autocomplete="off" />
 							{#if errors.expiry}<p class="mt-1.5 text-xs text-tomato-400">{errors.expiry}</p>{/if}
 						</div>
 						<div>
 							<label class="label" for="cvc">{$t('checkout.form.cvc')}</label>
-							<input id="cvc" class="field" class:invalid={errors.cvc} value={cvc} oninput={onCvcInput} placeholder={$t('checkout.form.cvcPlaceholder')} inputmode="numeric" autocomplete="off" />
+							<input id="cvc" class="field" class:invalid={errors.cvc} value={cvc} oninput={onCvcInput} onblur={() => validateField('cvc')} placeholder={$t('checkout.form.cvcPlaceholder')} inputmode="numeric" autocomplete="off" />
 							{#if errors.cvc}<p class="mt-1.5 text-xs text-tomato-400">{errors.cvc}</p>{/if}
 						</div>
 						<div class="sm:col-span-2">
@@ -351,16 +382,23 @@
 
 				<div class="flex items-end justify-between">
 					<span class="font-display text-base font-bold">{$t('checkout.summary.total')}</span>
-					<span class="font-display text-3xl font-extrabold text-gradient">{formatMoney(0, $locale)}</span>
+					<span class="font-display text-3xl font-extrabold text-cheese-300">{formatMoney(0, $locale)}</span>
 				</div>
 
 				<label class="mt-6 flex cursor-pointer items-start gap-3 text-sm text-void-200">
-					<input type="checkbox" bind:checked={agree} class="mt-0.5 h-4 w-4 shrink-0 accent-tomato-500" />
+					<input type="checkbox" bind:checked={agree} onchange={() => validateField('agree')} class="mt-0.5 h-4 w-4 shrink-0 accent-tomato-500" />
 					<span>{$t('checkout.form.agree')}</span>
 				</label>
 				{#if errors.agree}<p class="mt-1.5 text-xs text-tomato-400">{errors.agree}</p>{/if}
 
-				<button type="submit" class="btn btn-primary mt-5 w-full py-3.5">
+				<p class="mt-5 flex items-center gap-2 rounded-xl border border-cheese-500/30 bg-cheese-500/8 px-3 py-2 text-xs text-cheese-100">
+					<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#ffd24a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+						<path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
+					</svg>
+					{$t('checkout.summary.simNote')}
+				</p>
+
+				<button type="submit" class="btn btn-primary mt-3 w-full py-3.5">
 					{$t('checkout.form.pay', { amount: formatMoney(0, $locale) })}
 				</button>
 				<p class="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-void-400">

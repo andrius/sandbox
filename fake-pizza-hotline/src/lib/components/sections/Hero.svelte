@@ -37,7 +37,7 @@
 			</div>
 
 			<h1 class="anim-rise mt-6 font-display display-hero" style="animation-delay: 100ms">
-				<span class="block text-gradient">{$t('hero.titleTop')}</span>
+				<span class="block text-cheese-300">{$t('hero.titleTop')}</span>
 				<span class="block text-cream-50">{$t('hero.titleBottom')}</span>
 			</h1>
 

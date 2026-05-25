@@ -68,7 +68,7 @@
 	/* Warm dark "void" */
 	--color-void-200: #d8c9bd;
 	--color-void-300: #b7a194;
-	--color-void-400: #8a7064;
+	--color-void-400: #9b8576;
 	--color-void-500: #5d473d;
 	--color-void-600: #44322a;
 	--color-void-700: #2f211a;
@@ -180,9 +180,10 @@
 		font-size: 1.05rem;
 	}
 	.btn-primary {
-		background: linear-gradient(135deg, var(--color-tomato-500), var(--color-ember-500));
+		background: linear-gradient(135deg, var(--color-tomato-600), var(--color-tomato-700));
 		color: #fff;
-		box-shadow: 0 12px 34px -10px rgba(238, 59, 37, 0.65);
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+		box-shadow: 0 12px 34px -10px rgba(238, 59, 37, 0.55);
 	}
 	.btn-primary:hover {
 		transform: translateY(-2px);
@@ -345,13 +346,6 @@
 		}
 	}
 
-	.text-gradient {
-		background: linear-gradient(120deg, var(--color-cheese-300), var(--color-ember-400), var(--color-tomato-500));
-		-webkit-background-clip: text;
-		background-clip: text;
-		color: transparent;
-	}
-
 	.hairline {
 		border: 0;
 		height: 1px;
@@ -478,25 +472,6 @@
 }
 .anim-spin-slow {
 	animation: spin-slow 38s linear infinite;
-}
-
-@keyframes shimmer {
-	100% {
-		transform: translateX(100%);
-	}
-}
-
-@keyframes blob {
-	0%,
-	100% {
-		border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
-	}
-	50% {
-		border-radius: 60% 40% 34% 66% / 62% 56% 44% 38%;
-	}
-}
-.anim-blob {
-	animation: blob 14s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -4,16 +4,17 @@
 	const items = $derived($t('stats.items') as { value: string; label: string }[]);
 </script>
 
-<section class="shell py-12">
-	<p class="reveal mb-8 text-center font-display text-sm font-bold uppercase tracking-widest text-void-400" use:reveal>
+<section class="shell py-14">
+	<p class="reveal mb-9 text-center font-display text-sm font-bold uppercase tracking-widest text-void-300" use:reveal>
 		{$t('stats.title')}
 	</p>
-	<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-		{#each items as s, i (s.label)}
-			<div class="reveal card p-6 text-center" use:reveal={{ delay: i * 80 }}>
-				<div class="font-display text-4xl font-extrabold text-gradient sm:text-5xl">{s.value}</div>
-				<div class="mt-2 text-sm text-void-300">{s.label}</div>
+	<dl class="reveal grid grid-cols-2 gap-x-6 gap-y-10 border-y border-white/8 py-10 md:grid-cols-4" use:reveal>
+		{#each items as s (s.label)}
+			<div class="text-center">
+				<dt class="sr-only">{s.label}</dt>
+				<dd class="font-display text-5xl font-extrabold text-cheese-300">{s.value}</dd>
+				<p class="mt-2 text-sm text-void-300">{s.label}</p>
 			</div>
 		{/each}
-	</div>
+	</dl>
 </section>

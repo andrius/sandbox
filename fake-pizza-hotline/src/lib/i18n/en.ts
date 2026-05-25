@@ -1,6 +1,6 @@
 export const en = {
 	meta: {
-		title: 'Fake Pizza Hotline — All of the ordering. None of the pizza.',
+		title: 'Fake Pizza Hotline - All of the ordering. None of the pizza.',
 		description:
 			'Love ordering pizza, but hate receiving and eating it? Call the Fake Pizza Hotline: a perfect simulation of the pizza ordering experience. No pizza will be made or sent to you.'
 	},
@@ -21,7 +21,7 @@ export const en = {
 		ru: 'RU'
 	},
 	openStatus: {
-		openNow: 'Open now — for the next few minutes',
+		openNow: 'Open now - for the next few minutes',
 		closed: 'Closed',
 		opensIn: 'Opens in {{time}}',
 		hoursShort: 'Nightly · 11:58 PM – 2:35 AM'
@@ -110,7 +110,7 @@ export const en = {
 	menu: {
 		kicker: 'The menu',
 		title: 'Hand-crafted by no one',
-		subtitle: 'Baked in a kitchen that does not exist. Add anything to your order — it changes nothing.',
+		subtitle: 'Baked in a kitchen that does not exist. Add anything to your order - it changes nothing.',
 		from: 'from',
 		add: 'Add to order',
 		added: 'Added',
@@ -149,7 +149,7 @@ export const en = {
 		points: [
 			'No pizza will be made or sent to you.',
 			'No ingredients were harmed, because there are none.',
-			'Vegan and gluten-free options are available — and equally fake.'
+			'Vegan and gluten-free options are available - and equally fake.'
 		]
 	},
 	testimonials: {
@@ -273,7 +273,8 @@ export const en = {
 			deliveryFree: 'Free (nothing to deliver)',
 			discount: 'Existence discount (−100%)',
 			total: 'Total charged',
-			free: '$0.00'
+			free: '$0.00',
+			simNote: 'Simulation: $0.00 charged, 0 pizzas sent.'
 		},
 		form: {
 			contactTitle: 'Contact',

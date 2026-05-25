@@ -16,7 +16,7 @@
 			<div class="pointer-events-none absolute top-12 right-8 left-8 hidden h-px bg-gradient-to-r from-tomato-500/40 via-cheese-500/40 to-transparent md:block"></div>
 			{#each steps as s, i (s.step)}
 				<div class="reveal relative" use:reveal={{ delay: i * 120 }}>
-					<div class="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-void-900 font-display text-2xl font-extrabold text-gradient">
+					<div class="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-void-900 font-display text-2xl font-extrabold text-cheese-300">
 						{s.step}
 					</div>
 					<h3 class="mt-5 font-display text-xl font-bold text-cream-50">{s.title}</h3>
