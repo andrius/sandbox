@@ -30,7 +30,7 @@ enter real card details anywhere in the app.
 
 - [SvelteKit](https://svelte.dev/docs/kit) (Svelte 5, runes) + TypeScript
 - [Tailwind CSS v4](https://tailwindcss.com)
-- Static prerendering via `@sveltejs/adapter-static`
+- Fully prerendered, deployed to **Cloudflare** via `@sveltejs/adapter-cloudflare`
 - Custom, store-based i18n (no runtime dependency)
 - Hand-built SVG artwork (logo, favicon, social image) — no external assets
 
@@ -44,10 +44,36 @@ npm run dev          # http://localhost:5173
 ## Build
 
 ```sh
-npm run build        # static site in ./build
+npm run build        # output in ./.svelte-kit/cloudflare
 npm run preview      # preview the production build
 npm run check        # type + Svelte diagnostics
 ```
+
+## Deploy to Cloudflare
+
+Configured for Cloudflare via `@sveltejs/adapter-cloudflare` + `wrangler.jsonc`.
+
+**Option A — Wrangler CLI (Workers):**
+
+```sh
+npx wrangler login            # one-time browser auth
+npm run build
+npx wrangler deploy           # deploys the Worker + static assets
+```
+
+(For CI, set `CLOUDFLARE_API_TOKEN` instead of `wrangler login`.)
+
+**Option B — Git integration (push-to-deploy):**
+
+In the Cloudflare dashboard → *Workers & Pages* → *Create* → connect the GitHub
+repo, then set:
+
+- **Root directory:** `fake-pizza-hotline` (this project lives in a subfolder)
+- **Build command:** `npm run build`
+- **Build output / deploy directory:** `.svelte-kit/cloudflare`
+- **Compatibility flags:** `nodejs_als`
+
+Every push to the branch then deploys automatically.
 
 ## Project layout
 
