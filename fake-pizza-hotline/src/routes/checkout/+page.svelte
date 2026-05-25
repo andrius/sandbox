@@ -26,6 +26,7 @@
 	// processing / success
 	let procStep = $state(0);
 	let orderNo = $state('');
+	let trackRevealed = $state(false);
 
 	const lines = $derived(
 		cart.lines
@@ -116,6 +117,17 @@
 		stage = 'processing';
 	}
 
+	// Once the success screen mounts, let the "non-tracking" bar animate in,
+	// then stall forever at "Never arriving".
+	$effect(() => {
+		if (stage !== 'success') {
+			trackRevealed = false;
+			return;
+		}
+		const id = setTimeout(() => (trackRevealed = true), 80);
+		return () => clearTimeout(id);
+	});
+
 	$effect(() => {
 		if (stage !== 'processing') return;
 		procStep = 0;
@@ -162,8 +174,8 @@
 		<div class="mt-8" in:fade={{ duration: 300 }}>
 			<div class="card overflow-hidden p-8 text-center sm:p-12" in:scale={{ duration: 320, start: 0.96 }}>
 				<div class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-basil-500/15">
-					<svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#58c06a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-						<path d="M20 6 9 17l-5-5" />
+					<svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#58c06a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path class="anim-check" d="M20 6 9 17l-5-5" />
 					</svg>
 				</div>
 				<h2 class="mx-auto mt-6 max-w-xl text-balance text-3xl font-extrabold sm:text-4xl">
@@ -172,15 +184,15 @@
 				<p class="mx-auto mt-4 max-w-lg text-void-200">{$t('checkout.success.subtitle')}</p>
 
 				<div class="mx-auto mt-8 grid max-w-lg gap-3 sm:grid-cols-3">
-					<div class="rounded-2xl border border-white/8 bg-white/3 p-4">
+					<div class="anim-rise rounded-2xl border border-white/8 bg-white/3 p-4" style="animation-delay: 0.25s">
 						<div class="text-[11px] uppercase tracking-wide text-void-400">{$t('checkout.success.orderNo')}</div>
 						<div class="mt-1 font-display text-sm font-extrabold text-cream-50">{orderNo}</div>
 					</div>
-					<div class="rounded-2xl border border-white/8 bg-white/3 p-4">
+					<div class="anim-rise rounded-2xl border border-white/8 bg-white/3 p-4" style="animation-delay: 0.35s">
 						<div class="text-[11px] uppercase tracking-wide text-void-400">{$t('checkout.success.charged')}</div>
 						<div class="mt-1 font-display text-sm font-extrabold text-cheese-300">{formatMoney(0, $locale)}</div>
 					</div>
-					<div class="rounded-2xl border border-white/8 bg-white/3 p-4">
+					<div class="anim-rise rounded-2xl border border-white/8 bg-white/3 p-4" style="animation-delay: 0.45s">
 						<div class="text-[11px] uppercase tracking-wide text-void-400">{$t('checkout.success.etaLabel')}</div>
 						<div class="mt-1 font-display text-sm font-extrabold text-tomato-400">{$t('checkout.success.eta')}</div>
 					</div>
@@ -193,13 +205,16 @@
 					</div>
 					<div class="relative flex justify-between">
 						<div class="absolute top-3 right-3 left-3 h-0.5 bg-white/10"></div>
-						<div class="absolute top-3 left-3 h-0.5 w-[62%] bg-gradient-to-r from-basil-500 to-cheese-500"></div>
+						<div class="track-fill absolute top-3 left-3 h-0.5 bg-gradient-to-r from-basil-500 to-cheese-500" style="transform: scaleX({trackRevealed ? 1 : 0})"></div>
 						{#each successStages as st, i (st)}
 							<div class="relative z-10 flex w-1/4 flex-col items-center text-center">
 								<span
-									class="grid h-6 w-6 place-items-center rounded-full border-2 {i < 3
-										? 'border-cheese-400 bg-cheese-400 text-void-950'
+									class="grid h-6 w-6 place-items-center rounded-full border-2 transition-colors duration-300 {i < 3
+										? trackRevealed
+											? 'border-cheese-400 bg-cheese-400 text-void-950'
+											: 'border-white/15 bg-void-900 text-transparent'
 										: 'border-tomato-500 bg-void-900 text-tomato-400 anim-pulse-dot'}"
+									style={i < 3 ? `transition-delay:${i * 0.45}s` : ''}
 								>
 									{#if i < 3}
 										<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">

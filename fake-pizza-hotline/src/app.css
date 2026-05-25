@@ -516,6 +516,26 @@
 	animation: spin-slow 38s linear infinite;
 }
 
+/* Success-screen narrative: the order "progresses" then never arrives */
+.track-fill {
+	width: 62%;
+	transform-origin: left;
+	transition: transform 1.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes check-draw {
+	from {
+		stroke-dashoffset: 32;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+.anim-check {
+	stroke-dasharray: 32;
+	animation: check-draw 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,
