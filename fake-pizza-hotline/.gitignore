@@ -1,0 +1,32 @@
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Local dev/test scratch (kept out of Tailwind's content scan)
+/shot.mjs
+/debug.mjs
+/shots
+
+# The repo-root .gitignore blanket-ignores any `lib/`; keep THIS project's source lib.
+!src/lib/
+!src/lib/**
