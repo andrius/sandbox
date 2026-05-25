@@ -330,6 +330,7 @@ export const en = {
 			title: 'Order confirmed. Nothing is on its way.',
 			subtitle:
 				'Thank you for your order. As promised, $0.00 was charged and exactly 0 pizzas were dispatched.',
+			mascotAlt: 'Your pizza has arrived: a perfect void.',
 			orderNo: 'Order',
 			charged: 'Charged',
 			etaLabel: 'Estimated non-arrival',

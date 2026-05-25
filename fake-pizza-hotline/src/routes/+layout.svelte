@@ -2,13 +2,22 @@
 	import '../app.css';
 	import { onMount } from 'svelte';
 	import { initLocale, t } from '$lib/i18n';
+	import { initKonami, rainNothing } from '$lib/easter';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import CallModal from '$lib/components/CallModal.svelte';
 
 	let { children } = $props();
 
-	onMount(() => initLocale());
+	onMount(() => {
+		initLocale();
+		console.info(
+			'%c🍕 Fake Pizza Hotline',
+			'font:700 15px/1.5 system-ui;color:#ffd24a',
+			'\nNo pizza in the source either. We checked.\nPsst: try the Konami code.'
+		);
+		return initKonami(rainNothing);
+	});
 </script>
 
 <svelte:head>

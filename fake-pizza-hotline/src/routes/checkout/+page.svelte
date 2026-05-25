@@ -5,6 +5,7 @@
 	import { menuById } from '$lib/data/menu';
 	import { formatMoney } from '$lib/format';
 	import { TAX_RATE, TEST_CARD } from '$lib/constants';
+	import VoidPizza from '$lib/components/VoidPizza.svelte';
 
 	type Stage = 'form' | 'processing' | 'success';
 	let stage = $state<Stage>('form');
@@ -173,10 +174,16 @@
 		<!-- SUCCESS -->
 		<div class="mt-8" in:fade={{ duration: 300 }}>
 			<div class="card overflow-hidden p-8 text-center sm:p-12" in:scale={{ duration: 320, start: 0.96 }}>
-				<div class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-basil-500/15">
-					<svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="text-basil-400">
-						<path class="anim-check" d="M20 6 9 17l-5-5" />
-					</svg>
+				<div class="relative mx-auto h-28 w-28" role="img" aria-label={$t('checkout.success.mascotAlt')}>
+					<VoidPizza size={112} class="anim-float-slow drop-shadow-2xl" />
+					<span
+						class="absolute right-0 bottom-1 grid h-9 w-9 place-items-center rounded-full bg-basil-500 text-white"
+						style="box-shadow: 0 0 0 4px var(--color-void-950)"
+					>
+						<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<path class="anim-check" d="M20 6 9 17l-5-5" />
+						</svg>
+					</span>
 				</div>
 				<h2 class="mx-auto mt-6 max-w-xl text-balance text-3xl font-extrabold sm:text-4xl">
 					{$t('checkout.success.title')}

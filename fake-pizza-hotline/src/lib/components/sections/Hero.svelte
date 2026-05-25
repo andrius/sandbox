@@ -3,6 +3,7 @@
 	import { openCall } from '$lib/ui.svelte';
 	import { getOpenStatus, formatCountdown } from '$lib/hours';
 	import { PHONE_DISPLAY } from '$lib/constants';
+	import VoidPizza from '$lib/components/VoidPizza.svelte';
 
 	let now = $state<Date | null>(null);
 
@@ -79,31 +80,7 @@
 			<div class="absolute inset-0 grid place-items-center">
 				<div class="anim-float">
 					<div class="anim-spin-slow">
-						<svg viewBox="0 0 300 300" width="340" height="340" aria-hidden="true" class="max-w-full drop-shadow-2xl">
-							<defs>
-								<radialGradient id="heroCheese" cx="40%" cy="32%" r="80%">
-									<stop offset="0%" stop-color="#ffe187" />
-									<stop offset="55%" stop-color="#ffbe1f" />
-									<stop offset="100%" stop-color="#ff8a3d" />
-								</radialGradient>
-							</defs>
-							<circle cx="150" cy="150" r="140" fill="#ad1c0c" />
-							<circle cx="150" cy="150" r="122" fill="url(#heroCheese)" />
-							<g fill="#ee3b25">
-								<circle cx="96" cy="80" r="15" />
-								<circle cx="214" cy="92" r="15" />
-								<circle cx="226" cy="190" r="15" />
-								<circle cx="86" cy="206" r="15" />
-								<circle cx="150" cy="58" r="11" />
-							</g>
-							<g fill="#36a14a">
-								<ellipse cx="120" cy="120" rx="9" ry="5" transform="rotate(30 120 120)" />
-								<ellipse cx="196" cy="150" rx="9" ry="5" transform="rotate(-20 196 150)" />
-								<ellipse cx="118" cy="180" rx="9" ry="5" transform="rotate(50 118 180)" />
-							</g>
-							<circle cx="150" cy="152" r="48" fill="#0c0705" />
-							<circle cx="150" cy="152" r="48" fill="none" stroke="#44322a" stroke-width="2.5" />
-						</svg>
+						<VoidPizza size={340} class="max-w-full drop-shadow-2xl" />
 					</div>
 				</div>
 			</div>
