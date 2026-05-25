@@ -258,13 +258,13 @@
 					<div class="mt-4 grid gap-4 sm:grid-cols-2">
 						<div class="sm:col-span-2">
 							<label class="label" for="name">{$t('checkout.form.name')}</label>
-							<input id="name" class="field" class:invalid={errors.name} bind:value={name} oninput={() => clearError('name')} onblur={() => validateField('name')} placeholder={$t('checkout.form.namePlaceholder')} autocomplete="name" />
-							{#if errors.name}<p class="mt-1.5 text-xs text-tomato-400">{errors.name}</p>{/if}
+							<input id="name" class="field" class:invalid={errors.name} bind:value={name} oninput={() => clearError('name')} onblur={() => validateField('name')} placeholder={$t('checkout.form.namePlaceholder')} autocomplete="name" aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
+							{#if errors.name}<p id="name-error" role="alert" class="mt-1.5 text-xs text-tomato-400">{errors.name}</p>{/if}
 						</div>
 						<div>
 							<label class="label" for="email">{$t('checkout.form.email')}</label>
-							<input id="email" class="field" class:invalid={errors.email} bind:value={email} oninput={() => clearError('email')} onblur={() => validateField('email')} placeholder={$t('checkout.form.emailPlaceholder')} inputmode="email" autocomplete="email" />
-							{#if errors.email}<p class="mt-1.5 text-xs text-tomato-400">{errors.email}</p>{/if}
+							<input id="email" class="field" class:invalid={errors.email} bind:value={email} oninput={() => clearError('email')} onblur={() => validateField('email')} placeholder={$t('checkout.form.emailPlaceholder')} inputmode="email" autocomplete="email" aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} />
+							{#if errors.email}<p id="email-error" role="alert" class="mt-1.5 text-xs text-tomato-400">{errors.email}</p>{/if}
 						</div>
 						<div>
 							<label class="label" for="phone">{$t('checkout.form.phone')}</label>
@@ -305,20 +305,20 @@
 						<div class="sm:col-span-2">
 							<label class="label" for="card">{$t('checkout.form.card')}</label>
 							<div class="relative">
-								<input id="card" class="field pr-12" class:invalid={errors.card} value={card} oninput={onCardInput} onblur={() => validateField('card')} placeholder={$t('checkout.form.cardPlaceholder')} inputmode="numeric" autocomplete="off" />
-								<span class="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-lg">💳</span>
+								<input id="card" class="field pr-12" class:invalid={errors.card} value={card} oninput={onCardInput} onblur={() => validateField('card')} placeholder={$t('checkout.form.cardPlaceholder')} inputmode="numeric" autocomplete="off" aria-invalid={!!errors.card} aria-describedby={errors.card ? 'card-error' : undefined} />
+								<span class="pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-lg" aria-hidden="true">💳</span>
 							</div>
-							{#if errors.card}<p class="mt-1.5 text-xs text-tomato-400">{errors.card}</p>{/if}
+							{#if errors.card}<p id="card-error" role="alert" class="mt-1.5 text-xs text-tomato-400">{errors.card}</p>{/if}
 						</div>
 						<div>
 							<label class="label" for="expiry">{$t('checkout.form.expiry')}</label>
-							<input id="expiry" class="field" class:invalid={errors.expiry} value={expiry} oninput={onExpiryInput} onblur={() => validateField('expiry')} placeholder={$t('checkout.form.expiryPlaceholder')} inputmode="numeric" autocomplete="off" />
-							{#if errors.expiry}<p class="mt-1.5 text-xs text-tomato-400">{errors.expiry}</p>{/if}
+							<input id="expiry" class="field" class:invalid={errors.expiry} value={expiry} oninput={onExpiryInput} onblur={() => validateField('expiry')} placeholder={$t('checkout.form.expiryPlaceholder')} inputmode="numeric" autocomplete="off" aria-invalid={!!errors.expiry} aria-describedby={errors.expiry ? 'expiry-error' : undefined} />
+							{#if errors.expiry}<p id="expiry-error" role="alert" class="mt-1.5 text-xs text-tomato-400">{errors.expiry}</p>{/if}
 						</div>
 						<div>
 							<label class="label" for="cvc">{$t('checkout.form.cvc')}</label>
-							<input id="cvc" class="field" class:invalid={errors.cvc} value={cvc} oninput={onCvcInput} onblur={() => validateField('cvc')} placeholder={$t('checkout.form.cvcPlaceholder')} inputmode="numeric" autocomplete="off" />
-							{#if errors.cvc}<p class="mt-1.5 text-xs text-tomato-400">{errors.cvc}</p>{/if}
+							<input id="cvc" class="field" class:invalid={errors.cvc} value={cvc} oninput={onCvcInput} onblur={() => validateField('cvc')} placeholder={$t('checkout.form.cvcPlaceholder')} inputmode="numeric" autocomplete="off" aria-invalid={!!errors.cvc} aria-describedby={errors.cvc ? 'cvc-error' : undefined} />
+							{#if errors.cvc}<p id="cvc-error" role="alert" class="mt-1.5 text-xs text-tomato-400">{errors.cvc}</p>{/if}
 						</div>
 						<div class="sm:col-span-2">
 							<label class="label" for="cardName">{$t('checkout.form.cardName')}</label>
@@ -386,10 +386,10 @@
 				</div>
 
 				<label class="mt-6 flex cursor-pointer items-start gap-3 text-sm text-void-200">
-					<input type="checkbox" bind:checked={agree} onchange={() => validateField('agree')} class="mt-0.5 h-4 w-4 shrink-0 accent-tomato-500" />
+					<input type="checkbox" bind:checked={agree} onchange={() => validateField('agree')} class="mt-0.5 h-4 w-4 shrink-0 accent-tomato-500" aria-invalid={!!errors.agree} aria-describedby={errors.agree ? 'agree-error' : undefined} />
 					<span>{$t('checkout.form.agree')}</span>
 				</label>
-				{#if errors.agree}<p class="mt-1.5 text-xs text-tomato-400">{errors.agree}</p>{/if}
+				{#if errors.agree}<p id="agree-error" role="alert" class="mt-1.5 text-xs text-tomato-400">{errors.agree}</p>{/if}
 
 				<p class="mt-5 flex items-center gap-2 rounded-xl border border-cheese-500/30 bg-cheese-500/8 px-3 py-2 text-xs text-cheese-100">
 					<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#ffd24a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">

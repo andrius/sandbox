@@ -73,7 +73,7 @@
 			<div class="absolute inset-0 grid place-items-center">
 				<div class="anim-float">
 					<div class="anim-spin-slow">
-						<svg viewBox="0 0 300 300" width="340" height="340" class="max-w-full drop-shadow-2xl">
+						<svg viewBox="0 0 300 300" width="340" height="340" aria-hidden="true" class="max-w-full drop-shadow-2xl">
 							<defs>
 								<radialGradient id="heroCheese" cx="40%" cy="32%" r="80%">
 									<stop offset="0%" stop-color="#ffe187" />

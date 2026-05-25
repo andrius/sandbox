@@ -3,6 +3,7 @@
 	import { t } from '$lib/i18n';
 	import { ui, closeCall } from '$lib/ui.svelte';
 	import { PHONE_DISPLAY } from '$lib/constants';
+	import { trapFocus } from '$lib/actions/trapFocus';
 
 	let stage = $state(0); // 0 = connecting, 1 = on hold, 2 = operator
 
@@ -45,6 +46,8 @@
 			role="dialog"
 			aria-modal="true"
 			aria-label={$t('call.title')}
+			tabindex="-1"
+			use:trapFocus
 			transition:scale={{ duration: 240, start: 0.94 }}
 			class="card relative w-full max-w-md p-7 text-center shadow-2xl"
 		>
