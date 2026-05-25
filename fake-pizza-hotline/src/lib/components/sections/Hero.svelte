@@ -68,7 +68,7 @@
 		<!-- Illustration -->
 		<div class="relative mx-auto h-[24rem] w-full max-w-md sm:h-[28rem]">
 			<div class="absolute inset-0 grid place-items-center">
-				<div class="h-64 w-64 rounded-full bg-tomato-500/30 blur-3xl anim-float-slow"></div>
+				<div class="h-64 w-64 rounded-full bg-tomato-500/15 blur-3xl anim-float-slow"></div>
 			</div>
 			<div class="absolute inset-0 grid place-items-center">
 				<div class="anim-float">

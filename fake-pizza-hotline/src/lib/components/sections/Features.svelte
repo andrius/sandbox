@@ -11,17 +11,16 @@
 		<p class="mt-4 text-lg text-void-300">{$t('features.subtitle')}</p>
 	</div>
 
-	<div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+	<div class="mt-8 border-b border-white/8">
 		{#each items as f, i (f.title)}
-			<div
-				class="reveal card card-glow group p-6 hover:-translate-y-1.5 hover:border-white/16"
-				use:reveal={{ delay: i * 80 }}
-			>
-				<div class="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-tomato-500/20 to-ember-500/10 text-3xl transition-transform group-hover:scale-110">
+			<div class="feature-row reveal" use:reveal={{ delay: (i % 2) * 80 }}>
+				<div class="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-tomato-500/20 to-ember-500/10 text-4xl">
 					{f.icon}
 				</div>
-				<h3 class="mt-5 font-display text-lg font-bold text-cream-50">{f.title}</h3>
-				<p class="mt-2 text-sm leading-relaxed text-void-300">{f.desc}</p>
+				<div>
+					<h3 class="font-display text-xl font-bold text-cream-50 sm:text-2xl">{f.title}</h3>
+					<p class="mt-2 leading-relaxed text-void-300">{f.desc}</p>
+				</div>
 			</div>
 		{/each}
 	</div>

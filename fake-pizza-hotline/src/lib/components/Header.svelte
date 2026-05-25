@@ -6,6 +6,7 @@
 	import LanguageSwitcher from './LanguageSwitcher.svelte';
 
 	let scrolled = $state(false);
+	let mobileOpen = $state(false);
 
 	$effect(() => {
 		const onScroll = () => (scrolled = window.scrollY > 12);
@@ -22,11 +23,17 @@
 	];
 
 	const count = $derived(cartCount());
+
+	function onKeydown(e: KeyboardEvent) {
+		if (e.key === 'Escape') mobileOpen = false;
+	}
 </script>
+
+<svelte:window onkeydown={onKeydown} />
 
 <header
 	class="fixed inset-x-0 top-0 z-50 transition-all duration-300
-		{scrolled ? 'border-b border-white/8 bg-void-950/80 backdrop-blur-xl' : 'border-b border-transparent'}"
+		{scrolled || mobileOpen ? 'border-b border-white/8 bg-void-950/80 backdrop-blur-xl' : 'border-b border-transparent'}"
 >
 	<div class="shell flex h-16 items-center justify-between gap-3">
 		<a href="/" class="flex items-center gap-2.5 font-display text-base font-extrabold tracking-tight">
@@ -83,6 +90,54 @@
 			<a href="/checkout" class="btn btn-primary hidden h-9 px-4 py-0 text-sm sm:inline-flex">
 				{$t('nav.order')}
 			</a>
+
+			<button
+				type="button"
+				onclick={() => (mobileOpen = !mobileOpen)}
+				aria-label="Menu"
+				aria-expanded={mobileOpen}
+				aria-controls="mobile-menu"
+				class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-white/5 text-cream-50 transition-colors hover:bg-white/12 md:hidden"
+			>
+				{#if mobileOpen}
+					<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+						<path d="M6 6l12 12M18 6L6 18" />
+					</svg>
+				{:else}
+					<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+						<path d="M4 7h16M4 12h16M4 17h16" />
+					</svg>
+				{/if}
+			</button>
 		</div>
 	</div>
+
+	{#if mobileOpen}
+		<div id="mobile-menu" class="border-t border-white/8 md:hidden">
+			<nav class="shell flex flex-col gap-1 py-4">
+				{#each links as link (link.href)}
+					<a
+						href={link.href}
+						onclick={() => (mobileOpen = false)}
+						class="rounded-xl px-3 py-3 text-base font-semibold text-cream-100 transition-colors hover:bg-white/6"
+					>
+						{$t(link.key)}
+					</a>
+				{/each}
+				<button
+					type="button"
+					onclick={() => {
+						mobileOpen = false;
+						openCall();
+					}}
+					class="rounded-xl px-3 py-3 text-left text-base font-semibold text-cream-100 transition-colors hover:bg-white/6"
+				>
+					{$t('hero.secondaryCta')}
+				</button>
+				<a href="/checkout" onclick={() => (mobileOpen = false)} class="btn btn-primary mt-2 w-full">
+					{$t('nav.order')}
+				</a>
+			</nav>
+		</div>
+	{/if}
 </header>

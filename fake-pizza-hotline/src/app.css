@@ -96,9 +96,9 @@
 		text-rendering: optimizeLegibility;
 		overflow-x: hidden;
 		background-image:
-			radial-gradient(60rem 60rem at 80% -10%, rgba(238, 59, 37, 0.18), transparent 60%),
-			radial-gradient(50rem 50rem at -10% 10%, rgba(245, 163, 0, 0.12), transparent 55%),
-			radial-gradient(70rem 70rem at 50% 120%, rgba(255, 109, 31, 0.1), transparent 60%);
+			radial-gradient(60rem 60rem at 80% -10%, rgba(238, 59, 37, 0.13), transparent 60%),
+			radial-gradient(50rem 50rem at -10% 10%, rgba(245, 163, 0, 0.085), transparent 55%),
+			radial-gradient(70rem 70rem at 50% 120%, rgba(255, 109, 31, 0.07), transparent 60%);
 		background-attachment: fixed;
 	}
 
@@ -343,6 +343,40 @@
 		}
 		.display-cta {
 			font-size: 4rem;
+		}
+	}
+
+	/* Features: editorial alternating rows (not a card grid) */
+	.feature-row {
+		display: flex;
+		flex-direction: column;
+		gap: 1.1rem;
+		padding-block: 2rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+	}
+	@media (min-width: 48rem) {
+		.feature-row {
+			flex-direction: row;
+			align-items: center;
+			gap: 2.5rem;
+			padding-block: 2.25rem;
+		}
+		.feature-row:nth-child(even) {
+			flex-direction: row-reverse;
+			text-align: right;
+		}
+	}
+
+	/* Stats: oversized art-directed figures */
+	.stat-value {
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: 3.25rem;
+		line-height: 0.95;
+	}
+	@media (min-width: 40rem) {
+		.stat-value {
+			font-size: 4.5rem;
 		}
 	}
 

@@ -12,7 +12,7 @@
 		{#each items as s (s.label)}
 			<div class="text-center">
 				<dt class="sr-only">{s.label}</dt>
-				<dd class="font-display text-5xl font-extrabold text-cheese-300">{s.value}</dd>
+				<dd class="stat-value text-cheese-300">{s.value}</dd>
 				<p class="mt-2 text-sm text-void-300">{s.label}</p>
 			</div>
 		{/each}
