@@ -163,7 +163,7 @@
 	<h1 class="mt-5 font-display text-4xl font-extrabold sm:text-5xl">{$t('checkout.title')}</h1>
 
 	<div class="mt-5 flex items-start gap-3 rounded-2xl border border-cheese-500/30 bg-cheese-500/8 p-4 text-sm text-cheese-100">
-		<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#ffd24a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0">
+		<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="mt-0.5 shrink-0 text-cheese-300">
 			<path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
 		</svg>
 		<span>{$t('checkout.simBanner')}</span>
@@ -174,7 +174,7 @@
 		<div class="mt-8" in:fade={{ duration: 300 }}>
 			<div class="card overflow-hidden p-8 text-center sm:p-12" in:scale={{ duration: 320, start: 0.96 }}>
 				<div class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-basil-500/15">
-					<svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#58c06a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="text-basil-400">
 						<path class="anim-check" d="M20 6 9 17l-5-5" />
 					</svg>
 				</div>
@@ -407,7 +407,7 @@
 				{#if errors.agree}<p id="agree-error" role="alert" class="mt-1.5 text-xs text-tomato-400">{errors.agree}</p>{/if}
 
 				<p class="mt-5 flex items-center gap-2 rounded-xl border border-cheese-500/30 bg-cheese-500/8 px-3 py-2 text-xs text-cheese-100">
-					<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#ffd24a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+					<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 text-cheese-300">
 						<path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
 					</svg>
 					{$t('checkout.summary.simNote')}

@@ -64,7 +64,7 @@
 			</div>
 
 			<div class="anim-rise mt-6 flex items-center gap-2.5 text-sm text-void-300" style="animation-delay: 280ms">
-				<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#58c06a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="shrink-0">
+				<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 text-basil-400">
 					<path d="M20 6 9 17l-5-5" />
 				</svg>
 				<span>{$t('hero.guaranteeBadge')}</span>

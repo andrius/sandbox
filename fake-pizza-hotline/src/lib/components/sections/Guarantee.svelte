@@ -28,7 +28,7 @@
 			<ul class="mt-9 grid gap-3 sm:grid-cols-3">
 				{#each points as point (point)}
 					<li class="flex items-start gap-3 rounded-2xl border border-white/8 bg-white/3 p-4">
-						<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#58c06a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0">
+						<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="mt-0.5 shrink-0 text-basil-400">
 							<path d="M20 6 9 17l-5-5" />
 						</svg>
 						<span class="text-sm leading-relaxed text-cream-100">{point}</span>

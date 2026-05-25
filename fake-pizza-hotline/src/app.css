@@ -9,7 +9,7 @@
 @source inline("{,sm:,lg:}col-span-2");
 @source inline("bg-{tomato-500,tomato-500/15,tomato-500/30,tomato-600/8,basil-400,basil-400/10,basil-500,basil-500/15,cheese-400,cheese-500/8,cheese-500/10,cream-50,void-900,void-900/60,void-950/80}");
 @source inline("bg-white/{3,4,5,6,8,10,12}");
-@source inline("text-{void-200,void-300,void-400,void-950,cream-50,cream-100,cheese-100,cheese-200,cheese-300,cheese-400,tomato-400,tomato-500,basil-300}");
+@source inline("text-{void-200,void-300,void-400,void-950,cream-50,cream-100,cheese-100,cheese-200,cheese-300,cheese-400,tomato-400,tomato-500,basil-300,basil-400}");
 @source inline("text-white/3");
 @source inline("border-{basil-400/30,cheese-400,cheese-400/40,cheese-500/30,tomato-500}");
 @source inline("border-t-tomato-500");
@@ -426,9 +426,6 @@
 	display: inline-flex;
 	white-space: nowrap;
 	animation: marquee 32s linear infinite;
-}
-.marquee-track.reverse {
-	animation-direction: reverse;
 }
 
 @keyframes floaty {
