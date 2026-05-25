@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+	<defs>
+		<radialGradient id="glow" cx="78%" cy="8%" r="70%">
+			<stop offset="0%" stop-color="#ee3b25" stop-opacity="0.35" />
+			<stop offset="55%" stop-color="#ff6d1f" stop-opacity="0.10" />
+			<stop offset="100%" stop-color="#0c0705" stop-opacity="0" />
+		</radialGradient>
+		<radialGradient id="cheese2" cx="40%" cy="34%" r="78%">
+			<stop offset="0%" stop-color="#ffd24a" />
+			<stop offset="60%" stop-color="#ffbe1f" />
+			<stop offset="100%" stop-color="#ff8a3d" />
+		</radialGradient>
+		<linearGradient id="ink" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0%" stop-color="#ffd24a" />
+			<stop offset="100%" stop-color="#ff6d1f" />
+		</linearGradient>
+	</defs>
+
+	<rect width="1200" height="630" fill="#0c0705" />
+	<rect width="1200" height="630" fill="url(#glow)" />
+
+	<g font-family="Unbounded, Arial, sans-serif">
+		<text x="80" y="150" font-size="26" letter-spacing="3" fill="#b7a194" font-weight="600">
+			TORONTO · NIGHTLY 11:58PM – 2:35AM
+		</text>
+		<text x="76" y="300" font-size="120" font-weight="800" fill="url(#ink)">FAKE PIZZA</text>
+		<text x="76" y="420" font-size="120" font-weight="800" fill="#fdf8f1">HOTLINE</text>
+		<text x="80" y="500" font-size="34" fill="#ecd8bf" font-family="Manrope, Arial, sans-serif">
+			All of the ordering. None of the pizza.
+		</text>
+		<text x="80" y="556" font-size="24" fill="#8a7064" font-family="Manrope, Arial, sans-serif">
+			No pizza will be made or sent to you. Guaranteed.
+		</text>
+	</g>
+
+	<g transform="translate(980, 300)">
+		<circle r="180" fill="#ad1c0c" />
+		<circle r="156" fill="url(#cheese2)" />
+		<circle cx="-70" cy="-72" r="22" fill="#ee3b25" />
+		<circle cx="72" cy="-58" r="22" fill="#ee3b25" />
+		<circle cx="86" cy="60" r="22" fill="#ee3b25" />
+		<circle cx="-66" cy="74" r="22" fill="#ee3b25" />
+		<circle cx="0" cy="6" r="64" fill="#0c0705" />
+		<circle cx="0" cy="6" r="64" fill="none" stroke="#3a2a22" stroke-width="3" />
+	</g>
+</svg>
