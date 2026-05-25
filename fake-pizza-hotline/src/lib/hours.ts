@@ -14,9 +14,9 @@ export function getOpenStatus(now: Date = new Date()): OpenStatus {
 	return { isOpen, minutesUntilOpen };
 }
 
-export function formatCountdown(totalMinutes: number): string {
+export function formatCountdown(totalMinutes: number, unitH = 'h', unitM = 'm'): string {
 	const h = Math.floor(totalMinutes / 60);
 	const m = totalMinutes % 60;
-	if (h <= 0) return `${m}m`;
-	return `${h}h ${String(m).padStart(2, '0')}m`;
+	if (h <= 0) return `${m}${unitM}`;
+	return `${h}${unitH} ${String(m).padStart(2, '0')}${unitM}`;
 }

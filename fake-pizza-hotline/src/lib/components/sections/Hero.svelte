@@ -29,7 +29,13 @@
 						></span>
 						{status.isOpen
 							? $t('openStatus.openNow')
-							: $t('openStatus.opensIn', { time: formatCountdown(status.minutesUntilOpen) })}
+							: $t('openStatus.opensIn', {
+									time: formatCountdown(
+										status.minutesUntilOpen,
+										$t('openStatus.unitH'),
+										$t('openStatus.unitM')
+									)
+								})}
 					</span>
 				{:else}
 					<span class="chip">{$t('openStatus.hoursShort')}</span>
