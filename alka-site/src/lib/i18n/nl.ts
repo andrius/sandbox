@@ -105,6 +105,8 @@ export const nl: Dict = {
 		keep_dreaming: 'Welterusten.'
 	},
 
+	numbers_footnote: '(¹) Per managementschatting. Ongeaudit. Bron: dagboek.',
+
 	disclaimer:
 		'AL.KA Holding B.V. is een privaat dutjes-concern. Dutjes worden niet terugbetaald. Resultaten uit het verleden bieden geen garantie voor toekomstige dutjes. Toekomstgerichte uitspraken over bedtijd kunnen zonder voorafgaande kennisgeving worden gewijzigd, met name op vrijdag. Afgebeelde worstjes dienen uitsluitend ter illustratie. De algemeen directeur is tien jaar oud en beschikt op dit moment niet over een rijbewijs. Door dit document te lezen verklaart u akkoord te gaan met het nemen van een dutje.',
 

@@ -57,7 +57,7 @@
 				<span use:countUp={featuredCfg}>{featured.value}</span>
 			{:else}
 				{featured.value}
-			{/if}
+			{/if}<sup class="fn" aria-hidden="true">¹</sup>
 		</div>
 		<div class="featured-label reveal-up" use:reveal={{ delay: 280 }}>{featured.label}</div>
 	</div>
@@ -78,6 +78,8 @@
 			</div>
 		{/each}
 	</div>
+
+	<div class="footnote reveal-up" use:reveal={{ delay: 200 }}>{$dict.numbers_footnote}</div>
 </section>
 
 <style>
@@ -105,17 +107,50 @@
 		position: relative;
 	}
 
+	/* The hero stat is the visual peak of the entire page. Pushed from Onest
+	   to Fraunces italic 800: a dramatic display-serif numeric that visually
+	   rhymes with the wordmark "Ka" and the goodnight sign-off (the only
+	   three Fraunces italic moments on the site). The footnote superscript
+	   completes the McKinsey-prospectus chrome around what is, in fact, an
+	   estimate of how many naps a 10-year-old has taken since founding. */
 	.mega {
-		font-family: var(--font-sans);
-		font-weight: 700;
-		font-size: clamp(120px, 18vw, var(--t-mega-num));
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-weight: 800;
+		font-size: clamp(110px, 22vw, 360px);
 		line-height: 0.85;
 		color: var(--orng);
-		letter-spacing: -0.05em;
+		letter-spacing: -0.04em;
 		white-space: nowrap;
 		min-width: 0;
+		position: relative;
 	}
 	.mega span { white-space: nowrap; display: inline-block; }
+
+	.mega .fn {
+		font-family: var(--font-mono);
+		font-style: normal;
+		font-weight: 700;
+		font-size: 0.16em;
+		vertical-align: top;
+		margin-left: 0.12em;
+		letter-spacing: 0.08em;
+		color: var(--orng);
+		opacity: 0.9;
+		top: 0.4em;
+		position: relative;
+	}
+
+	.footnote {
+		margin-top: 56px;
+		font-family: var(--font-mono);
+		font-size: 11px;
+		color: var(--bg);
+		opacity: 0.45;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		text-align: right;
+	}
 
 	.featured-label {
 		font-family: var(--font-sans);

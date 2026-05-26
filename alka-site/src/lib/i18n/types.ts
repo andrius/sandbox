@@ -106,6 +106,9 @@ export interface Dict {
 	labels: Labels;
 	disclaimer: string;
 
+	/* Annual-report footnote chrome printed under the hero stat in mono uppercase. */
+	numbers_footnote: string;
+
 	/* Page-level meta for <title> + description */
 	meta_title: string;
 	meta_description: string;
