@@ -76,15 +76,18 @@
 		font-weight: 700;
 	}
 
+	/* Single skinny column at 65ch is what real annual-report disclosures do
+	   at the foot of a page - the previous 2-column 880px split read fine
+	   visually but at 12px Onest each line was ~139 chars, way over the
+	   prose-readability target. Real prospectuses go narrow, not wide, for
+	   the fine print. */
 	.text {
 		font-family: var(--font-sans);
 		font-size: 12px;
 		line-height: 1.65;
 		color: var(--dim);
 		margin: 0;
-		max-width: 880px;
-		column-count: 2;
-		column-gap: 32px;
+		max-width: 65ch;
 	}
 
 	/* Deliberate brand-warmth exemption: the bright --orng (#ff7a1a) reads
