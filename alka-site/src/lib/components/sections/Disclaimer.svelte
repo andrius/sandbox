@@ -82,16 +82,22 @@
 		line-height: 1.65;
 		color: var(--dim);
 		margin: 0;
+		max-width: 880px;
 		column-count: 2;
 		column-gap: 32px;
 	}
 
+	/* Deliberate brand-warmth exemption: the bright --orng (#ff7a1a) reads
+	   ~2.4:1 on cream and fails WCAG, but on this 15px italic decorative
+	   sign-off the warmth IS the point and the line is non-critical. The
+	   deep --orng-text alternative reads as a brown whisper and kills the
+	   emotional close. Keep the warm orange here, only here. */
 	.goodnight {
 		margin-top: 36px;
 		font-family: var(--font-serif);
 		font-style: italic;
 		font-size: 15px;
-		color: var(--orng-text);
+		color: var(--orng);
 		letter-spacing: 0.05em;
 		text-align: center;
 	}
