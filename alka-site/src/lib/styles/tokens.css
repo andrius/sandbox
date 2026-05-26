@@ -1,0 +1,180 @@
+/* ---------------------------------------------------------------------------
+   AL.KA design tokens (Prospectus variant)
+   --------------------------------------------------------------------------- */
+
+:root {
+	/* Colours */
+	--bg: #f3e9d8;
+	--paper: #ebdebf;
+	--ink: #140a05;
+	--orng: #ff7a1a;
+	--orng-deep: #cc4a08;
+	/* WCAG-safe orange for TEXT on cream surfaces (5.12:1 on --bg).
+	   --orng stays the graphic accent (dot, dark-section text, borders, hover);
+	   --orng-text replaces it anywhere orange is set as the foreground color
+	   of readable type on the light page background. Dark sections override
+	   this token locally back to --orng (see .numbers below). */
+	--orng-text: #a83f00;
+	--rule: #140a05;
+	--dim: rgba(20, 10, 5, 0.55);
+	--ink-on-dark: #f3e9d8;
+	--rule-on-dark: rgba(243, 233, 216, 0.25);
+	--rule-on-dark-soft: rgba(243, 233, 216, 0.18);
+
+	/* Type families
+	   The joke: a "real" annual-report Grotesk (Inter) sets a serious tone,
+	   then the dramatic italic of Fraunces in the wordmark and sign-offs
+	   undermines it - McKinsey deck meets bedtime story. */
+	--font-sans: 'Onest', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+	--font-serif: 'Fraunces', 'Times New Roman', 'Liberation Serif', Times, serif;
+
+	/* Type scale (desktop) */
+	--t-display: 280px;
+	--t-h1: 84px;
+	--t-mega-num: 280px;
+	--t-stat: 64px;
+	--t-display-s: 64px;
+	--t-mission: 32px;
+	--t-card-h: 26px;
+	--t-quote: 22px;
+	--t-body: 15.5px;
+	--t-meta: 13px;
+	--t-kicker: 12px;
+	--t-mono: 11px;
+
+	/* Spacing */
+	--s-section-y: 88px;
+	--s-section-x: 56px;
+	--s-gap-lg: 56px;
+	--s-gap-md: 32px;
+	--s-gap-sm: 24px;
+	--s-rule: 1px;
+
+	/* Motion */
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Tablet */
+@media (max-width: 1023px) {
+	:root {
+		--t-display: 180px;
+		--t-h1: 64px;
+		--t-mega-num: 200px;
+		--t-stat: 52px;
+		--t-display-s: 52px;
+		--t-mission: 26px;
+		--s-section-x: 40px;
+		--s-section-y: 72px;
+	}
+}
+
+/* Mobile */
+@media (max-width: 639px) {
+	:root {
+		--t-display: 120px;
+		--t-h1: 48px;
+		--t-mega-num: 120px;
+		--t-stat: 44px;
+		--t-display-s: 44px;
+		--t-mission: 22px;
+		--t-card-h: 22px;
+		--t-quote: 19px;
+		--s-section-x: 24px;
+		--s-section-y: 56px;
+		--s-gap-lg: 32px;
+		--s-gap-md: 24px;
+	}
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+	margin: 0;
+	padding: 0;
+	background: var(--bg);
+	color: var(--ink);
+	font-family: var(--font-sans);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+body { overflow-x: hidden; }
+
+h1, h2, h3, p, dl, dd, dt, figure, ul {
+	margin: 0;
+	padding: 0;
+}
+
+button { font: inherit; }
+
+::selection {
+	background: var(--orng);
+	color: var(--ink);
+}
+
+/* The wordmark - AL[.]Ka with serif italic Ka.
+   Use class `ka` for serif italic, `dot` for the orange period. */
+.wordmark {
+	font-family: var(--font-sans);
+	font-weight: 700;
+	letter-spacing: -0.055em;
+	line-height: 0.85;
+	color: var(--ink);
+}
+.wordmark .dot { color: var(--orng); }
+.wordmark .ka {
+	font-family: var(--font-serif);
+	font-style: italic;
+	letter-spacing: -0.04em;
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll-reveal - fades content in once the section enters the viewport.
+   --------------------------------------------------------------------------- */
+.reveal {
+	opacity: 0;
+	transform: translateY(28px);
+	transition:
+		opacity 720ms var(--ease-out-soft),
+		transform 720ms var(--ease-out-soft);
+	will-change: opacity, transform;
+}
+.reveal.is-visible {
+	opacity: 1;
+	transform: none;
+}
+
+/* Reveal-up: lighter slide for inline elements */
+.reveal-up {
+	opacity: 0;
+	transform: translateY(14px);
+	transition:
+		opacity 600ms var(--ease-out-soft),
+		transform 600ms var(--ease-out-soft);
+}
+.reveal-up.is-visible {
+	opacity: 1;
+	transform: none;
+}
+
+/* A "wipe" used on hairlines */
+.rule-wipe {
+	transform-origin: left center;
+	transform: scaleX(0);
+	transition: transform 900ms var(--ease-out-soft);
+}
+.rule-wipe.is-visible { transform: scaleX(1); }
+
+/* Numbers count-up: lock width to avoid layout shift on tabular figures */
+.tabular { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+	.reveal, .reveal-up, .rule-wipe {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+	}
+}

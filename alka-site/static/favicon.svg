@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+	<rect width="64" height="64" rx="10" fill="#140a05"/>
+	<text x="32" y="44" text-anchor="middle"
+		font-family="Helvetica, Arial, sans-serif" font-weight="700"
+		font-size="34" letter-spacing="-2"
+		fill="#f3e9d8">AL<tspan fill="#ff7a1a">.</tspan></text>
+</svg>
