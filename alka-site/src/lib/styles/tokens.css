@@ -21,10 +21,20 @@
 	--rule-on-dark: rgba(243, 233, 216, 0.25);
 	--rule-on-dark-soft: rgba(243, 233, 216, 0.18);
 
-	/* Type families
-	   The joke: a "real" annual-report Grotesk (Inter) sets a serious tone,
-	   then the dramatic italic of Fraunces in the wordmark and sign-offs
-	   undermines it - McKinsey deck meets bedtime story. */
+	/* Type families.
+	   The joke: a "real" annual-report Grotesk (Onest) sets a serious tone,
+	   then the dramatic italic of Fraunces in four anchor points undermines
+	   it - McKinsey deck meets bedtime story.
+
+	   The Fraunces italic anchors form a four-point rhythm that structures
+	   the page: opens (cover wordmark Ka), peaks (numbers hero stat), spices
+	   (press testimonial drop-quote), closes (goodnight sign-off). Each
+	   color choice is contrast-driven, not arbitrary:
+	     1. Wordmark Ka  - ink on cream, the brand identity
+	     2. Hero stat    - bright --orng on dark ink (background passes contrast)
+	     3. Press quote  - deep --orng-text on cream (WCAG-safe at body sizes)
+	     4. Goodnight    - bright --orng on cream (deliberate AA exemption
+	                       on 15px italic decorative non-body line) */
 	--font-sans: 'Onest', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	--font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
 	--font-serif: 'Fraunces', 'Times New Roman', 'Liberation Serif', Times, serif;

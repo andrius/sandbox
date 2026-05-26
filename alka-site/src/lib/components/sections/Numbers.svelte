@@ -57,7 +57,7 @@
 				<span use:countUp={featuredCfg}>{featured.value}</span>
 			{:else}
 				{featured.value}
-			{/if}<sup class="fn" aria-hidden="true">¹</sup>
+			{/if}
 		</div>
 		<div class="featured-label reveal-up" use:reveal={{ delay: 280 }}>{featured.label}</div>
 	</div>
@@ -127,20 +127,6 @@
 	}
 	.mega span { white-space: nowrap; display: inline-block; }
 
-	.mega .fn {
-		font-family: var(--font-mono);
-		font-style: normal;
-		font-weight: 700;
-		font-size: 0.16em;
-		vertical-align: top;
-		margin-left: 0.12em;
-		letter-spacing: 0.08em;
-		color: var(--orng);
-		opacity: 0.9;
-		top: 0.4em;
-		position: relative;
-	}
-
 	.footnote {
 		margin-top: 56px;
 		font-family: var(--font-mono);
@@ -152,12 +138,18 @@
 		text-align: right;
 	}
 
+	/* Bumped from 22 -> 28 to keep up with the now-louder Fraunces italic
+	   hero next to it. The label has to read as a peer of the stat, not
+	   as supporting micro-copy. */
 	.featured-label {
 		font-family: var(--font-sans);
-		font-size: 22px;
-		line-height: 1.35;
+		font-size: 28px;
+		font-weight: 500;
+		line-height: 1.3;
+		letter-spacing: -0.01em;
 		color: var(--bg);
-		opacity: 0.85;
+		opacity: 0.88;
+		max-width: 24ch;
 	}
 
 	.grid {
