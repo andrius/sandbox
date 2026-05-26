@@ -79,6 +79,7 @@
 		line-height: 1.55;
 		color: var(--ink);
 		opacity: 0.78;
+		max-width: 65ch;
 	}
 
 	.arrow {

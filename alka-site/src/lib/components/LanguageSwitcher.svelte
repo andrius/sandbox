@@ -32,16 +32,17 @@
 		text-transform: inherit;
 	}
 
-	/* Negative-margin trick: visual baseline stays inside the inline register
-	   register, but the actual hit area expands to comfortably meet iOS HIG
-	   44pt / Material 48dp finger targets. The vertical margin cancels into
-	   the parent strip; nothing shifts visually. */
+	/* Negative-margin trick on BOTH axes: visual baseline stays inside the
+	   inline register, but the actual hit area expands on both width and
+	   height to meet WCAG 2.5.5 AAA 44x44 / iOS HIG / Material targets. The
+	   horizontal negative margin is absorbed by the register strip's natural
+	   gap (24px between items). Nothing shifts visually. */
 	.loc {
 		appearance: none;
 		background: none;
 		border: 0;
-		padding: 8px 6px;
-		margin: -8px 0;
+		padding: 8px 14px;
+		margin: -8px -8px;
 		font: inherit;
 		letter-spacing: inherit;
 		text-transform: inherit;
