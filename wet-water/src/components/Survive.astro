@@ -1,0 +1,44 @@
+---
+import type { Dict } from '../i18n/content';
+interface Props { t: Dict }
+const { t } = Astro.props;
+
+const bodySteps = t.guideBody.steps.map((s, i) => {
+  const warn = s.includes('112');
+  return { n: i + 1, warn, text: warn ? s.replace('⚠️ ', '') : s };
+});
+---
+
+<section class="survive" id="survive">
+  <div class="wrap">
+    <div class="section-head" data-reveal style="margin-bottom:42px">
+      <span class="eyebrow">{t.surviveEyebrow}</span>
+    </div>
+    <div class="guides">
+      <div class="guide" data-reveal>
+        <div class="emoji">🏠</div>
+        <h3>{t.guideHome.title}</h3>
+        <ul>
+          {t.guideHome.steps.map((step, i) => (
+            <li class="step">
+              <span class="n">{i + 1}</span>
+              <span class="text">{step}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="guide" data-reveal>
+        <div class="emoji">🧊</div>
+        <h3>{t.guideBody.title}</h3>
+        <ul>
+          {bodySteps.map((step) => (
+            <li class={step.warn ? 'step warn' : 'step'}>
+              <span class="n">{step.warn ? '⚠️' : step.n}</span>
+              <span class="text">{step.text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,26 @@
+---
+import type { Dict } from '../i18n/content';
+interface Props { t: Dict }
+const { t } = Astro.props;
+---
+
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">{t.pricing.eyebrow}</span>
+      <h2>{t.pricing.title}</h2>
+    </div>
+    <div class="grid-auto price-grid" data-reveal>
+      {t.pricing.tiers.map((tier) => (
+        <div class={tier.popular ? 'price-card popular' : 'price-card'}>
+          {tier.popular && <div class="price-badge">{t.pricing.popularBadge}</div>}
+          <div class="name">{tier.name}</div>
+          <div class="price">{tier.price}</div>
+          <div class="desc">{tier.desc}</div>
+          <a href="#partners" class="buy">{tier.button}</a>
+        </div>
+      ))}
+    </div>
+    <div class="note" data-reveal style="max-width:60ch;margin-left:auto;margin-right:auto;line-height:1.6">{t.pricing.footnote}</div>
+  </div>
+</section>

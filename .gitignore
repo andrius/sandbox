@@ -68,3 +68,5 @@ dist/
 out/
 bin/
 obj/
+# AI secrets — local only, never committed
+.ai-secrets.md

@@ -1,0 +1,26 @@
+---
+import type { Dict } from '../i18n/content';
+interface Props { t: Dict }
+const { t } = Astro.props;
+---
+
+<section class="faq" id="faq">
+  <div class="inner">
+    <div class="section-head" data-reveal style="margin-bottom:38px">
+      <h2>{t.faq.title}</h2>
+    </div>
+    <div class="faq-list" data-reveal>
+      {t.faq.items.map((item) => (
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false">
+            <span>{item.q}</span>
+            <span class="sign">+</span>
+          </button>
+          <div class="faq-a">
+            <p>{item.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

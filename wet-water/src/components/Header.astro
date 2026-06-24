@@ -1,0 +1,37 @@
+---
+import type { Dict, Lang } from '../i18n/content';
+interface Props { t: Dict; lang: Lang }
+const { t, lang } = Astro.props;
+const langs: { code: Lang; href: string }[] = [
+  { code: 'en', href: '/' },
+  { code: 'ru', href: '/ru/' },
+  { code: 'nl', href: '/nl/' },
+];
+---
+
+<header class="site-header" id="top">
+  <div class="wrap">
+    <a href="#top" class="brand">
+      <span class="drop">💧</span>
+      <span style="display:flex;flex-direction:column">
+        <span class="name">Wet Water</span>
+        <span class="tag">{t.tagline}</span>
+      </span>
+    </a>
+    <nav class="nav">
+      <a href="#features">{t.nav.product}</a>
+      <a href="#survive">{t.nav.survive}</a>
+      <a href="#partners">{t.nav.partners}</a>
+      <a href="#pricing">{t.nav.pricing}</a>
+      <a href="#faq">{t.nav.faq}</a>
+    </nav>
+    <div class="header-right">
+      <div class="lang-switch">
+        {langs.map((l) => (
+          <a href={l.href} class={l.code === lang ? 'active' : ''}>{l.code.toUpperCase()}</a>
+        ))}
+      </div>
+      <a href="#partners" class="btn btn-primary btn-sm">💧 {t.nav.getWater}</a>
+    </div>
+  </div>
+</header>

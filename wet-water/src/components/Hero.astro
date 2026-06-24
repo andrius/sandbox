@@ -1,0 +1,65 @@
+---
+import type { Dict } from '../i18n/content';
+interface Props { t: Dict }
+const { t } = Astro.props;
+
+const droplets = [
+  { style: 'left:7%;top:24%;width:18px;height:23px;box-shadow:0 6px 14px rgba(6,182,212,.25)', dur: 6, delay: 0 },
+  { style: 'left:18%;top:64%;width:12px;height:15px', dur: 7.5, delay: 0.8 },
+  { style: 'left:45%;top:14%;width:10px;height:13px', dur: 8, delay: 0.3 },
+  { style: 'right:6%;top:30%;width:22px;height:28px;box-shadow:0 8px 16px rgba(6,182,212,.2)', dur: 6.6, delay: 0.5 },
+  { style: 'right:24%;top:72%;width:14px;height:18px', dur: 7, delay: 1.1 },
+  { style: 'left:62%;top:80%;width:9px;height:12px', dur: 9, delay: 0.2 },
+];
+const avatars = ['linear-gradient(135deg,#22d3ee,#06b6d4)', 'linear-gradient(135deg,#06b6d4,#0891a8)', 'linear-gradient(135deg,#7dd3fc,#22d3ee)'];
+---
+
+<section class="hero">
+  {droplets.map((d) => (
+    <span class="droplet" style={d.style} data-float data-dur={d.dur} data-delay={d.delay}></span>
+  ))}
+
+  <div class="hero-grid wrap">
+    <div>
+      <div class="kicker" data-reveal style="transition-delay:0s">{t.hero.kicker}</div>
+      <h1 data-reveal style="transition-delay:.08s">{t.hero.headline}</h1>
+      <p class="subhead" data-reveal style="transition-delay:.16s">{t.hero.subhead}</p>
+      <div class="ctas" data-reveal style="transition-delay:.24s">
+        <a href="#partners" class="btn btn-primary btn-lg">💧 {t.hero.cta1}</a>
+        <a href="#partners" class="btn btn-ghost btn-lg">{t.hero.cta2}</a>
+      </div>
+      <div class="trust" data-reveal style="transition-delay:.32s">
+        <div class="avatars">
+          {avatars.map((g) => <span style={`background:${g}`}></span>)}
+        </div>
+        <span class="label">{t.hero.trust}</span>
+      </div>
+    </div>
+
+    <div class="fact-card" data-reveal>
+      <div class="head">
+        <span class="ttl">WET WATER™</span>
+        <span class="sub">{t.factTitle}</span>
+      </div>
+      <div class="body">
+        {t.fact.map((row) => (
+          <div class="fact-row">
+            <span class="label">{row.label}</span>
+            <span style="text-align:right">
+              <span class="value">{row.value}</span>
+              <span class="note"> {row.note}</span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <div class="trusted-row" data-reveal>
+    <b>{t.trustedRow.label}</b> {t.trustedRow.items.join('  ·  ')}
+  </div>
+
+  <svg class="wave" style="height:62px" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,50 C220,90 420,12 720,42 C1000,70 1180,18 1440,48 L1440,90 L0,90 Z" fill="#ff5a1f"></path>
+  </svg>
+</section>

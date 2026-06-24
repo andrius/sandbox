@@ -1,0 +1,9 @@
+# Astro / build
+dist/
+.astro/
+
+# Cloudflare
+.wrangler/
+
+# deps
+node_modules/

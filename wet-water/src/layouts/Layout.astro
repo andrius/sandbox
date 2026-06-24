@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+import type { Dict, Lang } from '../i18n/content';
+
+interface Props { lang: Lang; t: Dict }
+const { lang, t } = Astro.props;
+
+const paths: Record<Lang, string> = { en: '/', ru: '/ru/', nl: '/nl/' };
+const title = `Wet Water - ${t.tagline}`;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={t.hero.subhead} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💧</text></svg>" />
+    {(['en', 'ru', 'nl'] as Lang[]).map((l) => (
+      <link rel="alternate" hreflang={l} href={new URL(paths[l], Astro.site)} />
+    ))}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="splash" id="splash">
+      <div class="drop" id="splash-drop">💧</div>
+      <div class="text">{t.loading}</div>
+    </div>
+
+    <slot />
+
+    <script>
+      import '../scripts/client.ts';
+    </script>
+  </body>
+</html>

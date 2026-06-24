@@ -1,0 +1,9 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wet-water",
+  "compatibility_date": "2025-06-24",
+  // Static site: no Worker script, just the prerendered assets from `astro build`.
+  "assets": {
+    "directory": "./dist"
+  }
+}

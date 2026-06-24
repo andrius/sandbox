@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Problem from '../components/Problem.astro';
+import RevealSection from '../components/RevealSection.astro';
+import Partners from '../components/Partners.astro';
+import Features from '../components/Features.astro';
+import Survive from '../components/Survive.astro';
+import Pricing from '../components/Pricing.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Faq from '../components/Faq.astro';
+import Footer from '../components/Footer.astro';
+import { locales, type Lang } from '../i18n/content';
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: undefined }, props: { lang: 'en' as Lang } },
+    { params: { locale: 'ru' }, props: { lang: 'ru' as Lang } },
+    { params: { locale: 'nl' }, props: { lang: 'nl' as Lang } },
+  ];
+}
+
+const { lang } = Astro.props;
+const t = locales[lang];
+---
+
+<Layout lang={lang} t={t}>
+  <Header t={t} lang={lang} />
+  <Hero t={t} />
+  <Problem t={t} />
+  <RevealSection t={t} />
+  <Partners t={t} />
+  <Features t={t} />
+  <Survive t={t} />
+  <Pricing t={t} />
+  <Testimonials t={t} />
+  <Faq t={t} />
+  <Footer t={t} />
+
+  <div class="therm" id="therm" aria-hidden="true">
+    <span class="label">{t.thermLabel}</span>
+    <div class="tube"><div class="fill" id="therm-fill"></div></div>
+    <div class="bulb"></div>
+  </div>
+
+  <div class="cookie" id="cookie">
+    <div class="inner">
+      <span class="text">{t.cookie.text}</span>
+      <div style="display:flex;gap:8px">
+        <button class="accept" data-cookie-dismiss>{t.cookie.accept}</button>
+        <button class="dismiss" data-cookie-dismiss>{t.cookie.dismiss}</button>
+      </div>
+    </div>
+  </div>
+</Layout>
