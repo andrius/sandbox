@@ -1,5 +1,15 @@
 # Credentials and secrets
+# `.env` alone did not catch `.env-fs`, which is why a live FreeSWITCH env file
+# reached this public repo. Match every suffixed and dotted variant, then
+# re-admit the documentation samples explicitly.
 .env
+.env-*
+.env.*
+!.env-sample
+!*.env-sample
+!.env.sample
+!.env.example
+!.env.template
 *.key
 *.pem
 *.crt
@@ -68,5 +78,5 @@ dist/
 out/
 bin/
 obj/
-# AI secrets — local only, never committed
+# AI secrets - local only, never committed
 .ai-secrets.md
