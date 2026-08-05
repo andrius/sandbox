@@ -139,7 +139,10 @@
 
 	.row {
 		display: grid;
-		grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1.4fr) 88px;
+		/* Last column sized for the longest "in development" tag across all
+		   three locales ("in ontwikkeling" is 15 chars at 10px + 0.16em
+		   tracking), not for the arrow - at 88px the Russian tag wrapped. */
+		grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1.4fr) 128px;
 		gap: 28px;
 		align-items: baseline;
 		padding: 26px 0;
