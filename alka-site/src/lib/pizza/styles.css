@@ -314,12 +314,20 @@
 		line-height: 1;
 	}
 
+	/* Fluid below the first breakpoint instead of a flat 3rem.
+	   The stepped scale was fixed at 48px for every viewport under 640px, so
+	   the display face had nowhere to go on a narrow screen. English fits
+	   ("FAKE PIZZA" / "HOTLINE"), but Russian does not: НЕНАСТОЯЩАЯ is 11 wide
+	   caps and clipped mid-word at 360 and 390 - and because the page sets
+	   overflow-x: hidden, the tail was lost rather than scrollable.
+	   The clamp reaches the original 3rem just before 640px, so nothing
+	   changes at or above the breakpoint where the design was verified. */
 	.pizza-root .display-hero {
-		font-size: 3rem;
+		font-size: clamp(1.9rem, 8.2vw, 3rem);
 		line-height: 0.95;
 	}
 	.pizza-root .display-cta {
-		font-size: 2.5rem;
+		font-size: clamp(1.6rem, 7vw, 2.5rem);
 		line-height: 1;
 	}
 	@media (min-width: 40rem) {
