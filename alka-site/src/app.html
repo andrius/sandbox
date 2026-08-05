@@ -12,11 +12,12 @@
 		</script>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<!-- Only the AL.KA shell faces (Onest / Fraunces / JetBrains Mono) load
-		     globally - they dress the menu, the back-to-main chrome and the
-		     language switcher on every route. Each product route adds its own
-		     families from its layout so /water never pays for Unbounded and
-		     /pizza never pays for Space Grotesk. -->
+		<!-- Only the AL.KA shell faces load globally - they dress the menu, the
+		     back-to-main chrome and the language switcher on every route. Each
+		     product route requests its own display/body families from its own
+		     layout, so no route pays for another product's typefaces. Keep this
+		     comment free of those family names: greps that assert per-route font
+		     loading match here otherwise and report a leak that does not exist. -->
 		<link
 			href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500;1,9..144,700;1,9..144,800;1,9..144,900&family=JetBrains+Mono:wght@400;500;700&display=swap"
 			rel="stylesheet"
