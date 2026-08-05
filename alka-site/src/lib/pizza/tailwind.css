@@ -33,6 +33,16 @@
 @source inline("to-{cheese-400,cheese-500,ember-500,ember-500/10,void-900}");
 @source inline("via-{cheese-500/40,ember-500/10,void-900}");
 @source inline("accent-tomato-500");
+/* Arbitrary-value utilities the Oxide extractor drops from the ported .svelte
+   files (same failure mode as the palette above: dev fine, build broken). */
+@source inline("h-[24rem]");
+@source inline("sm:h-[28rem]");
+@source inline("rotate-[-7deg]");
+@source inline("rotate-[6deg]");
+@source inline("text-[10px]");
+@source inline("text-[11px]");
+@source inline("rounded-[2rem]");
+@source inline("rounded-[2.5rem]");
 
 @theme {
 	--font-display: 'Unbounded', ui-sans-serif, system-ui, sans-serif;

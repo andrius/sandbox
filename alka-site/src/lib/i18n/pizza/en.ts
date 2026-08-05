@@ -18,13 +18,14 @@ export const en = {
 	lang: {
 		label: 'Language',
 		en: 'EN',
-		ru: 'RU'
+		ru: 'RU',
+		nl: 'NL'
 	},
 	openStatus: {
 		openNow: 'Open now - for the next few minutes',
 		closed: 'Closed',
 		opensIn: 'Opens in {{time}}',
-		hoursShort: 'Nightly · 11:58 PM – 2:35 AM',
+		hoursShort: 'Nightly · 11:58 PM - 2:35 AM',
 		unitH: 'h',
 		unitM: 'm'
 	},

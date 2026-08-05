@@ -20,13 +20,14 @@ export const ru: Dict = {
 	lang: {
 		label: 'Язык',
 		en: 'EN',
-		ru: 'RU'
+		ru: 'RU',
+		nl: 'NL'
 	},
 	openStatus: {
 		openNow: 'Открыто - ещё буквально пару минут',
 		closed: 'Закрыто',
 		opensIn: 'Откроется через {{time}}',
-		hoursShort: 'Каждую ночь · 23:58 – 02:35',
+		hoursShort: 'Каждую ночь · 23:58 - 02:35',
 		unitH: 'ч',
 		unitM: 'м'
 	},
