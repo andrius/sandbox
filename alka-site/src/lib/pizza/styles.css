@@ -1,0 +1,542 @@
+/* ---------------------------------------------------------------------------
+   Fake Pizza Hotline - route-scoped styles for the /pizza division.
+
+   Tailwind is imported WITHOUT Preflight (see src/app.css), so everything
+   Preflight used to give the standalone site is supplied here, scoped under
+   `.pizza-root`. The `@layer components` placement matters: it keeps these
+   rules BELOW the utilities layer, so utility classes (px-2 on .chip, my-6 on
+   .hairline, ...) keep overriding them exactly like they did when the
+   original shipped these classes in `@layer components` next to Preflight.
+
+   Hard rules for this file: no `:root` tokens, no bare `html`/`body`
+   selectors, no `@layer base` - the AL.KA and Wet Water routes share this
+   document and declare conflicting globals.
+   --------------------------------------------------------------------------- */
+
+@layer components {
+	/* -- Ex-Preflight mini-reset, scoped -------------------------------------
+	   Only what the pizza markup actually relies on. Utilities still win. */
+	.pizza-root h1,
+	.pizza-root h2,
+	.pizza-root h3,
+	.pizza-root h4,
+	.pizza-root p,
+	.pizza-root ul,
+	.pizza-root ol,
+	.pizza-root dl,
+	.pizza-root dd,
+	.pizza-root figure,
+	.pizza-root blockquote,
+	.pizza-root fieldset,
+	.pizza-root legend,
+	.pizza-root hr {
+		margin: 0;
+	}
+
+	.pizza-root ul,
+	.pizza-root ol {
+		padding: 0;
+		list-style: none;
+	}
+
+	.pizza-root fieldset {
+		min-width: 0;
+		padding: 0;
+		border: 0;
+	}
+
+	.pizza-root legend {
+		padding: 0;
+	}
+
+	.pizza-root button {
+		padding: 0;
+		background: none;
+		border: 0;
+		font: inherit;
+		color: inherit;
+		cursor: pointer;
+	}
+
+	.pizza-root input {
+		font: inherit;
+	}
+
+	.pizza-root a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.pizza-root hr {
+		border: 0;
+	}
+
+	.pizza-root svg {
+		display: block;
+	}
+
+	/* -- Base (ported from the original `@layer base`) ----------------------- */
+	.pizza-root {
+		min-height: 100dvh;
+		background-color: var(--color-void-950);
+		color: var(--color-cream-100);
+		font-family: var(--font-sans);
+		font-feature-settings: 'ss01', 'cv01';
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+		background-image:
+			radial-gradient(60rem 60rem at 80% -10%, rgba(238, 59, 37, 0.13), transparent 60%),
+			radial-gradient(50rem 50rem at -10% 10%, rgba(245, 163, 0, 0.085), transparent 55%),
+			radial-gradient(70rem 70rem at 50% 120%, rgba(255, 109, 31, 0.07), transparent 60%);
+		background-attachment: fixed;
+	}
+
+	.pizza-root h1,
+	.pizza-root h2,
+	.pizza-root h3,
+	.pizza-root h4 {
+		font-family: var(--font-display);
+		font-weight: 800;
+		letter-spacing: -0.02em;
+		line-height: 1.02;
+	}
+
+	.pizza-root ::selection {
+		background: var(--color-tomato-500);
+		color: #fff;
+	}
+
+	.pizza-root :focus-visible {
+		outline: 2px solid var(--color-cheese-400);
+		outline-offset: 3px;
+		border-radius: 4px;
+	}
+
+	.pizza-root ::-webkit-scrollbar {
+		width: 12px;
+		height: 12px;
+	}
+	.pizza-root ::-webkit-scrollbar-track {
+		background: var(--color-void-950);
+	}
+	.pizza-root ::-webkit-scrollbar-thumb {
+		background: var(--color-void-700);
+		border-radius: 999px;
+		border: 3px solid var(--color-void-950);
+	}
+	.pizza-root ::-webkit-scrollbar-thumb:hover {
+		background: var(--color-void-600);
+	}
+
+	/* -- Components (ported from the original `@layer components`) ----------- */
+	.pizza-root .shell {
+		width: 100%;
+		max-width: 78rem;
+		margin-inline: auto;
+		padding-inline: 1.25rem;
+	}
+
+	.pizza-root .btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.55rem;
+		font-family: var(--font-display);
+		font-weight: 700;
+		border-radius: 999px;
+		padding: 0.85rem 1.55rem;
+		font-size: 0.95rem;
+		line-height: 1;
+		cursor: pointer;
+		border: 0;
+		text-decoration: none;
+		white-space: nowrap;
+		transition:
+			transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
+			box-shadow 0.25s ease,
+			background 0.25s ease,
+			border-color 0.25s ease;
+	}
+	.pizza-root .btn:active {
+		transform: translateY(1px) scale(0.99);
+	}
+	.pizza-root .btn-lg {
+		padding: 1.05rem 2rem;
+		font-size: 1.05rem;
+	}
+	.pizza-root .btn-primary {
+		background: linear-gradient(135deg, var(--color-tomato-600), var(--color-tomato-700));
+		color: #fff;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+		box-shadow: 0 12px 34px -10px rgba(238, 59, 37, 0.55);
+	}
+	.pizza-root .btn-primary:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 20px 48px -12px rgba(255, 109, 31, 0.8);
+	}
+	.pizza-root .btn-secondary {
+		background: rgba(255, 255, 255, 0.05);
+		color: var(--color-cream-50);
+		border: 1px solid rgba(255, 255, 255, 0.16);
+	}
+	.pizza-root .btn-secondary:hover {
+		transform: translateY(-2px);
+		background: rgba(255, 255, 255, 0.1);
+		border-color: rgba(255, 255, 255, 0.28);
+	}
+	.pizza-root .btn-ghost {
+		background: transparent;
+		color: var(--color-cream-100);
+	}
+	.pizza-root .btn-ghost:hover {
+		background: rgba(255, 255, 255, 0.07);
+	}
+
+	.pizza-root .chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.4rem 0.85rem;
+		border-radius: 999px;
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		border: 1px solid rgba(255, 255, 255, 0.14);
+		background: rgba(255, 255, 255, 0.04);
+		color: var(--color-cream-100);
+	}
+
+	.pizza-root .card {
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015));
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 1.5rem;
+		transition:
+			transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+			border-color 0.3s ease,
+			box-shadow 0.3s ease,
+			background 0.3s ease;
+	}
+
+	.pizza-root .card-glow:hover {
+		box-shadow: 0 24px 60px -30px rgba(255, 109, 31, 0.65);
+	}
+
+	.pizza-root .field {
+		width: 100%;
+		background: rgba(255, 255, 255, 0.04);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 0.9rem;
+		padding: 0.8rem 1rem;
+		color: var(--color-cream-50);
+		font-size: 0.98rem;
+		font-family: var(--font-sans);
+		transition:
+			border-color 0.2s,
+			background 0.2s,
+			box-shadow 0.2s;
+	}
+	.pizza-root .field::placeholder {
+		color: var(--color-void-400);
+	}
+	.pizza-root .field:focus {
+		outline: none;
+		border-color: var(--color-tomato-400);
+		background: rgba(255, 255, 255, 0.06);
+		box-shadow: 0 0 0 4px rgba(238, 59, 37, 0.16);
+	}
+	.pizza-root .field.invalid {
+		border-color: var(--color-tomato-500);
+		box-shadow: 0 0 0 4px rgba(238, 59, 37, 0.18);
+	}
+
+	.pizza-root .label {
+		display: block;
+		font-size: 0.8rem;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		color: var(--color-void-300);
+		margin-bottom: 0.4rem;
+	}
+
+	.pizza-root .grid-hero {
+		display: grid;
+		gap: 3rem;
+		align-items: center;
+	}
+	.pizza-root .grid-checkout {
+		display: grid;
+		gap: 1.5rem;
+		align-items: start;
+	}
+	.pizza-root .grid-faq {
+		display: grid;
+		gap: 2.5rem;
+	}
+	.pizza-root .grid-footer {
+		display: grid;
+		gap: 3rem;
+	}
+	@media (min-width: 64rem) {
+		.pizza-root .grid-hero {
+			grid-template-columns: 1.05fr 0.95fr;
+		}
+		.pizza-root .grid-checkout {
+			grid-template-columns: 1.45fr 0.85fr;
+		}
+		.pizza-root .grid-faq {
+			grid-template-columns: 0.8fr 1.2fr;
+		}
+		.pizza-root .grid-footer {
+			grid-template-columns: 1.5fr 1fr 1fr 1fr;
+		}
+	}
+	.pizza-root .z-modal {
+		position: fixed;
+		inset: 0;
+		z-index: 100;
+	}
+	.pizza-root .modal-backdrop {
+		position: absolute;
+		inset: 0;
+		background: rgba(12, 7, 5, 0.82);
+		backdrop-filter: blur(4px);
+	}
+	.pizza-root .mobile-sheet {
+		position: fixed;
+		inset: 4rem 0 0 0;
+		z-index: 40;
+		overflow-y: auto;
+		background: var(--color-void-950);
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+	}
+	.pizza-root .wordmark-bg {
+		font-size: 18vw;
+		line-height: 1;
+	}
+
+	/* Fluid below the first breakpoint instead of a flat 3rem.
+	   The stepped scale was fixed at 48px for every viewport under 640px, so
+	   the display face had nowhere to go on a narrow screen. English fits
+	   ("FAKE PIZZA" / "HOTLINE"), but Russian does not: НЕНАСТОЯЩАЯ is 11 wide
+	   caps and clipped mid-word at 360 and 390 - and because the page sets
+	   overflow-x: hidden, the tail was lost rather than scrollable.
+	   The clamp reaches the original 3rem just before 640px, so nothing
+	   changes at or above the breakpoint where the design was verified. */
+	.pizza-root .display-hero {
+		font-size: clamp(1.9rem, 8.2vw, 3rem);
+		line-height: 0.95;
+	}
+	.pizza-root .display-cta {
+		font-size: clamp(1.6rem, 7vw, 2.5rem);
+		line-height: 1;
+	}
+	@media (min-width: 40rem) {
+		.pizza-root .display-hero {
+			font-size: 4rem;
+		}
+		.pizza-root .display-cta {
+			font-size: 3.5rem;
+		}
+	}
+	@media (min-width: 64rem) {
+		.pizza-root .display-hero {
+			font-size: 5rem;
+		}
+		.pizza-root .display-cta {
+			font-size: 4rem;
+		}
+	}
+
+	/* Features: editorial alternating rows (not a card grid) */
+	.pizza-root .feature-row {
+		display: flex;
+		flex-direction: column;
+		gap: 1.1rem;
+		padding-block: 2rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+	}
+	@media (min-width: 48rem) {
+		.pizza-root .feature-row {
+			flex-direction: row;
+			align-items: center;
+			gap: 2.5rem;
+			padding-block: 2.25rem;
+		}
+		.pizza-root .feature-row:nth-child(even) {
+			flex-direction: row-reverse;
+			text-align: right;
+		}
+	}
+
+	/* Stats: oversized art-directed figures */
+	.pizza-root .stat-value {
+		font-family: var(--font-display);
+		font-weight: 800;
+		font-size: 3.25rem;
+		line-height: 0.95;
+	}
+	@media (min-width: 40rem) {
+		.pizza-root .stat-value {
+			font-size: 4.5rem;
+		}
+	}
+
+	.pizza-root .hairline {
+		border: 0;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+	}
+}
+
+/* ----------------------------------------------------------------------------
+   Scroll reveal (unlayered, as in the original - no utility ever overrides it)
+---------------------------------------------------------------------------- */
+.pizza-root .reveal {
+	opacity: 0;
+	transform: translateY(28px);
+	transition:
+		opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+		transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+	will-change: opacity, transform;
+}
+.pizza-root .reveal.is-visible {
+	opacity: 1;
+	transform: none;
+}
+
+/* ----------------------------------------------------------------------------
+   Animations
+---------------------------------------------------------------------------- */
+@keyframes marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-50%);
+	}
+}
+.pizza-root .marquee-track {
+	display: inline-flex;
+	white-space: nowrap;
+	animation: marquee 32s linear infinite;
+}
+
+@keyframes floaty {
+	0%,
+	100% {
+		transform: translateY(0) rotate(-3deg);
+	}
+	50% {
+		transform: translateY(-18px) rotate(3deg);
+	}
+}
+.pizza-root .anim-float {
+	animation: floaty 7s ease-in-out infinite;
+}
+
+@keyframes floaty-slow {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-12px);
+	}
+}
+.pizza-root .anim-float-slow {
+	animation: floaty-slow 9s ease-in-out infinite;
+}
+
+@keyframes ring-wiggle {
+	0%,
+	88%,
+	100% {
+		transform: rotate(0);
+	}
+	90%,
+	94% {
+		transform: rotate(-12deg);
+	}
+	92%,
+	96% {
+		transform: rotate(12deg);
+	}
+}
+.pizza-root .anim-ring {
+	transform-origin: 50% 8%;
+	animation: ring-wiggle 3.2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+	0% {
+		box-shadow: 0 0 0 0 rgba(88, 192, 106, 0.6);
+	}
+	70% {
+		box-shadow: 0 0 0 9px rgba(88, 192, 106, 0);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba(88, 192, 106, 0);
+	}
+}
+.pizza-root .anim-pulse-dot {
+	animation: pulse-dot 2s ease-out infinite;
+}
+
+@keyframes rise {
+	from {
+		opacity: 0;
+		transform: translateY(26px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+.pizza-root .anim-rise {
+	opacity: 0;
+	animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+
+@keyframes spin-slow {
+	to {
+		transform: rotate(360deg);
+	}
+}
+.pizza-root .anim-spin-slow {
+	animation: spin-slow 38s linear infinite;
+}
+
+/* Success-screen narrative: the order "progresses" then never arrives */
+.pizza-root .track-fill {
+	width: 62%;
+	transform-origin: left;
+	transition: transform 1.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes check-draw {
+	from {
+		stroke-dashoffset: 32;
+	}
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+.pizza-root .anim-check {
+	stroke-dasharray: 32;
+	animation: check-draw 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.pizza-root *,
+	.pizza-root *::before,
+	.pizza-root *::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+	.pizza-root .reveal {
+		opacity: 1 !important;
+		transform: none !important;
+	}
+}

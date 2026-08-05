@@ -1,0 +1,99 @@
+/* ---------------------------------------------------------------------------
+   AL.KA holding - shared app shell
+   ---------------------------------------------------------------------------
+   Three products with three deliberately different visual identities live in
+   this one app:
+
+     /            AL.KA menu      cream + ink + orange, editorial
+     /sleep       Sleep solutions cream + ink + orange, editorial
+     /water       Wet Water       pale blue + navy + cyan, product-marketing
+     /pizza       Pizza Hotline   near-black + tomato + cheese, dark neon
+
+   Each keeps its own look. That only works if nothing here imposes a page
+   identity. So this file carries ONLY what is genuinely universal, and every
+   product scopes its own tokens, body styling and fonts under a route wrapper
+   class (`.alka-root`, `.water-root`, `.pizza-root`).
+
+   HARD RULE for product stylesheets: never declare product tokens on `:root`
+   and never style bare `html` / `body`. All three sites originally did, with
+   conflicting values (`--bg` is cream here, pale blue on Wet Water; `--ink` is
+   near-black here, navy there), so whichever stylesheet loaded last would win
+   globally and break the other two.
+   --------------------------------------------------------------------------- */
+
+/* Tailwind v4 powers the Pizza route only, and is imported WITHOUT Preflight.
+   Preflight is a global reset - it would strip the heading margins, list
+   styling and border defaults that the AL.KA and Wet Water CSS depends on.
+   Utilities are inert until a class is actually used, so importing them app
+   wide is safe; the base layer is not. */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/* Pizza's palette tokens + the `@source inline(...)` safelist that its Oxide
+   build needs. Owned by the pizza route; imported here because Tailwind
+   resolves `@theme` and `@source` from the root stylesheet. */
+@import './lib/pizza/tailwind.css';
+
+/* --------------------------------------------------------------------------
+   Universal reset - the smallest set that no product wants to override.
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	/* Products paint their own background on the route wrapper. This neutral
+	   sits behind overscroll only. */
+	background: #f3e9d8;
+	overflow-x: hidden;
+}
+
+/* Reveal-on-scroll is shared vocabulary across all three products, but only
+   engages when JS is present so a no-JS visitor still sees every section.
+   `.js` is set pre-paint by an inline script in app.html. */
+.js [data-reveal] {
+	opacity: 0;
+	transform: translateY(28px);
+	transition:
+		opacity 720ms cubic-bezier(0.16, 1, 0.3, 1),
+		transform 720ms cubic-bezier(0.16, 1, 0.3, 1);
+	will-change: opacity, transform;
+}
+
+.js [data-reveal].in {
+	opacity: 1;
+	transform: none;
+}
+
+/* Screen-reader-only utility used by the skip links on every product. */
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.js [data-reveal] {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+	}
+
+	html {
+		scroll-behavior: auto !important;
+	}
+}

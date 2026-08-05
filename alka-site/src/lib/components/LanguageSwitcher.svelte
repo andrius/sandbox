@@ -1,8 +1,20 @@
 <script lang="ts">
 	import { locale, locales, setLocale } from '$lib/i18n';
+
+	/**
+	 * Shared RU / NL / EN switcher, host-neutral: it inherits the surrounding
+	 * font, size, tracking and casing so it reads as native chrome on the
+	 * editorial AL.KA header, the Wet Water product header and the dark Pizza
+	 * header alike.
+	 */
+	const NAMES: Record<string, string> = {
+		ru: 'Русский',
+		nl: 'Nederlands',
+		en: 'English'
+	};
 </script>
 
-<div class="switcher" role="group" aria-label="Language">
+<div class="switcher" role="group" aria-label="Language / Taal / Язык">
 	{#each locales as code, i (code)}
 		{#if i > 0}<span class="sep" aria-hidden="true">/</span>{/if}
 		<button
@@ -10,6 +22,8 @@
 			class="loc"
 			class:active={$locale === code}
 			aria-pressed={$locale === code}
+			lang={code}
+			title={NAMES[code]}
 			onclick={() => setLocale(code)}
 		>
 			{code.toUpperCase()}
@@ -18,50 +32,56 @@
 </div>
 
 <style>
-	/* Editorial inline switcher. No pill, no background, no fixed position -
-	   sits inside the cover's register strip alongside the other mono labels,
-	   inherits the register's font + size. The active locale prints in the
-	   page ink; the inactive locale prints dim and brightens on hover. */
 	.switcher {
 		display: inline-flex;
 		align-items: baseline;
-		gap: 6px;
+		gap: 4px;
 		font-family: inherit;
 		font-size: inherit;
 		letter-spacing: inherit;
 		text-transform: inherit;
 	}
 
-	/* Negative-margin trick on BOTH axes: visual baseline stays inside the
-	   inline register, but the actual hit area expands on both width and
-	   height to meet WCAG 2.5.5 AAA 44x44 / iOS HIG / Material targets. The
-	   horizontal negative margin is absorbed by the register strip's natural
-	   gap (24px between items). Nothing shifts visually. */
+	/* Negative margin on both axes: the visual baseline stays inside the host
+	   header, but the hit area expands to meet the 44x44 touch-target
+	   guidance without shifting the layout. */
 	.loc {
 		appearance: none;
 		background: none;
 		border: 0;
-		padding: 8px 14px;
-		margin: -8px -8px;
+		padding: 12px 8px;
+		margin: -12px -4px;
 		font: inherit;
 		letter-spacing: inherit;
 		text-transform: inherit;
-		color: var(--dim);
+		color: inherit;
+		opacity: 0.55;
 		cursor: pointer;
-		transition: color 200ms var(--ease-out);
+		transition: opacity 200ms cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
-	.loc:hover { color: var(--orng-text); }
-	.loc.active { color: var(--ink); }
+	.loc:hover {
+		opacity: 0.85;
+	}
+
+	.loc.active {
+		opacity: 1;
+		color: var(--lang-active, inherit);
+	}
 
 	.loc:focus-visible {
-		outline: 1px solid var(--orng-text);
-		outline-offset: 4px;
+		outline: 2px solid currentColor;
+		outline-offset: 2px;
 	}
 
 	.sep {
-		color: var(--dim);
-		opacity: 0.5;
+		opacity: 0.35;
 		user-select: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.loc {
+			transition: none;
+		}
 	}
 </style>
