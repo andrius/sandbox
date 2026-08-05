@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { dict } from '$lib/i18n';
+	import { dict } from '$lib/i18n/alka';
 	import { reveal } from '$lib/actions/reveal';
 	import SectionHead from '../SectionHead.svelte';
 </script>

@@ -32,49 +32,49 @@ export interface Contact {
 	phone: string;
 }
 
+/** One division in the portfolio menu on the start page.
+ *  `status: 'soon'` marks a division still under construction - the row is
+ *  still a link (it has a page saying so) but carries the `soon` tag and is
+ *  visually recessive next to the shipping products. */
+export interface Product {
+	code: string;
+	name: string;
+	blurb: string;
+	href: string;
+	status: 'live' | 'soon';
+}
+
 export interface Labels {
 	letter_signed: string;
-	since: string;
-	page: string;
-	issue: string;
-	volume: string;
-	prospectus: string;
-	annual_report: string;
-	quarterly: string;
-	bulletin: string;
-	employees: string;
-	fiscal: string;
-	cover_story: string;
-	continued: string;
 	kicker_services: string;
 	kicker_team: string;
 	kicker_numbers: string;
 	kicker_press: string;
 	kicker_contact: string;
 	age_short: string;
-	title_short: string;
 	established: string;
 	head_office: string;
-	private_co: string;
 	a_letter_excerpt: string;
 	keep_dreaming: string;
+	/** Contact ledger cell headers. */
+	hours: string;
+	email: string;
+	note: string;
+	/** Start-page portfolio menu. */
+	portfolio: string;
+	soon: string;
+	/** Accessible name for the wordmark link back to the start page. */
+	home: string;
 }
 
 export interface Dict {
 	code: string;
 	label: string;
+
 	name: string;
-	full: string;
 	tagline: string;
 	estd: string;
 	hq: string;
-
-	nav_about: string;
-	nav_services: string;
-	nav_team: string;
-	nav_numbers: string;
-	nav_press: string;
-	nav_contact: string;
 
 	hero_kicker: string;
 	hero_letter: string;
@@ -88,28 +88,34 @@ export interface Dict {
 	section_disclaimer: string;
 
 	mission_lead: string;
-	services_label: string;
 	services: Service[];
-
-	team_label: string;
 	team: TeamMember[];
-
-	numbers_label: string;
 	numbers: NumberStat[];
-
-	press_label: string;
 	press: PressQuote[];
-
-	contact_label: string;
 	contact: Contact;
+
+	products: Product[];
+
+	/** The Founder chronicles division - shipped as an honest holding page. */
+	chronicles: {
+		kicker: string;
+		title: string;
+		lead: string;
+		body: string[];
+		eta: string;
+	};
 
 	labels: Labels;
 	disclaimer: string;
 
-	/* Annual-report footnote chrome printed under the hero stat in mono uppercase. */
+	/** Footnote printed under the hero stat in mono uppercase. */
 	numbers_footnote: string;
 
-	/* Page-level meta for <title> + description */
-	meta_title: string;
-	meta_description: string;
+	/* Per-route <title> + description. */
+	meta_home_title: string;
+	meta_home_description: string;
+	meta_sleep_title: string;
+	meta_sleep_description: string;
+	meta_chronicles_title: string;
+	meta_chronicles_description: string;
 }

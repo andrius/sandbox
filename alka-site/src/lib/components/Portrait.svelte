@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PortraitKind } from '$lib/i18n/types';
+	import type { PortraitKind } from '$lib/i18n/alka/types';
 
 	type Props = {
 		kind: PortraitKind;

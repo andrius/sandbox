@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { dict } from '$lib/i18n';
+	import { dict } from '$lib/i18n/alka';
 	import { reveal } from '$lib/actions/reveal';
 	import Wordmark from '../Wordmark.svelte';
 </script>
@@ -10,8 +10,8 @@
 			<Wordmark size="96px" />
 		</div>
 		<div class="meta">
-			{$dict.labels.private_co}<br />
-			{$dict.labels.established} {$dict.estd} · {$dict.hq}
+			{$dict.labels.established} {$dict.estd}<br />
+			{$dict.hq}
 		</div>
 	</div>
 

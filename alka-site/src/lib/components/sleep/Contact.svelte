@@ -1,13 +1,20 @@
 <script lang="ts">
-	import { dict } from '$lib/i18n';
+	import { dict } from '$lib/i18n/alka';
 	import { reveal } from '$lib/actions/reveal';
 	import SectionHead from '../SectionHead.svelte';
 
+	/* The hours cell used to be labelled with `nav_about` ("О компании" /
+	   "Over ons") - a leftover that titled the opening hours "About us" in
+	   every language. It has its own label now. */
 	const cells = $derived([
-		[$dict.labels.head_office, $dict.contact.address],
-		[$dict.nav_about, $dict.contact.hours],
-		['Email', $dict.contact.email],
-		['Tel.', $dict.contact.phone]
+		{ label: $dict.labels.head_office, value: $dict.contact.address, href: null },
+		{ label: $dict.labels.hours, value: $dict.contact.hours, href: null },
+		{
+			label: $dict.labels.email,
+			value: $dict.contact.email,
+			href: `mailto:${$dict.contact.email}`
+		},
+		{ label: $dict.labels.note, value: $dict.contact.phone, href: null }
 	]);
 </script>
 
@@ -16,10 +23,14 @@
 	<div class="wrap">
 		<div class="gutter"></div>
 		<div class="grid">
-			{#each cells as [k, v], i (k + i)}
+			{#each cells as cell, i (cell.label + i)}
 				<div class="cell reveal-up" class:noright={i === cells.length - 1} use:reveal={{ delay: i * 80 }}>
-					<div class="label">{k}</div>
-					<div class="val">{v}</div>
+					<div class="label">{cell.label}</div>
+					{#if cell.href}
+						<a class="val link" href={cell.href}>{cell.value}</a>
+					{:else}
+						<div class="val">{cell.value}</div>
+					{/if}
 				</div>
 			{/each}
 		</div>
@@ -69,6 +80,20 @@
 		line-height: 1.45;
 		color: var(--ink);
 		white-space: pre-line;
+		display: block;
+	}
+
+	.link {
+		color: var(--orng-text);
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+		transition: color 200ms var(--ease-out);
+	}
+	.link:hover { color: var(--ink); }
+	.link:focus-visible {
+		outline: 2px solid var(--orng-text);
+		outline-offset: 3px;
 	}
 
 	@media (max-width: 1023px) {

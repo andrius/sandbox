@@ -5,8 +5,18 @@
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="theme-color" content="#140a05" />
+		<!-- Reveal-on-scroll across the products is gated behind `.js` so that a
+		     no-JS visitor still gets the full page. Set pre-paint to avoid a flash. -->
+		<script>
+			document.documentElement.classList.add('js');
+		</script>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<!-- Only the AL.KA shell faces (Onest / Fraunces / JetBrains Mono) load
+		     globally - they dress the menu, the back-to-main chrome and the
+		     language switcher on every route. Each product route adds its own
+		     families from its layout so /water never pays for Unbounded and
+		     /pizza never pays for Space Grotesk. -->
 		<link
 			href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500;1,9..144,700;1,9..144,800;1,9..144,900&family=JetBrains+Mono:wght@400;500;700&display=swap"
 			rel="stylesheet"

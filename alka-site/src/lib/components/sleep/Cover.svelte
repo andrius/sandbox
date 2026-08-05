@@ -1,17 +1,20 @@
 <script lang="ts">
-	import { dict } from '$lib/i18n';
+	import { dict } from '$lib/i18n/alka';
 	import { reveal } from '$lib/actions/reveal';
 	import Wordmark from '../Wordmark.svelte';
 	import LanguageSwitcher from '../LanguageSwitcher.svelte';
+	import BackToMain from '../BackToMain.svelte';
 </script>
 
 <section class="cover">
-	<!-- Top register strip. Four items in mono; the language switcher sits as
-	     the fourth, integrated rather than floated over. -->
+	<!-- Register strip. This used to print annual-report chrome here
+	     ("AL.KA · Годовой отчёт · 2026 / стр. 01 / 12 / Частная компания").
+	     That was page furniture for a document that does not exist - this is a
+	     website, so the strip now carries the division it actually belongs to
+	     and the way back to the other divisions. -->
 	<div class="register rule-wipe" use:reveal>
-		<span class="left">AL.KA · {$dict.labels.annual_report} · 2026</span>
-		<span class="page">{$dict.labels.page} 01 / 12</span>
-		<span class="co">{$dict.labels.private_co}</span>
+		<span class="left"><BackToMain compact /></span>
+		<span class="division">{$dict.labels.portfolio} · 02</span>
 		<LanguageSwitcher />
 	</div>
 
@@ -55,9 +58,14 @@
 		margin-bottom: 56px;
 	}
 
-	.register .left { color: var(--orng-text); font-weight: 700; }
-	.register .page,
-	.register .co { color: var(--dim); }
+	.register .left {
+		color: var(--orng-text);
+		font-weight: 700;
+		/* The back-link paints the wordmark dot in the brand orange. */
+		--btm-accent: var(--orng);
+		--btm-hover: rgba(20, 10, 5, 0.06);
+	}
+	.register .division { color: var(--dim); }
 
 	.grid {
 		display: grid;
@@ -125,7 +133,7 @@
 	@media (max-width: 639px) {
 		.grid { grid-template-columns: 1fr; gap: var(--s-gap-md); }
 		.register { font-size: 10px; letter-spacing: 0.1em; flex-wrap: wrap; gap: 12px; }
-		.register .page { display: none; }
+		.register .division { display: none; }
 		.tagline { font-size: 22px; max-width: none; }
 		.rhs { text-align: left; }
 	}

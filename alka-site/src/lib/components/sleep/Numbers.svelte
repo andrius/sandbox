@@ -1,37 +1,49 @@
 <script lang="ts">
-	import { dict, locale } from '$lib/i18n';
+	import { dict } from '$lib/i18n/alka';
+	import { locale, NUMBER_FORMATS, type Locale } from '$lib/i18n';
 	import { reveal } from '$lib/actions/reveal';
 	import { countUp } from '$lib/actions/countUp';
 	import SectionHead from '../SectionHead.svelte';
 
-	/** Parse "4 380", "99,7%", "€4,50", "14 ч", "14 uur", "0" into a count-up config. */
-	function parseStat(raw: string, loc: 'ru' | 'nl') {
-		// Locate the numeric block (allowing comma/period/space).
-		const match = raw.match(/(-?\d[\d\s.,]*)/);
-		if (!match) return null;
-		const numStr = match[1];
-		const prefix = raw.slice(0, match.index ?? 0);
-		const suffix = raw.slice((match.index ?? 0) + numStr.length);
+	/**
+	 * Parse a localised stat string into a count-up config.
+	 *
+	 *   ru  "4 380"  "99,7%"  "€4,50"  "14 ч"
+	 *   nl  "4.380"  "99,7%"  "€ 4,50" "14 uur"
+	 *   en  "4,380"  "99.7%"  "€4.50"  "14 h"
+	 *
+	 * Separators come from NUMBER_FORMATS rather than being inferred, because
+	 * "." is a thousands separator in Dutch and a decimal point in English -
+	 * guessing gets 4.380 wrong in one direction or the other.
+	 */
+	function parseStat(raw: string, loc: Locale) {
+		const fmt = NUMBER_FORMATS[loc];
 
-		// Normalize to a JS-parseable number.
-		// RU uses comma as decimal, space as thousands.
-		// NL uses comma as decimal, period as thousands.
-		const cleaned = numStr.replace(/\s/g, '').replace(/\./g, loc === 'nl' ? '' : '');
-		const dotted = cleaned.replace(',', '.');
-		const value = parseFloat(dotted);
+		// Anchor on a digit at both ends so a trailing unit ("14 ч") is not
+		// swallowed into the numeric block along with its separating space.
+		const match = raw.match(/-?\d[\d\s  .,]*\d|-?\d/);
+		if (!match) return null;
+		const numStr = match[0];
+		const at = match.index ?? 0;
+		const prefix = raw.slice(0, at);
+		const suffix = raw.slice(at + numStr.length);
+
+		const cleaned = numStr
+			.split(fmt.thousands)
+			.join('')
+			.replace(/[\s  ]/g, '')
+			.replace(fmt.decimal, '.');
+		const value = parseFloat(cleaned);
 		if (Number.isNaN(value)) return null;
 
-		const commaIdx = numStr.indexOf(',');
-		const fractionDigits = commaIdx >= 0 ? numStr.length - commaIdx - 1 : 0;
-
-		const thousands = loc === 'nl' ? '.' : ' ';
-		const decimal = ',';
+		const decIdx = numStr.lastIndexOf(fmt.decimal);
+		const fractionDigits = decIdx >= 0 ? numStr.length - decIdx - 1 : 0;
 
 		return {
 			to: value,
 			fractionDigits,
-			thousands,
-			decimal,
+			thousands: fmt.thousands,
+			decimal: fmt.decimal,
 			prefix,
 			suffix,
 			duration: 1800
