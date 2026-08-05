@@ -6,8 +6,8 @@ import { nl } from './nl';
 
 /**
  * Pizza's dictionary namespace, derived off the single shared `locale` store
- * from `$lib/i18n` (the standalone site's own `en|ru` store and its
- * `fph_lang` storage key are gone). Missing keys fall back to English.
+ * from `$lib/i18n` (the standalone site's own `en|ru` store and its private
+ * storage key are gone). Missing keys fall back to English.
  */
 const dictionaries: Record<string, Dict> = { ru, nl, en };
 
