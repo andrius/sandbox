@@ -43,9 +43,16 @@
 
   /* Original html + body declarations, moved onto the wrapper because bare
      html/body would repaint the other products. The wrapper covers the full
-     viewport so the visual effect matches the original. */
+     viewport so the visual effect matches the original.
+
+     NOTE: `scroll-behavior: smooth` is intentionally NOT here. `.water-root`
+     is a <main> with no overflow, so it is not the scroll container and the
+     declaration would be a silent no-op. Smooth scrolling is set inline on
+     document.documentElement from +page.svelte's onMount (gated on
+     prefers-reduced-motion) and restored on cleanup - the only place it can
+     take effect without breaking the [no-bare-body] contract or bleeding into
+     /pizza and /sleep. */
   min-height: 100dvh;
-  scroll-behavior: smooth;
   margin: 0;
   font-family: var(--font-body);
   color: var(--ink);

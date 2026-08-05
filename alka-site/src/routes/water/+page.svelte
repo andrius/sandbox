@@ -28,6 +28,17 @@
 	onMount(() => {
 		const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+		// ---- smooth anchor scrolling. The original had `html { scroll-behavior:
+		// smooth }` plus a reduced-motion override to `auto`. We cannot put that
+		// rule in any CSS file here: bare `html` would repaint the other products
+		// and `.water-root` is not a scroll container (no overflow), so the
+		// declaration would be a silent no-op. Setting it inline on the document
+		// element from JS reproduces the original behaviour and lets us restore
+		// the previous value on unmount so /pizza and /sleep are not affected. ----
+		const html = document.documentElement;
+		const prevScrollBehavior = html.style.scrollBehavior;
+		if (!reduce) html.style.scrollBehavior = 'smooth';
+
 		// ---- loading splash ----
 		const splashTimer = window.setTimeout(() => (splashDone = true), reduce ? 200 : 1500);
 
@@ -109,6 +120,7 @@
 			window.clearTimeout(splashTimer);
 			window.clearTimeout(safetyNet);
 			io?.disconnect();
+			html.style.scrollBehavior = prevScrollBehavior;
 			void motionPromise.then((controls) =>
 				controls.forEach((c) => (typeof c === 'function' ? c() : c.cancel()))
 			);

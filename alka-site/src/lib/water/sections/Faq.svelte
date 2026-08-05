@@ -26,7 +26,7 @@
 						onclick={() => (openIndex = openIndex === i ? -1 : i)}
 					>
 						<span>{item.q}</span>
-						<span class="sign">{openIndex === i ? ' - ' : '+'}</span>
+						<span class="sign">{openIndex === i ? '–' : '+'}</span>
 					</button>
 					<div class="faq-a">
 						<p>{item.a}</p>
