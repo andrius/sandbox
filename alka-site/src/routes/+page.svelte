@@ -243,9 +243,23 @@
 		letter-spacing: 0.01em;
 	}
 
+	/* Below 1024 the row folds to two lines. Areas are declared explicitly:
+	   a 3-column track with 4 children left the arrow auto-placed into a
+	   phantom third row, orphaned under the blurb, and pushed the grid wider
+	   than the viewport so the blurb clipped at the right edge. */
 	@media (max-width: 1023px) {
-		.row { grid-template-columns: 44px minmax(0, 1fr) 64px; gap: 20px; }
-		.blurb { grid-column: 2 / -1; }
+		.row {
+			grid-template-columns: 44px minmax(0, 1fr) auto;
+			grid-template-areas:
+				'code name status'
+				'.    blurb blurb';
+			gap: 8px 16px;
+		}
+		.code { grid-area: code; }
+		.name { grid-area: name; }
+		.blurb { grid-area: blurb; min-width: 0; }
+		.arrow,
+		.tag { grid-area: status; align-self: center; }
 	}
 
 	@media (max-width: 639px) {
