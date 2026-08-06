@@ -10,7 +10,12 @@
 	</p>
 	<dl class="reveal grid grid-cols-2 gap-x-6 gap-y-10 border-y border-white/8 py-10 md:grid-cols-4" use:reveal>
 		{#each items as s (s.label)}
-			<div class="text-center">
+			<!-- `min-w-0`: a grid item defaults to `min-width: auto`, so a figure
+			     wider than its share of the row widens the track instead of being
+			     constrained by it. That is what let one long stat push the page
+			     sideways. With this, the track keeps its share and a figure that
+			     still does not fit wraps at its space. -->
+			<div class="min-w-0 text-center">
 				<dt class="sr-only">{s.label}</dt>
 				<dd class="stat-value text-cheese-300">{s.value}</dd>
 				<p class="mt-2 text-sm text-void-300">{s.label}</p>

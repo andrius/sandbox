@@ -16,8 +16,16 @@
 					<div class="icon">{card.icon}</div>
 					<div class="name">{card.name}</div>
 					<div class="desc">{card.desc}</div>
-					<!-- AFFILIATE LINK SLOT: replace href="#" with the real partner/affiliate URL -->
-					<a href="#" data-affiliate="replace-me" class="affiliate">{card.button} →</a>
+					<!-- AFFILIATE SLOT: swap this button for
+					     `<a href="…" data-affiliate="…" class="affiliate">` once the
+					     real partner URL exists. It is a button, not `<a href="#">`,
+					     because a link to "#" is not a link: it announces itself to a
+					     screen reader as a destination, and activating it scrolls the
+					     reader back to the top of the page instead of doing nothing.
+					     A button is the honest element until there is somewhere to go. -->
+					<button type="button" data-affiliate="replace-me" class="affiliate">
+						{card.button} →
+					</button>
 				</div>
 			{/each}
 		</div>

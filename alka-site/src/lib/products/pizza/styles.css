@@ -258,6 +258,16 @@
 		margin-bottom: 0.4rem;
 	}
 
+	/* Grid items default to `min-width: auto`, which means a track is never
+	   narrower than the longest unbreakable word inside it. `overflow-wrap:
+	   break-word` does NOT change that - it permits a break during layout but
+	   leaves min-content sizing alone - so a Spanish heading like "Preguntas
+	   frecuentemente temidas" still widened the FAQ column and scrolled the
+	   page sideways on a phone. This is the half that actually lets it wrap. */
+	.pizza-root :is(.grid-hero, .grid-checkout, .grid-faq, .grid-footer) > * {
+		min-width: 0;
+	}
+
 	.pizza-root .grid-hero {
 		display: grid;
 		gap: 3rem;
@@ -369,15 +379,30 @@
 	}
 
 	/* Stats: oversized art-directed figures */
+	/* The stat figures.
+	 *
+	 * These were two fixed sizes, 3.25rem stepping up to 4.5rem at 40rem, and
+	 * the step was at the wrong place: the grid holding them is 2 columns and
+	 * only becomes 4 at `md` (48rem). So between 40rem and 48rem the type
+	 * doubled while the columns did not, and at 48rem the columns halved in
+	 * width while the type stayed at 4.5rem. "100%" is 268px at that size in a
+	 * 164px column, which pushed the whole page sideways on a 768px screen.
+	 *
+	 * It was worse on a phone - 52px type in a 128px column - and worse again
+	 * in Spanish, where the longest figure is "2h 37min" rather than "2h 37m".
+	 *
+	 * Now the size is fluid within each column count, and the breakpoint is
+	 * 48rem so it changes exactly when the grid does. Ceilings are set from the
+	 * measured width of the longest figure across all four locales. */
 	.pizza-root .stat-value {
 		font-family: var(--font-display);
 		font-weight: 800;
-		font-size: 3.25rem;
+		font-size: clamp(1.75rem, 8vw, 3rem);
 		line-height: 0.95;
 	}
-	@media (min-width: 40rem) {
+	@media (min-width: 48rem) {
 		.pizza-root .stat-value {
-			font-size: 4.5rem;
+			font-size: clamp(2.5rem, 5.2vw, 4.25rem);
 		}
 	}
 
@@ -434,7 +459,10 @@
 /* ----------------------------------------------------------------------------
    Scroll reveal (unlayered, as in the original - no utility ever overrides it)
 ---------------------------------------------------------------------------- */
-.pizza-root .reveal {
+/* Gated on `.js` (set pre-paint by app.html) for the same reason the AL.KA
+   and Wet Water reveals are: without it, a visitor with scripting disabled
+   received a correctly prerendered page painted entirely invisible. */
+.js .pizza-root .reveal {
 	opacity: 0;
 	transform: translateY(28px);
 	transition:
@@ -442,7 +470,7 @@
 		transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
 	will-change: opacity, transform;
 }
-.pizza-root .reveal.is-visible {
+.js .pizza-root .reveal.is-visible {
 	opacity: 1;
 	transform: none;
 }

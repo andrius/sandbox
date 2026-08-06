@@ -73,6 +73,17 @@ body {
 	transform: none;
 }
 
+/* Four languages share one set of layouts, and headline words are not the same
+   length in all of them: "frecuentemente" and "Оформление" are both wider than
+   a 320px phone at display sizes. A heading that cannot break does not wrap -
+   it widens its container and scrolls the whole page sideways.
+   `break-word` is a last resort by definition; it does nothing until a word
+   genuinely cannot fit, so no existing line changes. This is typography, not
+   identity, so it is safe to state once for every product. */
+:is(h1, h2, h3, h4) {
+	overflow-wrap: break-word;
+}
+
 /* Screen-reader-only utility used by the skip links on every product. */
 .sr-only {
 	position: absolute;

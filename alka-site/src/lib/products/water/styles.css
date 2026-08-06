@@ -214,22 +214,31 @@
 .water-root .reveal-section p { font-size: clamp(16px, 1.7vw, 20px); line-height: 1.6; color: var(--muted); max-width: 50ch; margin: 20px auto 0; }
 .water-root .reveal-section .sub { font-family: var(--font-mono); font-size: 13.5px; color: var(--cyan-deep); margin: 16px auto 0; max-width: 46ch; }
 
+/* `minmax(min(Npx, 100%), 1fr)` rather than `minmax(Npx, 1fr)`.
+   A bare pixel minimum is a floor the track cannot go below, so on a 320px
+   phone - where these grids have 48px of padding on each side and only 224px
+   to give - a 290px card simply pushed the page sideways. `min(N, 100%)` lets
+   the track collapse to the container when the container is the smaller of
+   the two, and behaves identically everywhere there is room. */
 /* ---- partners ---- */
 .water-root .partners { background: linear-gradient(180deg, #eef9ff, #ffffff); padding: 30px 24px 96px; }
 .water-root .grid-auto { display: grid; gap: 20px; }
-.water-root .partner-grid { grid-template-columns: repeat(auto-fit, minmax(232px, 1fr)); }
+.water-root .partner-grid { grid-template-columns: repeat(auto-fit, minmax(min(232px, 100%), 1fr)); }
 .water-root .partner-card { background: #fff; border: 1px solid rgba(6, 40, 59, 0.09); border-radius: 18px; padding: 26px 22px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 12px 30px rgba(6, 40, 59, 0.06); transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .water-root .partner-card:hover { transform: translateY(-6px); box-shadow: 0 22px 48px rgba(6, 182, 212, 0.18); }
 .water-root .partner-card .icon { font-size: 34px; }
 .water-root .partner-card .name { font-family: var(--font-display); font-weight: 600; font-size: 19px; color: var(--ink); }
 .water-root .partner-card .desc { font-size: 14.5px; line-height: 1.55; color: var(--muted-2); flex: 1; }
-.water-root .affiliate { display: inline-flex; align-items: center; justify-content: center; gap: 7px; margin-top: 6px; background: rgba(6, 182, 212, 0.1); border: 1.5px solid var(--cyan); color: var(--cyan-deep); font-weight: 700; padding: 11px 16px; border-radius: 999px; text-decoration: none; font-size: 14.5px; transition: background 0.2s ease, color 0.2s ease; }
+/* `cursor` is explicit because this is a <button> until the real affiliate URLs
+   land, and a button does not inherit the pointer the way the <a> it replaces
+   did. Width still comes from the column flex parent stretching it. */
+.water-root .affiliate { display: inline-flex; align-items: center; justify-content: center; gap: 7px; margin-top: 6px; background: rgba(6, 182, 212, 0.1); border: 1.5px solid var(--cyan); color: var(--cyan-deep); font-weight: 700; padding: 11px 16px; border-radius: 999px; text-decoration: none; font-size: 14.5px; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
 .water-root .affiliate:hover { background: var(--cyan); color: #fff; }
 .water-root .note { font-family: var(--font-mono); font-size: 12px; color: var(--muted-4); margin-top: 22px; text-align: center; }
 
 /* ---- features ---- */
 .water-root .features { background: #fff; padding: 88px 24px; }
-.water-root .feature-grid { grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; }
+.water-root .feature-grid { grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr)); gap: 18px; }
 .water-root .feature-card { background: rgba(34, 211, 238, 0.07); border: 1px solid rgba(34, 211, 238, 0.2); border-radius: 16px; padding: 24px 22px; display: flex; gap: 16px; align-items: flex-start; transition: transform 0.25s ease, background 0.25s ease; }
 .water-root .feature-card:hover { transform: translateY(-4px); background: rgba(34, 211, 238, 0.12); }
 .water-root .feature-card .icon { font-size: 30px; line-height: 1; }
@@ -252,7 +261,7 @@
 
 /* ---- pricing ---- */
 .water-root .pricing { background: var(--bg); padding: 88px 24px; }
-.water-root .price-grid { grid-template-columns: repeat(auto-fit, minmax(228px, 1fr)); align-items: stretch; }
+.water-root .price-grid { grid-template-columns: repeat(auto-fit, minmax(min(228px, 100%), 1fr)); align-items: stretch; }
 .water-root .price-card { background: #fff; border: 1px solid rgba(6, 40, 59, 0.1); border-radius: 18px; padding: 30px 24px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 12px 32px rgba(6, 40, 59, 0.06); position: relative; transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .water-root .price-card.popular { border: 2px solid var(--cyan); padding: 34px 24px 30px; box-shadow: 0 24px 60px rgba(6, 182, 212, 0.22); transform: translateY(-8px); }
 .water-root .price-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: var(--grad); color: #022b3a; font-family: var(--font-mono); font-weight: 700; font-size: 11px; letter-spacing: 0.06em; padding: 5px 14px; border-radius: 999px; white-space: nowrap; box-shadow: 0 6px 16px rgba(6, 182, 212, 0.3); }
@@ -266,7 +275,7 @@
 /* ---- testimonials ---- */
 .water-root .testimonials { background: #fff; padding: 88px 24px; }
 .water-root .stars { letter-spacing: 0.2em; color: var(--star); }
-.water-root .testi-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+.water-root .testi-grid { grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
 .water-root .testi-card { background: var(--bg); border: 1px solid rgba(6, 40, 59, 0.07); border-radius: 18px; padding: 26px 24px; display: flex; flex-direction: column; gap: 14px; transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .water-root .testi-card:hover { transform: translateY(-4px); box-shadow: 0 16px 38px rgba(6, 40, 59, 0.1); }
 .water-root .testi-card .quote { font-size: 16px; line-height: 1.55; color: #1f4a5c; margin: 0; font-style: italic; }
@@ -280,8 +289,18 @@
 .water-root .faq-q { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: none; border: none; cursor: pointer; padding: 18px 22px; text-align: left; }
 .water-root .faq-q span { font-family: var(--font-display); font-weight: 600; font-size: 16.5px; color: var(--ink); }
 .water-root .faq-q .sign { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; background: rgba(6, 182, 212, 0.12); color: var(--cyan-deep); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; }
-.water-root .faq-a { overflow: hidden; max-height: 0; opacity: 0; transition: max-height 0.4s ease, opacity 0.35s ease; }
-.water-root .faq-item.open .faq-a { max-height: 280px; opacity: 1; }
+/* Was `max-height: 0` animating to a hardcoded 280px. Two problems: it animates
+   a layout property, and 280px is a guess about how tall an answer can be. The
+   guess was made when the copy was one language; a longer translation is simply
+   cut off with no way to read the rest. `grid-template-rows: 0fr -> 1fr` opens
+   to whatever the content actually is, in any language, and needs no cap. */
+.water-root .faq-a { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.4s ease, opacity 0.35s ease; }
+/* `min-height: 0` is not optional: a grid item defaults to `min-height: auto`
+   and refuses to collapse. The padding lives on the <p> inside this element
+   rather than on this element, because padding survives a zeroed content box
+   and would leave 20px of dead space under every closed question. */
+.water-root .faq-a-clip { overflow: hidden; min-height: 0; }
+.water-root .faq-item.open .faq-a { grid-template-rows: 1fr; opacity: 1; }
 .water-root .faq-a p { margin: 0; padding: 0 22px 20px; font-size: 15px; line-height: 1.6; color: var(--muted-2); }
 
 /* ---- footer ---- */

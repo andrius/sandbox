@@ -26,10 +26,16 @@
 						onclick={() => (openIndex = openIndex === i ? -1 : i)}
 					>
 						<span>{item.q}</span>
-						<span class="sign">{openIndex === i ? '–' : '+'}</span>
+						<span class="sign">{openIndex === i ? ' - ' : '+'}</span>
 					</button>
+					<!-- The inner div is the thing that collapses. Padding cannot live on
+					     the collapsing element itself: `min-height: 0` zeroes a content
+					     box but padding still occupies space, which left 20px of dead
+					     air under every closed question. -->
 					<div class="faq-a">
-						<p>{item.a}</p>
+						<div class="faq-a-clip">
+							<p>{item.a}</p>
+						</div>
 					</div>
 				</div>
 			{/each}

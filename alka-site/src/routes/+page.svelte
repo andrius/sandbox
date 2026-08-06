@@ -25,7 +25,13 @@
 
 	<header class="hero">
 		<h1 class="wordmark-wrap">
-			<Wordmark animated={true} />
+			<!-- The mark defaults to `var(--t-display)`, which is a flat 120px on
+			     every phone. At 320px the page has 272px of usable width and the
+			     mark drew 308px, so the narrowest phones scrolled sideways. Sizing
+			     it with vw fixes that end without touching any other: the
+			     `--t-display` ceiling is reached by 400px, so tablet and desktop
+			     render exactly as before. -->
+			<Wordmark animated={true} size="clamp(96px, 30vw, var(--t-display))" />
 			<span class="sr-only">{$dict.name}</span>
 		</h1>
 		<!-- Straight after the wordmark, ahead of the tagline.
@@ -97,8 +103,9 @@
 	.wordmark-wrap {
 		font-family: var(--font-sans);
 		font-weight: 700;
-		/* 17vw with a 120px floor overflowed 320px-wide phones and the cover
-		   clipped it. The floor is gone; vw carries the small end. */
+		/* This governs the h1's own line box only. The wordmark inside sets its
+		   own font-size inline (see the `size` prop below), and an inline style
+		   outranks any stylesheet rule, so nothing here can size the mark. */
 		font-size: clamp(76px, 17vw, var(--t-display));
 		line-height: 0.85;
 		color: var(--ink);

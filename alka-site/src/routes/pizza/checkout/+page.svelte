@@ -164,7 +164,7 @@
 		{$pizzaT('checkout.back')}
 	</a>
 
-	<h1 class="mt-5 font-display text-4xl font-extrabold sm:text-5xl">{$pizzaT('checkout.title')}</h1>
+	<h1 class="mt-5 font-display text-4xl font-extrabold break-words sm:text-5xl">{$pizzaT('checkout.title')}</h1>
 
 	<div class="mt-5 flex items-start gap-3 rounded-2xl border border-cheese-500/30 bg-cheese-500/8 p-4 text-sm text-cheese-100">
 		<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="mt-0.5 shrink-0 text-cheese-300">

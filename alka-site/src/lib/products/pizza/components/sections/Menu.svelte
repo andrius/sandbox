@@ -54,8 +54,11 @@
 						{$pizzaT(`menu.items.${item.id}.desc`)}
 					</p>
 
-					<div class="mt-auto flex items-center justify-between pt-6">
-						<div class="leading-tight">
+					<!-- `flex-wrap` + `gap`: the price and the button shared a row that could
+					     not wrap, so a longer localised price ("desde 23,00 US$" against
+					     "from $23.00") widened the card past the grid track. -->
+					<div class="mt-auto flex flex-wrap items-center justify-between gap-3 pt-6">
+						<div class="min-w-0 leading-tight">
 							<div class="text-[11px] uppercase tracking-wide text-void-400">{$pizzaT('menu.from')}</div>
 							<div class="font-display text-xl font-extrabold text-cream-50">
 								{formatMoney(item.price, $locale)}

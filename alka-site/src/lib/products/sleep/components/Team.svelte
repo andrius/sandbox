@@ -41,9 +41,14 @@
 		gap: 32px;
 	}
 
+	/* Was `repeat(5, 1fr)`. At 1024px that gave each of the five cards 133px to
+	   hold a 134px portrait, so the row overflowed before a single word of copy
+	   was measured. `auto-fit` keeps the five-across row wherever there is room
+	   for it - which is every width the design was drawn at - and drops to four
+	   or three when there is not, instead of pushing the page sideways. */
 	.cards {
 		display: grid;
-		grid-template-columns: repeat(5, 1fr);
+		grid-template-columns: repeat(auto-fit, minmax(min(168px, 100%), 1fr));
 		gap: 24px;
 	}
 

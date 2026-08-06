@@ -148,6 +148,24 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Grid items must be allowed to shrink.
+   ---------------------------------------------------------------------------
+   A grid or flex item defaults to `min-width: auto`, meaning it refuses to
+   become narrower than its longest unbreakable run of content. Every Sleep
+   section lays out as a fixed 120px gutter plus a flexible column, so when a
+   long word landed in the flexible column the track grew instead of wrapping
+   and pushed the whole page sideways. Spanish did it at 1024px ("Vicepresidenta
+   de ingeniería de almohadas"), Russian at 640px.
+
+   These class names survive Svelte's scoping - it appends a hash class rather
+   than renaming - so one rule here covers every section instead of the same
+   declaration copied into five component stylesheets.
+   --------------------------------------------------------------------------- */
+.alka-root :is(.wrap, .row, .cards, .grid, .rows) > * {
+	min-width: 0;
+}
+
+/* ---------------------------------------------------------------------------
    Language chooser - the `cards` variant of $lib/components/LanguageSwitcher,
    used on the start page only.
    ---------------------------------------------------------------------------
@@ -231,8 +249,15 @@
 /* ---------------------------------------------------------------------------
    Scroll-reveal - fades content in once the section enters the viewport.
    Scoped: the Pizza route ships its own `.reveal` with different timing.
+   ---------------------------------------------------------------------------
+   Every rule that starts an element at `opacity: 0` is gated behind `.js`,
+   which app.html sets pre-paint. Without the gate a visitor with scripting
+   disabled - or any renderer that does not execute JS - got a correctly
+   prerendered page painted entirely invisible, because nothing was ever going
+   to add `.is-visible`. Wet Water's `[data-reveal]` in app.css was already
+   gated this way; these were not.
    --------------------------------------------------------------------------- */
-.alka-root .reveal {
+.js .alka-root .reveal {
 	opacity: 0;
 	transform: translateY(28px);
 	transition:
@@ -240,37 +265,37 @@
 		transform 720ms var(--ease-out-soft);
 	will-change: opacity, transform;
 }
-.alka-root .reveal.is-visible {
+.js .alka-root .reveal.is-visible {
 	opacity: 1;
 	transform: none;
 }
 
 /* Reveal-up: lighter slide for inline elements */
-.alka-root .reveal-up {
+.js .alka-root .reveal-up {
 	opacity: 0;
 	transform: translateY(14px);
 	transition:
 		opacity 600ms var(--ease-out-soft),
 		transform 600ms var(--ease-out-soft);
 }
-.alka-root .reveal-up.is-visible {
+.js .alka-root .reveal-up.is-visible {
 	opacity: 1;
 	transform: none;
 }
 
 /* A "wipe" used on hairlines */
-.alka-root .rule-wipe {
+.js .alka-root .rule-wipe {
 	transform-origin: left center;
 	transform: scaleX(0);
 	transition: transform 900ms var(--ease-out-soft);
 }
-.alka-root .rule-wipe.is-visible { transform: scaleX(1); }
+.js .alka-root .rule-wipe.is-visible { transform: scaleX(1); }
 
 /* Numbers count-up: lock width to avoid layout shift on tabular figures */
 .alka-root .tabular { font-variant-numeric: tabular-nums; }
 
 @media (prefers-reduced-motion: reduce) {
-	.alka-root :is(.reveal, .reveal-up, .rule-wipe) {
+	.js .alka-root :is(.reveal, .reveal-up, .rule-wipe) {
 		opacity: 1 !important;
 		transform: none !important;
 		transition: none !important;
