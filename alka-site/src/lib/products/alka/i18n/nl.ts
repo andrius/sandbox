@@ -6,7 +6,7 @@ export const nl: Dict = {
 
 	name: 'AL.KA',
 	tagline: 'Verticaal geïntegreerde dutje-oplossingen',
-	estd: '2026',
+	estd: '2016',
 	hq: 'Bovenste stapelbed, slaapkamer twee',
 
 	hero_kicker: 'EEN BRIEF VAN DE OPRICHTER',
@@ -41,24 +41,17 @@ export const nl: Dict = {
 			name: 'Wet Water',
 			blurb:
 				'Het eerste water van Europa met gecertificeerde natheid. Plus een oprecht bruikbare hittegids.'
-		},
-		ants: {
-			name: 'De President en de Koningin',
-			blurb:
-				'Een zomerbericht uit Palanga. Eén shampoofles, twee gedeporteerde terminators en een verdrag van drie artikelen.'
 		}
 	},
 
 	chronicles: {
 		kicker: 'divisie 01',
 		title: 'Kronieken van de oprichter',
-		lead: 'Deze divisie is in aanbouw. Het archief bestaat, maar voorlopig alleen op papier.',
+		lead: 'Het officiële bedrijfsarchief. Met de hand bijgehouden en hier gepubliceerd zodra een pagina leesbaar blijkt.',
 		body: [
 			'De kronieken worden sinds 2026 bijgehouden in een geruit schrift dat onder het kussen op het hoofdkantoor ligt. Digitalisering staat gepland voor enig moment nadat de oprichter blind heeft leren typen.',
-			'Het huidige deel bevat: een volledige lijst van genuttigde worstjes, een grafiek van slaapkwaliteit per dag van de week, en één pagina die volledig aan de kat is gewijd.',
-			'Publicatie volgt. De exacte timing hangt af van het lesrooster.'
-		],
-		eta: 'Verwachte publicatiedatum: ooit'
+			'Het huidige deel bevat: een volledige lijst van genuttigde worstjes, een grafiek van slaapkwaliteit per dag van de week, en één pagina die volledig aan de kat is gewijd.'
+		]
 	},
 
 	services: [
@@ -117,6 +110,7 @@ export const nl: Dict = {
 		hours: 'Openingstijden',
 		email: 'E-mail',
 		note: 'Briefje',
+		entries: 'Berichten',
 		portfolio: 'Portfolio',
 		soon: 'in ontwikkeling',
 		home: 'AL.KA - naar hoofdmenu'

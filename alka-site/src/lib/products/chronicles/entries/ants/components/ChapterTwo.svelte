@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { antsDict } from '$lib/products/ants/i18n';
+	import { antsDict } from '$lib/products/chronicles/entries/ants/i18n';
 
 	/** chapter two - the forest ants, deported with honours */
 	const t = $derived($antsDict);

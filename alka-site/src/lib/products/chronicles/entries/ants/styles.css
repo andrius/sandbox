@@ -74,12 +74,26 @@
 	}
 }
 
+/* The ant that walks the length of the beach.
+ *
+ * The artifact wrote this as `translateX(-6%)` to `translateX(104%)` on an SVG
+ * `<g>`. Blink resolves a percentage transform on an SVG element against the
+ * viewBox, so on desktop Chrome the ant crosses the full 1200-unit scene. WebKit
+ * does not - SVG elements have no CSS layout box, percentages there are
+ * undefined, and the whole animation collapses to nothing. The ant stood still
+ * on every iPhone regardless of which browser was on it, because they are all
+ * WebKit underneath.
+ *
+ * The percentages are now the user units they were always meant to be: the
+ * scene is `viewBox="0 0 1200 520"`, so -6% is -72 and 104% is 1248. In SVG a
+ * CSS `px` IS one user unit, so this is exact rather than approximate, and it
+ * means the same thing in every engine. */
 @keyframes ants-marchRight {
 	0% {
-		transform: translateX(-6%);
+		transform: translateX(-72px);
 	}
 	100% {
-		transform: translateX(104%);
+		transform: translateX(1248px);
 	}
 }
 

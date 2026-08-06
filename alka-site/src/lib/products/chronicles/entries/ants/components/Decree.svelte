@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { antsDict } from '$lib/products/ants/i18n';
+	import { antsDict } from '$lib/products/chronicles/entries/ants/i18n';
 
 	/** Presidential Decree No. 1, both signatures and the closing note */
 	const t = $derived($antsDict);

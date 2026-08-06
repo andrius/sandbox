@@ -1,20 +1,26 @@
 import { products } from '$lib/products/registry';
+import { entries } from '$lib/products/chronicles/entries';
 import { absoluteUrl } from '$lib/site';
 
 export const prerender = true;
 
 /**
- * The sitemap reads the registry, so a new division appears here the moment
- * it is registered - there is no second list to remember to update.
+ * The sitemap reads both registries, so a new division or a new chronicles
+ * entry appears here the moment it is registered - there is no second list to
+ * remember to update.
  *
- * `soon` divisions are left out on purpose: they already ship `noindex`
- * because they are holding pages, and listing a page you have asked not to
- * index is a contradiction crawlers report as a warning.
+ * `soon` divisions are left out on purpose: they still ship `noindex` because
+ * they are holding pages, and listing a page you have asked not to index is a
+ * contradiction crawlers report as a warning.
  *
  * `/pizza/checkout` is also absent. It is a simulated flow reached from the
  * menu, not a landing point, and nothing links to it from outside the site.
  */
-const paths = ['/', ...products.filter((p) => p.status === 'live').map((p) => p.href)];
+const paths = [
+	'/',
+	...products.filter((p) => p.status === 'live').map((p) => p.href),
+	...entries.map((e) => `/chronicles/${e.slug}`)
+];
 
 export function GET() {
 	const body = `<?xml version="1.0" encoding="UTF-8"?>

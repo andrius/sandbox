@@ -3,9 +3,9 @@ import ChapterTwo from './ChapterTwo.svelte';
 
 /** chapter two - the forest ants, deported with full honours */
 const meta = {
-	title: 'Ants/ChapterTwo',
+	title: 'Chronicles/Ants/ChapterTwo',
 	component: ChapterTwo,
-	parameters: { product: 'ants' }
+	parameters: { product: 'chronicles' }
 } satisfies Meta<typeof ChapterTwo>;
 
 export default meta;

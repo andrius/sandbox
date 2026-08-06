@@ -116,6 +116,66 @@ for (const p of products) {
 	}
 }
 
+/**
+ * Chronicles entries are held to the same bargain one level down. An entry is
+ * allowed its own look, so it can go wrong the same ways a division can - and
+ * its back link has an extra way to be wrong: pointing at the AL.KA menu
+ * instead of the index the reader came from.
+ */
+const entries = readEntries();
+
+/**
+ * `entries.ts` is read rather than imported. Node's type stripping handles the
+ * syntax fine, but the file pulls an entry's dictionary through a relative
+ * specifier, and ESM will not resolve `./entries/ants/i18n/content` without the
+ * extension. `registry.ts` imports nothing, which is the only reason importing
+ * that one works. The three fields this check needs are plain string literals,
+ * so reading them out is enough and keeps the source free of loader
+ * workarounds it would otherwise carry only to satisfy a lint script.
+ */
+function readEntries() {
+	const text = readFileSync(join(root, 'src/lib/products/chronicles/entries.ts'), 'utf8');
+	const body = text.slice(text.indexOf('export const entries'));
+	return [...body.matchAll(/\bslug:\s*'([^']+)'[\s\S]*?\bdate:\s*'([^']+)'[\s\S]*?\brootClass:\s*'([^']+)'/g)].map(
+		([, slug, date, rootClass]) => ({ slug, date, rootClass })
+	);
+}
+
+for (const e of entries) {
+	const routeDir = join(root, 'src/routes/chronicles', e.slug);
+	const libDir = join(root, 'src/lib/products/chronicles/entries', e.slug);
+	const id = `chronicles/${e.slug}`;
+
+	if (!existsSync(join(routeDir, '+page.svelte'))) {
+		fail(id, `no src/routes/chronicles/${e.slug}/+page.svelte`);
+	}
+
+	const files = readAll([...walk(routeDir), ...walk(libDir)]);
+	const source = files.map((f) => f.text).join('\n');
+
+	if (!source.includes(e.rootClass) && !source.includes('rootClass')) {
+		fail(id, `nothing renders the declared rootClass "${e.rootClass}"`);
+	}
+	if (!source.includes('BackToMain')) {
+		fail(id, 'no BackToMain - the entry would be a dead end');
+	}
+	/* Matching the bare string "/chronicles" here is useless: every import in
+	   an entry contains it. The href attribute is the thing being asserted. */
+	if (!/href=["']\/chronicles["']/.test(source)) {
+		fail(id, 'no href="/chronicles" - an entry must return to its index, not the AL.KA menu');
+	}
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(e.date)) {
+		fail(id, `date "${e.date}" is not ISO yyyy-mm-dd`);
+	}
+	for (const { file, text } of files.filter((f) => f.file.endsWith('.css'))) {
+		if (/^\s*:root\s*[,{]/m.test(text)) fail(id, `${file} declares tokens on :root`);
+		if (/^\s*(html|body)\s*[,{]/m.test(text)) fail(id, `${file} styles bare html/body`);
+	}
+	if (!files.some((f) => /\.stories\.(ts|svelte)$/.test(f.file))) {
+		fail(id, 'no *.stories.ts');
+	}
+}
+
 if (failures.length) {
 	console.error('Product contract violations:\n');
 	for (const f of failures) console.error(`  ✗ ${f}`);
@@ -123,4 +183,4 @@ if (failures.length) {
 	process.exit(1);
 }
 
-console.log(`✅ product contract ok (${products.length} divisions)`);
+console.log(`✅ contract ok (${products.length} divisions, ${entries.length} chronicles entries)`);

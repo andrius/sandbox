@@ -331,6 +331,29 @@
   .water-root .foot-grid { grid-template-columns: 1fr; }
   .water-root .therm { display: none; }
 }
+/* The header carries five things: the way back to AL.KA, the drop, the brand
+   with its tagline, the language switch and a "get water" button. Below about
+   600px that no longer fits on one line, and `flex-wrap` did what it was told -
+   folded it into two rows and turned a sticky bar into a sticky block roughly
+   110px tall that followed the reader down the entire page.
+
+   Rather than let it wrap, the row is cut down to what a phone reader actually
+   needs while scrolling. The tagline goes: "Water. But wet." is the first thing
+   the hero says two centimetres below, so in the header it is decoration
+   competing for the scarcest space on the page. The "get water" button goes
+   too, for the same reason - the hero's primary CTA is the same link, larger
+   and easier to hit. What stays is everything with a job: the back link, the
+   brand, and the language switch. */
+@media (max-width: 700px) {
+  .water-root .site-header .wrap { flex-wrap: nowrap; gap: 10px; }
+  .water-root .brand { min-width: 0; }
+  .water-root .brand .tag { display: none; }
+  .water-root .brand .name { font-size: 17px; white-space: nowrap; }
+  .water-root .brand .drop { font-size: 22px; }
+  .water-root .site-header .btn { display: none; }
+  .water-root .lang-switch button { padding: 7px 9px; font-size: 11px; }
+}
+
 @media (max-width: 520px) {
   .water-root .ctas { flex-direction: column; align-items: stretch; }
 }

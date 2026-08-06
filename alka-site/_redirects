@@ -1,0 +1,8 @@
+# "The President and the Queen" briefly lived at /ants as division 05 before it
+# became what it actually is: an entry in the chronicles. The old address was
+# published in a sitemap, so it redirects rather than 404s.
+#
+# This is a real 308 served by Cloudflare's asset router. The alternative was a
+# SvelteKit redirect route, which under prerendering compiles to an HTML
+# meta-refresh page - fine for a human, useless to a crawler.
+/ants /chronicles/ants 308

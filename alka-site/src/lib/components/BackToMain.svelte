@@ -17,11 +17,23 @@
 	 * than floating over it - a fixed overlay collided with all three brands,
 	 * which live in the same top-left corner.
 	 */
-	type Props = { label?: string; compact?: boolean };
-	let { label = 'AL.KA', compact = false }: Props = $props();
+	type Props = {
+		label?: string;
+		compact?: boolean;
+		/**
+		 * Where "back" goes. Defaults to the AL.KA menu, which is right for a
+		 * division. A page nested inside one - a chronicles entry, say - points
+		 * one level up instead, because sending a reader from a blog post to the
+		 * holding menu skips the thing they were actually reading.
+		 */
+		href?: string;
+		/** Wordmark shown after the arrow. Entries name their section instead. */
+		text?: string;
+	};
+	let { label = 'AL.KA', compact = false, href = '/', text }: Props = $props();
 </script>
 
-<a class="back-to-main" class:compact href="/" aria-label="{label} - на главную / naar hoofdmenu / back to main">
+<a class="back-to-main" class:compact {href} aria-label="{label} - назад / terug / back">
 	<svg class="arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
 		<path
 			d="M10 3.5 5.5 8 10 12.5"
@@ -31,7 +43,11 @@
 			stroke-linecap="square"
 		/>
 	</svg>
-	<span class="wm">AL<span class="dot">.</span><span class="ka">Ka</span></span>
+	{#if text}
+		<span class="wm">{text}</span>
+	{:else}
+		<span class="wm">AL<span class="dot">.</span><span class="ka">Ka</span></span>
+	{/if}
 </a>
 
 <style>

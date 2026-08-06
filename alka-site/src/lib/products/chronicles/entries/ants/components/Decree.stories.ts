@@ -3,9 +3,9 @@ import Decree from './Decree.svelte';
 
 /** Presidential Decree No. 1, both signatures and the closing note */
 const meta = {
-	title: 'Ants/Decree',
+	title: 'Chronicles/Ants/Decree',
 	component: Decree,
-	parameters: { product: 'ants' }
+	parameters: { product: 'chronicles' }
 } satisfies Meta<typeof Decree>;
 
 export default meta;

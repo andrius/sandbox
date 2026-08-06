@@ -3,9 +3,9 @@ import Hero from './Hero.svelte';
 
 /** the title spread: crown, badges and the invitation to scroll */
 const meta = {
-	title: 'Ants/Hero',
+	title: 'Chronicles/Ants/Hero',
 	component: Hero,
-	parameters: { product: 'ants' }
+	parameters: { product: 'chronicles' }
 } satisfies Meta<typeof Hero>;
 
 export default meta;

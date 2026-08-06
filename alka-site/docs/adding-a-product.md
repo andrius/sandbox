@@ -1,4 +1,18 @@
-# Adding a division
+# Adding a division, or a chronicles entry
+
+Two kinds of page grow here, and they are not the same thing.
+
+- A **division** is a portfolio row on the start page with its own route:
+  `/sleep`, `/pizza`, `/water`. Its back link goes to the AL.KA menu. Follow
+  the rest of this document.
+- A **chronicles entry** is a blog post under `/chronicles`. It gets a date, it
+  appears in the chronicles index, and its back link goes to `/chronicles` -
+  not the menu, because a reader who came from the index wants the index back.
+  Entries are still allowed their own complete look: "The President and the
+  Queen" is a storybook in Comfortaa and Caveat sitting inside a division set
+  in Onest. See **Adding a chronicles entry** at the end.
+
+## Adding a division
 
 Four divisions live in this one app and look nothing like each other on
 purpose. Nothing about their appearance is shared, so nothing here asks you to
@@ -145,3 +159,51 @@ tokens reach `:root`, if a stylesheet styles bare `html`/`body`, if there are
 no stories - or if nothing under the division renders a `BackToMain`, which is
 the one that matters, because a division without it builds, deploys, and
 strands every visitor who reaches it.
+
+---
+
+## Adding a chronicles entry
+
+Same shape, one level down, and no registry entry in `products`.
+
+1. **Register it** in `src/lib/products/chronicles/entries.ts`, newest first:
+
+   ```ts
+   {
+   	slug: 'ants',
+   	date: '2026-08-05',              // ISO; drives display and ordering
+   	rootClass: 'ants-root',
+   	fontHref: `${GOOGLE_FONTS}?family=...`,
+   	iconHref: "data:image/svg+xml,...",
+   	summary: (l) => ({ title: antsContent[l].title, lead: antsContent[l].subtitle })
+   }
+   ```
+
+   `summary` reads the entry's own dictionary rather than copying the title
+   into a third place, so translating the entry translates its index card.
+
+2. **Build it** under `src/lib/products/chronicles/entries/<slug>/`, with the
+   same two rules divisions obey: scope everything under your `rootClass`,
+   never `:root` or bare `html`/`body`.
+
+3. **Route it** at `src/routes/chronicles/<slug>/+page.svelte`, using
+   `EntryHead` rather than `ProductHead` - it emits `og:type: article` and
+   `article:published_time` from the date, and pulls faces from the entry
+   registry.
+
+4. **Point the back link at the index**:
+
+   ```svelte
+   <BackToMain compact href="/chronicles" text={$dict.chronicles.title} />
+   ```
+
+   `npm run check:products` fails without an `href="/chronicles"` somewhere in
+   the entry. That check is deliberately written against the href and not the
+   bare string `/chronicles`, because every import path in an entry contains
+   the latter and an earlier version of the rule passed vacuously.
+
+5. **Story it** as `Chronicles/<Slug>/<Component>` with
+   `parameters: { product: 'chronicles' }`.
+
+The sitemap and the chronicles index both read the entry registry, so neither
+needs touching.

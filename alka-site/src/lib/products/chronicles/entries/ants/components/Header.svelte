@@ -1,21 +1,23 @@
 <script lang="ts">
-	import { antsDict } from '$lib/products/ants/i18n';
+	import { antsDict } from '$lib/products/chronicles/entries/ants/i18n';
 	import { locale, locales, setLocale } from '$lib/i18n';
+	import { dict } from '$lib/products/alka/i18n';
 	import BackToMain from '$lib/components/BackToMain.svelte';
 
 	/**
 	 * The sticky bar: the republic's crown, its name, and the way back.
 	 *
 	 * The artifact shipped its own en/ru/nl pills backed by component state.
-	 * The pills are kept - they belong to this division's look - but they now
+	 * The pills are kept - they belong to this entry's look - but they now
 	 * drive the shared `locale` store, so the language a visitor picked on the
 	 * AL.KA menu is already selected when they get here, and picking Dutch on
 	 * the beach carries back to the menu.
 	 *
-	 * `BackToMain` sits ahead of the crown. It draws in `currentColor` and
-	 * inherits this bar's Nunito, so it reads as part of the republic rather
-	 * than as chrome bolted on top; only the accent on its dot is set, from
-	 * `--btm-accent` in styles.css.
+	 * The back link points at `/chronicles`, not the holding menu. This is a
+	 * blog entry, and a reader who came from the index wants the index back,
+	 * not the top of the site. It draws in `currentColor` and inherits this
+	 * bar's Nunito, so it reads as part of the republic rather than as chrome
+	 * bolted on top.
 	 */
 	const t = $derived($antsDict);
 </script>
@@ -25,7 +27,7 @@
 >
 	<div style="display: flex; align-items: center; gap: 18px; width: 100%; max-width: 1120px;">
 		<span style="font-family: Nunito, sans-serif; font-size: 13px; font-weight: 700; color: #5A4A3E;">
-			<BackToMain compact />
+			<BackToMain compact href="/chronicles" text={$dict.chronicles.title} label={$dict.chronicles.title} />
 		</span>
 
 		<div style="display: flex; align-items: center; gap: 10px; margin-right: auto;">

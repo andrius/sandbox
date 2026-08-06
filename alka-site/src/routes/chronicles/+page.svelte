@@ -8,12 +8,12 @@
 	const chronicles = product('chronicles');
 </script>
 
-<!-- `noindex`: under construction, so real content but nothing worth indexing. -->
+<!-- `noindex` is gone: the division has published entries now, so there is
+     something here worth finding. -->
 <ProductHead
 	id="chronicles"
 	title={$dict.meta_chronicles_title}
 	description={$dict.meta_chronicles_description}
-	noindex
 />
 
 <main class={chronicles.rootClass}>

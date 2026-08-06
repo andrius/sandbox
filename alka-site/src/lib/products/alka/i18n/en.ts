@@ -6,7 +6,7 @@ export const en: Dict = {
 
 	name: 'AL.KA',
 	tagline: 'Vertically integrated nap solutions',
-	estd: '2026',
+	estd: '2016',
 	hq: 'Top bunk, bedroom two',
 
 	hero_kicker: 'A LETTER FROM THE FOUNDER',
@@ -40,24 +40,17 @@ export const en: Dict = {
 		water: {
 			name: 'Wet Water',
 			blurb: "Europe's first water with certified wetness. Plus a genuinely useful heatwave guide."
-		},
-		ants: {
-			name: 'The President and the Queen',
-			blurb:
-				'A summer dispatch from Palanga. One shampoo bottle, two deported terminators, and a treaty of three terms.'
 		}
 	},
 
 	chronicles: {
 		kicker: 'division 01',
 		title: 'Founder chronicles',
-		lead: 'This division is under construction. The record exists, but so far only on paper.',
+		lead: 'The official company record. Kept by hand, and published here whenever a page turns out legible.',
 		body: [
 			'The chronicles have been kept since 2026 in a squared notebook stored under the pillow at head office. Digitisation is scheduled for some point after the founder learns to touch-type.',
-			'The current volume covers: a complete list of sausages consumed, a chart of sleep quality by day of the week, and one page devoted entirely to the cat.',
-			'Publication pending. Exact timing depends on the school timetable.'
-		],
-		eta: 'Expected publication date: eventually'
+			'The current volume covers: a complete list of sausages consumed, a chart of sleep quality by day of the week, and one page devoted entirely to the cat.'
+		]
 	},
 
 	services: [
@@ -116,6 +109,7 @@ export const en: Dict = {
 		hours: 'Opening hours',
 		email: 'Email',
 		note: 'Note',
+		entries: 'Entries',
 		portfolio: 'Portfolio',
 		soon: 'in development',
 		home: 'AL.KA - back to main'

@@ -62,6 +62,8 @@ export interface Labels {
 	hours: string;
 	email: string;
 	note: string;
+	/** Heading over the chronicles entry list. */
+	entries: string;
 	/** Start-page portfolio menu. */
 	portfolio: string;
 	soon: string;
@@ -98,13 +100,12 @@ export interface Dict {
 
 	products: Record<ProductId, ProductCopy>;
 
-	/** The Founder chronicles division - shipped as an honest holding page. */
+	/** The Founder chronicles division - the blog, and its standing intro. */
 	chronicles: {
 		kicker: string;
 		title: string;
 		lead: string;
 		body: string[];
-		eta: string;
 	};
 
 	labels: Labels;

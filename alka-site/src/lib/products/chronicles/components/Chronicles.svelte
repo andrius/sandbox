@@ -1,15 +1,29 @@
 <script lang="ts">
 	import { dict } from '$lib/products/alka/i18n';
+	import { locale } from '$lib/i18n';
 	import { reveal } from '$lib/actions/reveal';
 	import Header from '$lib/products/alka/components/Header.svelte';
+	import { entries, formatEntryDate } from '$lib/products/chronicles/entries';
 
 	/**
-	 * Founder chronicles - a division that ships as an honest holding page.
+	 * Founder chronicles - division 01, and the only division that is a blog.
 	 *
-	 * It lives here rather than inline in the route for the same reason every
-	 * other division's markup does: the route should be head plus wrapper, and
-	 * the page body should be something Storybook can render on its own.
+	 * It shipped as a holding page saying the record existed but only on paper.
+	 * It has entries now, so the apology is gone and the page is what it always
+	 * claimed it would be: the notebook, transcribed, newest page first.
+	 *
+	 * Entries keep their own look. This index does not preview it - a strip of
+	 * five different visual identities would read as a mess rather than as a
+	 * portfolio - so every row is set in the AL.KA house style and the surprise
+	 * is saved for the entry itself.
 	 */
+	const rows = $derived(
+		entries.map((e) => ({
+			...e,
+			...e.summary($locale),
+			display: formatEntryDate(e.date, $locale)
+		}))
+	);
 </script>
 
 <section class="chronicles">
@@ -27,11 +41,29 @@
 			{#each $dict.chronicles.body as para, i (i)}
 				<p class="para reveal-up" use:reveal={{ delay: 220 + i * 80 }}>{para}</p>
 			{/each}
-			<div class="eta reveal-up" use:reveal={{ delay: 220 + $dict.chronicles.body.length * 80 }}>
-				{$dict.chronicles.eta}
-			</div>
 		</div>
 	</div>
+
+	<nav class="entries" aria-label={$dict.labels.entries}>
+		<h2 class="entries-label reveal-up" use:reveal>{$dict.labels.entries}</h2>
+		<ul class="rows">
+			{#each rows as e, i (e.slug)}
+				<li>
+					<a
+						class="row reveal-up"
+						href="/chronicles/{e.slug}"
+						use:reveal={{ delay: 120 + i * 90 }}
+					>
+						<time class="date" datetime={e.date}>{e.display}</time>
+						<span class="name">{e.title}</span>
+						<span class="blurb">{e.lead}</span>
+						<span class="arrow" aria-hidden="true">&#8594;</span>
+					</a>
+				</li>
+			{/each}
+		</ul>
+	</nav>
+
 </section>
 
 <style>
@@ -95,18 +127,6 @@
 		text-wrap: pretty;
 	}
 
-	/* The one piece of chrome that says "not finished" without apologising. */
-	.eta {
-		display: inline-block;
-		margin-top: 20px;
-		font-family: var(--font-mono);
-		font-size: 11px;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		color: var(--orng-text);
-		border: 1px solid var(--rule);
-		padding: 10px 14px;
-	}
 
 	@media (max-width: 1023px) {
 		.body { grid-template-columns: 80px 1fr; gap: 24px; }
@@ -117,4 +137,89 @@
 		.gutter { display: none; }
 	}
 
+	/* The entry list borrows the portfolio menu's row grammar on purpose: same
+	   hairline rules, same hover wash, same arrow. A reader who came from the
+	   start page has already learned how to read one of these. */
+	.entries { margin-top: clamp(48px, 7vw, 80px); }
+
+	.entries-label {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.24em;
+		text-transform: uppercase;
+		color: var(--orng-text);
+		margin: 0 0 20px;
+	}
+
+	.rows { list-style: none; margin: 0; padding: 0; }
+
+	.row {
+		display: grid;
+		grid-template-columns: 160px minmax(0, 1fr) minmax(0, 1.4fr) 40px;
+		gap: 28px;
+		align-items: baseline;
+		padding: 26px 0;
+		border-top: 1px solid var(--rule);
+		text-decoration: none;
+		color: inherit;
+		transition: background 240ms var(--ease-out);
+	}
+	.rows li:last-child .row { border-bottom: 1px solid var(--rule); }
+
+	.row:hover { background: rgba(255, 122, 26, 0.07); }
+	.row:focus-visible { outline: 2px solid var(--orng-text); outline-offset: -2px; }
+
+	.date {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--dim);
+	}
+
+	.name {
+		font-family: var(--font-sans);
+		font-weight: 700;
+		font-size: var(--t-card-h);
+		line-height: 1.15;
+		letter-spacing: -0.015em;
+		color: var(--ink);
+	}
+
+	.blurb {
+		font-family: var(--font-sans);
+		font-size: 15px;
+		line-height: 1.55;
+		color: var(--ink);
+		opacity: 0.78;
+		max-width: 52ch;
+	}
+
+	.arrow {
+		font-family: var(--font-sans);
+		font-weight: 700;
+		font-size: 22px;
+		color: var(--orng-text);
+		text-align: right;
+		transition: transform 320ms var(--ease-out);
+	}
+	.row:hover .arrow { transform: translateX(10px); }
+
+	/* Same fold as the portfolio menu: areas declared explicitly so the arrow
+	   cannot be auto-placed into a phantom row and widen the grid. */
+	@media (max-width: 1023px) {
+		.row {
+			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-areas:
+				'date  arrow'
+				'name  name'
+				'blurb blurb';
+			gap: 6px 16px;
+		}
+		.date { grid-area: date; }
+		.name { grid-area: name; }
+		.blurb { grid-area: blurb; min-width: 0; }
+		.arrow { grid-area: arrow; align-self: center; }
+	}
 </style>

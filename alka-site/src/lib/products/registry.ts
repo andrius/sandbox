@@ -16,7 +16,7 @@
  * To add a division, see `docs/adding-a-product.md`.
  */
 
-export type ProductId = 'chronicles' | 'sleep' | 'pizza' | 'water' | 'ants';
+export type ProductId = 'chronicles' | 'sleep' | 'pizza' | 'water';
 
 export interface Product {
 	id: ProductId;
@@ -53,7 +53,7 @@ export const products: Product[] = [
 		code: '01',
 		href: '/chronicles',
 		rootClass: 'alka-root',
-		status: 'soon'
+		status: 'live'
 	},
 	{
 		id: 'sleep',
@@ -78,16 +78,6 @@ export const products: Product[] = [
 		fontHref: `${GOOGLE_FONTS}?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap`,
 		iconHref:
 			"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💧</text></svg>",
-		status: 'live'
-	},
-	{
-		id: 'ants',
-		code: '05',
-		href: '/ants',
-		rootClass: 'ants-root',
-		fontHref: `${GOOGLE_FONTS}?family=Comfortaa:wght@500;700&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&family=Caveat:wght@500;700&display=swap`,
-		iconHref:
-			"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐜</text></svg>",
 		status: 'live'
 	}
 ];

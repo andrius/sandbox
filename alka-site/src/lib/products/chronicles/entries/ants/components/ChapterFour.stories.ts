@@ -3,9 +3,9 @@ import ChapterFour from './ChapterFour.svelte';
 
 /** chapter four - the alliance, and the treaty's three clauses */
 const meta = {
-	title: 'Ants/ChapterFour',
+	title: 'Chronicles/Ants/ChapterFour',
 	component: ChapterFour,
-	parameters: { product: 'ants' }
+	parameters: { product: 'chronicles' }
 } satisfies Meta<typeof ChapterFour>;
 
 export default meta;

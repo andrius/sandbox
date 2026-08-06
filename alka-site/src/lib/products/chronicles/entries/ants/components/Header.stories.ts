@@ -3,9 +3,9 @@ import Header from './Header.svelte';
 
 /** the sticky bar: crown, republic name, language pills and the way back to AL.KA */
 const meta = {
-	title: 'Ants/Header',
+	title: 'Chronicles/Ants/Header',
 	component: Header,
-	parameters: { product: 'ants' }
+	parameters: { product: 'chronicles' }
 } satisfies Meta<typeof Header>;
 
 export default meta;
