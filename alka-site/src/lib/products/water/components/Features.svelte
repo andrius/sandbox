@@ -7,7 +7,7 @@
 <section class="features" id="features">
 	<div class="wrap">
 		<div class="section-head" data-reveal>
-			<span class="eyebrow">Features</span>
+			<span class="eyebrow">{t.features.eyebrow}</span>
 			<h2>{t.features.title}</h2>
 		</div>
 		<div class="grid-auto feature-grid" data-reveal>

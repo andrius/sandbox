@@ -3,6 +3,7 @@ import { locale, type Locale } from '$lib/i18n';
 import { ru } from './ru';
 import { nl } from './nl';
 import { en } from './en';
+import { es } from './es';
 import type { Dict } from './types';
 
 /**
@@ -10,7 +11,7 @@ import type { Dict } from './types';
  * their dictionaries under `$lib/products/water/i18n` and `$lib/products/pizza/i18n`; all three
  * read the single shared `locale` store from `$lib/i18n`.
  */
-const dictionaries: Record<Locale, Dict> = { ru, nl, en };
+const dictionaries: Record<Locale, Dict> = { ru, nl, en, es };
 
 export const dict = derived(locale, ($l): Dict => dictionaries[$l]);
 

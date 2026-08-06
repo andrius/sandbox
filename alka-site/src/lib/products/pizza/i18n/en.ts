@@ -6,7 +6,9 @@ export const en = {
 	},
 	brand: {
 		short: 'Fake Pizza Hotline',
-		tagline: 'All of the ordering. None of the pizza.'
+		tagline: 'All of the ordering. None of the pizza.',
+		/** The oversized decorative wordmark behind the footer. */
+		noPizza: 'NO PIZZA'
 	},
 	nav: {
 		menu: 'Menu',
@@ -19,7 +21,8 @@ export const en = {
 		label: 'Language',
 		en: 'EN',
 		ru: 'RU',
-		nl: 'NL'
+		nl: 'NL',
+		es: 'ES'
 	},
 	openStatus: {
 		openNow: 'Open now - for the next few minutes',
@@ -145,7 +148,16 @@ export const en = {
 			}
 		}
 	},
+	a11y: {
+		skip: 'Skip to content',
+		cart: 'Cart',
+		menu: 'Menu',
+		decrease: 'Remove one',
+		increase: 'Add one'
+	},
 	guarantee: {
+		/** Three lines of the round dashed seal, stacked. */
+		stamp: ['100%', 'NO', 'PIZZA'],
 		kicker: 'The Fake Pizza Hotline Guarantee™',
 		title: 'No pizza will be made, baked, boxed, or delivered to you.',
 		body: 'If even a single slice arrives at your door, it did not come from us. We have no kitchen, no drivers, and no intention. That is our promise, and we fully intend to keep breaking nothing.',

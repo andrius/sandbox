@@ -27,7 +27,7 @@
       </div>
     </div>
     <div style="position: relative; padding: 20px; border-radius: 28px; background: #F4F8F9; border: 3px solid rgba(20,16,15,.14); box-shadow: 0 18px 40px -28px rgba(42,33,28,.5);">
-      <svg viewBox="0 0 420 400" style="display: block; width: 100%; height: auto;" role="img" aria-label="An elegant glossy black ant queen on a sandy path, her discarded translucent wings lying nearby">
+      <svg viewBox="0 0 420 400" style="display: block; width: 100%; height: auto;" role="img" aria-label={t.art.queen}>
         <defs>
           <radialGradient id="qGloss" cx=".32" cy=".28" r=".8">
             <stop offset="0" stop-color="#5B5551" /><stop offset=".55" stop-color="#1E1A18" /><stop offset="1" stop-color="#0C0A09" />

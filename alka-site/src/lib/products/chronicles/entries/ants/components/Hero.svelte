@@ -23,7 +23,7 @@
   </div>
 
   <div style="position: relative; max-width: 1240px; margin: 26px auto 0;">
-    <svg viewBox="0 0 1200 520" preserveAspectRatio="xMidYMax slice" style="display: block; width: 100%; height: auto; min-height: clamp(300px, 44vw, 520px);" role="img" aria-label="Palanga beach with pine forest, dune and a shampoo-bottle palace">
+    <svg viewBox="0 0 1200 520" preserveAspectRatio="xMidYMax slice" style="display: block; width: 100%; height: auto; min-height: clamp(300px, 44vw, 520px);" role="img" aria-label={t.art.hero}>
       <defs>
         <linearGradient id="hSky" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#DCEAF0" /><stop offset="1" stop-color="#F7EBD6" />

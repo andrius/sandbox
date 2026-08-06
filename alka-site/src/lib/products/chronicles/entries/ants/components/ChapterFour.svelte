@@ -8,7 +8,7 @@
 <section data-reveal="1" data-screen-label="04" style="max-width: 1120px; margin: 0 auto; padding: 96px 20px 40px;">
   <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: clamp(24px, 5vw, 64px); align-items: center;">
     <div style="order: 2; position: relative; padding: 20px; border-radius: 28px; background: #FFF6E2; border: 3px solid rgba(42,33,28,.12); box-shadow: 0 18px 40px -28px rgba(42,33,28,.5);">
-      <svg viewBox="0 0 420 400" style="display: block; width: 100%; height: auto;" role="img" aria-label="The queen ant seated in the middle of the bottle palace like a chess queen on d8, beside a dune at sunset">
+      <svg viewBox="0 0 420 400" style="display: block; width: 100%; height: auto;" role="img" aria-label={t.art.alliance}>
         <defs>
           <linearGradient id="aSky" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stop-color="#F7D9A6" /><stop offset="1" stop-color="#F3E4C2" />

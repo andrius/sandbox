@@ -8,7 +8,9 @@ export const ru: Dict = {
 	},
 	brand: {
 		short: 'Ненастоящая пицца',
-		tagline: 'Весь заказ. Никакой пиццы.'
+		tagline: 'Весь заказ. Никакой пиццы.',
+		/** The oversized decorative wordmark behind the footer. */
+		noPizza: 'НЕТ ПИЦЦЫ'
 	},
 	nav: {
 		menu: 'Меню',
@@ -21,7 +23,8 @@ export const ru: Dict = {
 		label: 'Язык',
 		en: 'EN',
 		ru: 'RU',
-		nl: 'NL'
+		nl: 'NL',
+		es: 'ES'
 	},
 	openStatus: {
 		openNow: 'Открыто - ещё буквально пару минут',
@@ -147,7 +150,16 @@ export const ru: Dict = {
 			}
 		}
 	},
+	a11y: {
+		skip: 'Перейти к содержимому',
+		cart: 'Корзина',
+		menu: 'Меню',
+		decrease: 'Убрать одну',
+		increase: 'Добавить одну'
+	},
 	guarantee: {
+		/** Three lines of the round dashed seal, stacked. */
+		stamp: ['100%', 'НЕТ', 'ПИЦЦЫ'],
 		kicker: 'Гарантия горячей линии ненастоящей пиццы™',
 		title: 'Никакая пицца не будет приготовлена, испечена, упакована или доставлена вам.',
 		body: 'Если хотя бы один кусочек окажется у вашей двери - он не от нас. У нас нет кухни, нет курьеров и нет намерений. Это наше обещание, и мы твёрдо намерены и дальше не нарушать ничего.',

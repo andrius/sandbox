@@ -8,7 +8,9 @@ export const nl: Dict = {
 	},
 	brand: {
 		short: 'Fake Pizza Hotline',
-		tagline: 'Alles van het bestellen. Niks van de pizza.'
+		tagline: 'Alles van het bestellen. Niks van de pizza.',
+		/** The oversized decorative wordmark behind the footer. */
+		noPizza: 'GEEN PIZZA'
 	},
 	nav: {
 		menu: 'Menu',
@@ -21,7 +23,8 @@ export const nl: Dict = {
 		label: 'Taal',
 		en: 'EN',
 		ru: 'RU',
-		nl: 'NL'
+		nl: 'NL',
+		es: 'ES'
 	},
 	openStatus: {
 		openNow: 'Nu open - nog een paar minuutjes',
@@ -147,7 +150,16 @@ export const nl: Dict = {
 			}
 		}
 	},
+	a11y: {
+		skip: 'Naar de inhoud',
+		cart: 'Winkelmand',
+		menu: 'Menu',
+		decrease: 'Eén minder',
+		increase: 'Eén meer'
+	},
 	guarantee: {
+		/** Three lines of the round dashed seal, stacked. */
+		stamp: ['100%', 'GEEN', 'PIZZA'],
 		kicker: 'De Fake Pizza Hotline Garantie™',
 		title: 'Er wordt geen pizza voor je gemaakt, gebakken, ingepakt of bezorgd.',
 		body: 'Als er toch een punt pizza bij je voordeur belandt, dan komt die niet van ons. Wij hebben geen keuken, geen bezorgers en geen intenties. Dat is onze belofte, en we zijn van plan hem volledig na te leven door niks te verbreken.',

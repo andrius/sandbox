@@ -34,6 +34,21 @@ export interface AntsDict {
 	badgeQueen: string;
 	badgeTreaty: string;
 	scrollHint: string;
+	/**
+	 * Accessible descriptions of the five drawings.
+	 *
+	 * The illustrations carry as much of the story as the prose does - the
+	 * queen's shed wings and the chessboard pose are plot, not decoration - so
+	 * they are described rather than hidden, and described in the reader's own
+	 * language like everything else on the page.
+	 */
+	art: {
+		hero: string;
+		palace: string;
+		terminators: string;
+		queen: string;
+		alliance: string;
+	};
 	s1: AntsChapter;
 	s2: AntsChapter;
 	s3: AntsChapter;
@@ -59,6 +74,13 @@ export const antsContent: Record<Locale, AntsDict> = {
     badgeQueen: "One Queen, wingless",
     badgeTreaty: "One treaty, three terms",
     scrollHint: "scroll down - the expedition begins",
+    art: {
+      hero: "Palanga beach with pine forest, dune and a shampoo-bottle palace",
+      palace: "A translucent shampoo bottle palace with a crown drawn on its label, standing in sand",
+      terminators: "Two big red forest ants with angry eyebrows in tactical stances",
+      queen: "An elegant glossy black ant queen on a sandy path, her discarded translucent wings lying nearby",
+      alliance: "The queen ant seated in the middle of the bottle palace like a chess queen on d8, beside a dune at sunset"
+    },
     s1: {
       label: "Chapter one",
       title: "The Palace",
@@ -128,6 +150,13 @@ export const antsContent: Record<Locale, AntsDict> = {
     badgeQueen: "Одна Королева, без крыльев",
     badgeTreaty: "Один договор, три пункта",
     scrollHint: "листай вниз - экспедиция начинается",
+    art: {
+      hero: "Пляж Паланги: сосновый лес, дюна и дворец из флакончика шампуня",
+      palace: "Полупрозрачный дворец из флакончика шампуня с короной, нарисованной на этикетке, стоит в песке",
+      terminators: "Два больших рыжих лесных муравья со злыми бровями в боевых стойках",
+      queen: "Элегантная блестящая чёрная королева муравьёв на песчаной дорожке, рядом лежат сброшенные прозрачные крылья",
+      alliance: "Королева сидит в центре дворца-флакончика, как ферзь на d8, у дюны на закате"
+    },
     s1: {
       label: "Глава первая",
       title: "Дворец",
@@ -197,6 +226,13 @@ export const antsContent: Record<Locale, AntsDict> = {
     badgeQueen: "Eén Koningin, vleugelloos",
     badgeTreaty: "Eén verdrag, drie artikelen",
     scrollHint: "scroll naar beneden - de expeditie begint",
+    art: {
+      hero: "Het strand van Palanga met dennenbos, duin en een paleis van een shampoofles",
+      palace: "Een doorschijnend paleis van een shampoofles met een kroon op het etiket, staand in het zand",
+      terminators: "Twee grote rode bosmieren met boze wenkbrauwen in gevechtshouding",
+      queen: "Een elegante glanzend zwarte mierenkoningin op een zandpad, met haar afgeworpen doorschijnende vleugels ernaast",
+      alliance: "De koningin zit midden in het flessenpaleis als een dame op d8, naast een duin bij zonsondergang"
+    },
     s1: {
       label: "Hoofdstuk één",
       title: "Het Paleis",
@@ -256,5 +292,81 @@ export const antsContent: Record<Locale, AntsDict> = {
     signPresident: "De President, 10 jaar",
     signQueen: "De Koningin, leeftijd onbekend",
     footNote: "De President en de Koningin - een zomerverhaal uit Palanga. Er zijn geen mensen getekend bij het stichten van deze republiek."
+  },
+  es: {
+    brand: "República Presidencial de la Botella",
+    kicker: "Una historia de la costa báltica",
+    title: "El Presidente y la Reina",
+    subtitle: "Un despacho veraniego desde Palanga, en el que un jefe de Estado de diez años sale a buscar a la Reina de las Hormigas - y encuentra a una monarca que se mueve como una pieza de ajedrez.",
+    modelName: "T-HORMIGA",
+    badgeQueen: "Una Reina, sin alas",
+    badgeTreaty: "Un tratado, tres cláusulas",
+    scrollHint: "baja - la expedición comienza",
+    art: {
+      hero: "La playa de Palanga con pinar, duna y un palacio hecho con un frasco de champú",
+      palace: "Un palacio translúcido hecho con un frasco de champú, con una corona dibujada en la etiqueta, de pie sobre la arena",
+      terminators: "Dos grandes hormigas rojas del bosque con las cejas enfadadas en postura de combate",
+      queen: "Una elegante reina hormiga, negra y brillante, en un sendero de arena, con sus alas translúcidas desprendidas al lado",
+      alliance: "La reina sentada en el centro del palacio-frasco como una dama en d8, junto a una duna al atardecer"
+    },
+    s1: {
+      label: "Capítulo uno",
+      title: "El Palacio",
+      body: [
+        "Todo presidente necesita una residencia. El Presidente Sasha tenía una - un frasco de champú, enjuagado a fondo y desinfectado con agua de mar de Palanga.",
+        "Solo faltaba encontrar a alguien a quien gobernar.",
+        "“Papá”, dijo el Presidente, apartándose el flequillo de un soplido. “Necesitamos a la Reina de las Hormigas. Para las relaciones diplomáticas.”",
+        "Papá Andrius fue nombrado Asistente Especial y aceptó, porque no había escapatoria: vacaciones."
+      ],
+      caption: "Palacio Presidencial Provisional, Palanga. Capacidad: una monarca."
+    },
+    s2: {
+      label: "Capítulo dos - Primera expedición",
+      title: "Los Terminators",
+      body: [
+        "La primera expedición se adentró en el pinar. La caza fue dura: los objetivos corrían como comandos, mordían como comandos y olían a algo muy ácido. Se capturaron dos prisioneras - enormes, rojas, feroces. Dentro del palacio-frasco montaron de inmediato un motín y un intento de fuga por el cuello.",
+        "“Estas no son reinas”, dijo el Presidente con gravedad, examinando a las cautivas. “Estas son terminators. Del bosque. Rojas. Modelo T-HORMIGA.”",
+        "Las terminators fueron deportadas al bosque con todos los honores - el Presidente era estricto, pero justo."
+      ],
+      caption: "Pruebas A y B: fauna hostil. Cejas enfadadas verificadas."
+    },
+    s3: {
+      label: "Capítulo tres",
+      title: "El Milagro",
+      body: [
+        "Y un día después, en un sendero junto al mar, ocurrió el milagro. Caminaba sola, sin prisa, brillante y negra, elegante como una pieza de ajedrez que se cansó de estar en el tablero y salió a pasear.",
+        "Ya se había desprendido de las alas - las reinas lo hacen después del vuelo nupcial.",
+        "“Su Majestad”, susurró el Presidente, y se inclinó."
+      ],
+      caption: "La Reina. Sin alas por decisión propia. Se mueve en todas las direcciones."
+    },
+    s4: {
+      label: "Capítulo cuatro",
+      title: "La Alianza",
+      body: [
+        "La Reina fue invitada al palacio. Entró con dignidad, inspeccionó los aposentos y se instaló en el centro - exactamente como una dama en d8.",
+        "Los dos Estados formaron una alianza. El Presidente prometió protección, una playa de arena y migas de galleta. La Reina prometió pensárselo.",
+        "Por la tarde fue liberada solemnemente junto a la duna - para construir un reino de verdad."
+      ],
+      caption: "Ceremonia de firma. Tinta: ninguna. Testigos: dos mil granos de arena."
+    },
+    treatyTitle: "El Tratado de la Botella",
+    treatyNote: "Ratificado en la playa, por unanimidad, por un Presidente y una Reina.",
+    terms: {
+      shield: { t: "Protección", d: "Ninguna gaviota, ninguna prima y ninguna sandalia molestarán a Su Majestad dentro de sus fronteras." },
+      beach: { t: "Una playa de arena", d: "Cedida en plena propiedad, desde el tercer pino hasta la orilla del agua." },
+      cookie: { t: "Migas de galleta", d: "Entrega diaria. Se prefiere la mantequilla; la mermelada es negociable." }
+    },
+    decreeTitle: "Decreto Presidencial n.º 1",
+    decreeSub: "Escrito en un cuaderno cuadriculado, tercera página empezando por el final",
+    decree: [
+      "La duna entre el tercer y el cuarto pino queda constituida como Reinado de la Hormiga Negra.",
+      "Todos los ciudadanos la rodearán, en silencio, y de puntillas si el viento sopla fuerte.",
+      "Migas los domingos. El modelo T-HORMIGA sigue deportado hasta que pida perdón.",
+      "«La diplomacia es cuando todos se van contentos. Incluso los terminators»."
+    ],
+    signPresident: "El Presidente, 10 años",
+    signQueen: "La Reina, edad desconocida",
+    footNote: "El Presidente y la Reina - una historia de verano desde Palanga. No se dibujó a ninguna persona durante la fundación de esta república."
   }
 };

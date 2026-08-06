@@ -92,6 +92,6 @@
 		aria-hidden="true"
 		class="wordmark-bg pointer-events-none select-none overflow-hidden whitespace-nowrap text-center font-display font-extrabold leading-none text-white/3"
 	>
-		NO PIZZA
+		{$pizzaT('brand.noPizza')}
 	</div>
 </footer>

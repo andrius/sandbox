@@ -2,6 +2,7 @@
 	import { pizzaT } from '$lib/products/pizza/i18n';
 	import { reveal } from '$lib/actions/reveal';
 	const points = $derived($pizzaT('guarantee.points') as string[]);
+	const stamp = $derived($pizzaT('guarantee.stamp') as string[]);
 </script>
 
 <section id="guarantee" class="scroll-mt-24 py-16">
@@ -15,7 +16,7 @@
 				class="absolute -top-10 -right-10 hidden h-44 w-44 rotate-12 place-items-center rounded-full border-4 border-dashed border-cheese-400/40 text-center sm:grid"
 			>
 				<span class="font-display text-sm font-extrabold uppercase leading-tight text-cheese-300">
-					100%<br />NO<br />PIZZA
+					{#each stamp as line, i (line + i)}{#if i > 0}<br />{/if}{line}{/each}
 				</span>
 			</div>
 

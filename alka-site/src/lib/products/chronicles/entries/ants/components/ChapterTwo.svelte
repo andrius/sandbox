@@ -10,7 +10,7 @@
     <div style="position: relative; padding: 20px; border-radius: 28px; background: #FFF1E4; border: 3px solid rgba(198,64,47,.22); box-shadow: 0 18px 40px -28px rgba(42,33,28,.5); order: 2;">
       <div style="position: relative; container-type: inline-size;">
       <div style="position: absolute; left: 58.6%; top: 14.5%; width: 37.6%; height: 12%; display: grid; place-items: center; font-family: Comfortaa, cursive; font-weight: 700; font-size: 3.5cqw; letter-spacing: .01em; color: #C6402F; white-space: nowrap;">{t.modelName}</div>
-      <svg viewBox="0 0 420 400" style="display: block; width: 100%; height: auto;" role="img" aria-label="Two big red forest ants with angry eyebrows in tactical stances">
+      <svg viewBox="0 0 420 400" style="display: block; width: 100%; height: auto;" role="img" aria-label={t.art.terminators}>
         <circle cx="210" cy="188" r="152" fill="#FBE0D3" />
         <g stroke="#5F3E2E" stroke-width="6" stroke-linecap="round" fill="none" opacity=".5">
           <path d="M30 330q60-14 120 0M270 336q60-12 120 2" />

@@ -3,6 +3,8 @@
 	import { openCall } from '$lib/products/pizza/ui.svelte';
 	import { getOpenStatus, formatCountdown } from '$lib/products/pizza/hours';
 	import { PHONE_DISPLAY } from '$lib/products/pizza/constants';
+	import { formatMoney } from '$lib/products/pizza/format';
+	import { locale } from '$lib/i18n';
 	import VoidPizza from '$lib/products/pizza/components/VoidPizza.svelte';
 
 	let now = $state<Date | null>(null);
@@ -101,7 +103,10 @@
 			<!-- Floating price chip -->
 			<div class="absolute top-2 right-0 rotate-[6deg] anim-float">
 				<div class="card px-4 py-2 text-center backdrop-blur-md">
-					<div class="font-display text-lg font-extrabold text-cheese-300">$0.00</div>
+					<!-- The one price on the page, and it was the one hardcoded string:
+					     `$0.00` stayed American in every language while the checkout
+					     next to it printed 0,00 US$ and 0,00 $. -->
+					<div class="font-display text-lg font-extrabold text-cheese-300">{formatMoney(0, $locale)}</div>
 					<div class="text-[10px] uppercase tracking-wide text-void-400">{PHONE_DISPLAY}</div>
 				</div>
 			</div>

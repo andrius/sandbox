@@ -368,9 +368,9 @@
 								</div>
 								<div class="mt-2 flex items-center gap-2">
 									<div class="inline-flex items-center rounded-lg border border-white/12">
-										<button type="button" class="px-2.5 py-1 text-void-200 hover:text-cream-50" onclick={() => setQty(line.id, line.qty - 1)} aria-label="−">−</button>
+										<button type="button" class="px-2.5 py-1 text-void-200 hover:text-cream-50" onclick={() => setQty(line.id, line.qty - 1)} aria-label={$pizzaT('a11y.decrease')}>−</button>
 										<span class="w-7 text-center text-sm font-bold">{line.qty}</span>
-										<button type="button" class="px-2.5 py-1 text-void-200 hover:text-cream-50" onclick={() => setQty(line.id, line.qty + 1)} aria-label="+">+</button>
+										<button type="button" class="px-2.5 py-1 text-void-200 hover:text-cream-50" onclick={() => setQty(line.id, line.qty + 1)} aria-label={$pizzaT('a11y.increase')}>+</button>
 									</div>
 									<button type="button" class="text-xs text-void-400 underline-offset-2 hover:text-tomato-400 hover:underline" onclick={() => removeFromCart(line.id)}>
 										{$pizzaT('checkout.summary.remove')}

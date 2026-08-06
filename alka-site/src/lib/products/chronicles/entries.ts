@@ -1,4 +1,4 @@
-import type { Locale } from '$lib/i18n';
+import { INTL_TAG, type Locale } from '$lib/i18n';
 import { antsContent } from './entries/ants/i18n/content';
 
 /**
@@ -50,13 +50,11 @@ export function entry(slug: string): ChronicleEntry {
 
 /**
  * Dates render in each language's own convention rather than one house format:
- * `5 августа 2026`, `5 augustus 2026`, `5 August 2026`. Built from a fixed UTC
- * timestamp so the day never shifts by timezone.
+ * `5 августа 2026`, `5 augustus 2026`, `5 August 2026`, `5 de agosto de 2026`.
+ * Built from a fixed UTC timestamp so the day never shifts by timezone.
  */
-const DATE_LOCALES: Record<Locale, string> = { ru: 'ru-RU', nl: 'nl-NL', en: 'en-GB' };
-
 export function formatEntryDate(iso: string, locale: Locale): string {
-	return new Intl.DateTimeFormat(DATE_LOCALES[locale], {
+	return new Intl.DateTimeFormat(INTL_TAG[locale], {
 		day: 'numeric',
 		month: 'long',
 		year: 'numeric',

@@ -19,7 +19,7 @@
       <p style="margin: 26px 0 0; font-family: Caveat, cursive; font-size: 23px; color: #C6402F;">{t.s1.caption}</p>
     </div>
     <div style="position: relative; padding: 20px; border-radius: 28px; background: #FFF6E2; border: 3px solid rgba(42,33,28,.12); box-shadow: 0 18px 40px -28px rgba(42,33,28,.5);">
-      <svg viewBox="0 0 420 400" style="display: block; width: 100%; height: auto;" role="img" aria-label="A translucent shampoo bottle palace with a crown drawn on its label, standing in sand">
+      <svg viewBox="0 0 420 400" style="display: block; width: 100%; height: auto;" role="img" aria-label={t.art.palace}>
         <defs>
           <linearGradient id="pBottle" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stop-color="#EDF8F4" stop-opacity=".95" /><stop offset="1" stop-color="#B4D8D1" stop-opacity=".72" />

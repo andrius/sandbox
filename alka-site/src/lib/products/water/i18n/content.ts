@@ -1,7 +1,15 @@
-// Trilingual copy for Wet Water, ported verbatim from the original design export.
-// EN / RU / NL. Edit text here; structure is enforced by the Dict type below.
+// Copy for Wet Water, ported from the original design export and since
+// extended. EN / RU / NL / ES. Edit text here; structure is enforced by the
+// Dict type below.
+//
+// This file used to declare its own `Lang` union, which drifted from the
+// shared store the moment a fourth language arrived - it still said
+// `'en' | 'ru' | 'nl'`, so Spanish would have been a type error here and a
+// missing tab in the header. It keys off `Locale` now, which means adding a
+// language to `$lib/i18n` makes this file fail to typecheck until the copy
+// exists. That is the point.
 
-export type Lang = 'en' | 'ru' | 'nl';
+import type { Locale } from '$lib/i18n';
 
 export interface Dict {
   tagline: string;
@@ -18,7 +26,7 @@ export interface Dict {
     eyebrow: string; title: string; note: string;
     cards: { icon: string; name: string; desc: string; button: string }[];
   };
-  features: { title: string; items: { icon: string; title: string; desc: string }[] };
+  features: { eyebrow: string; title: string; items: { icon: string; title: string; desc: string }[] };
   surviveEyebrow: string;
   guideHome: { title: string; steps: string[] };
   guideBody: { title: string; steps: string[] };
@@ -37,11 +45,11 @@ export interface Dict {
 
 export const PROBLEM_NUMBER = '+33…+43°C';
 
-export const langs: Lang[] = ['en', 'ru', 'nl'];
+/* `langs` and `localeNames` used to be declared here as a second, hand-kept
+   list of the available languages. Nothing imported them and they had already
+   fallen a language behind. The list lives once, in `$lib/i18n`. */
 
-export const localeNames: Record<Lang, string> = { en: 'EN', ru: 'RU', nl: 'NL' };
-
-export const locales: Record<Lang, Dict> = {
+export const locales: Record<Locale, Dict> = {
   "en": {
     "tagline": "Water. But wet.",
     "factTitle": "FACTS",
@@ -107,15 +115,15 @@ export const locales: Record<Lang, Dict> = {
       "body": "The asphalt is melting, the city is sighing, and your body is quietly cooking. Heatstroke doesn’t care who you are."
     },
     "reveal": {
-      "headline": "We make water wet. We don’t sell it — our partners do.",
-      "body": "Full honesty: we sell the idea that water — which you already have — is great. The water itself comes from our partners. Go on.",
+      "headline": "We make water wet. We don’t sell it - our partners do.",
+      "body": "Full honesty: we sell the idea that water - which you already have - is great. The water itself comes from our partners. Go on.",
       "sub": "Think of us as a middleman who adds nothing. Like most middlemen.",
       "cta": "Buy water from our partners"
     },
     "partners": {
       "eyebrow": "Authorized hydration partners",
       "title": "Get water, delivered or nearby",
-      "note": "// Partner slots — drop your affiliate links here.",
+      "note": "// Partner slots - drop your affiliate links here.",
       "cards": [
         {
           "icon": "🛒",
@@ -126,7 +134,7 @@ export const locales: Record<Lang, Dict> = {
         {
           "icon": "🚚",
           "name": "Delivery",
-          "desc": "Cases to your door — going outside is cancelled today.",
+          "desc": "Cases to your door - going outside is cancelled today.",
           "button": "Order delivery"
         },
         {
@@ -144,6 +152,7 @@ export const locales: Record<Lang, Dict> = {
       ]
     },
     "features": {
+      "eyebrow": "Features",
       "title": "Things you didn’t know water could do",
       "items": [
         {
@@ -182,12 +191,12 @@ export const locales: Record<Lang, Dict> = {
     "guideHome": {
       "title": "How to cool your home without an AC (without selling a kidney)",
       "steps": [
-        "Close curtains/blinds by day — glass is the biggest heat source; prioritize south and west.",
-        "At night and dawn — cross-breeze (windows on opposite sides).",
-        "A wet sheet in front of an open window or fan — evaporative cooling.",
+        "Close curtains/blinds by day - glass is the biggest heat source; prioritize south and west.",
+        "At night and dawn - cross-breeze (windows on opposite sides).",
+        "A wet sheet in front of an open window or fan - evaporative cooling.",
         "Fan + a bowl of ice = a poor man’s AC.",
         "Switch off anything that heats: oven, stove, incandescent bulbs.",
-        "Warm air rises — sleep low."
+        "Warm air rises - sleep low."
       ]
     },
     "guideBody": {
@@ -195,10 +204,10 @@ export const locales: Record<Lang, Dict> = {
       "steps": [
         "Drink before you’re thirsty; alcohol and coffee dehydrate.",
         "Heavy sweating → electrolytes (salt, potassium, magnesium).",
-        "Avoid the sun 11:00–17:00.",
+        "Avoid the sun 11:00 - 17:00.",
         "Cool your pulse points: wrists, neck.",
-        "Cool — not ice-cold — shower; light, loose clothing.",
-        "⚠️ Heatstroke (hot dry skin, confusion, nausea) — call 112."
+        "Cool - not ice-cold - shower; light, loose clothing.",
+        "⚠️ Heatstroke (hot dry skin, confusion, nausea) - call 112."
       ]
     },
     "pricing": {
@@ -241,7 +250,7 @@ export const locales: Record<Lang, Dict> = {
       "title": "Loved by hydrated people",
       "items": [
         {
-          "quote": "I drank Wet Water and it was, in fact, wet. Exactly as advertised — a rare thing these days.",
+          "quote": "I drank Wet Water and it was, in fact, wet. Exactly as advertised - a rare thing these days.",
           "author": "Sergei, professional skeptic"
         },
         {
@@ -278,12 +287,12 @@ export const locales: Record<Lang, Dict> = {
           "a": "The bottle. And the feeling of having made a choice."
         },
         {
-          "q": "…wait, is the name a—?",
+          "q": "…wait, is the name a - ?",
           "a": "It’s water. Get your mind out of the gutter."
         },
         {
           "q": "How much should I drink in the heat?",
-          "a": "~2–3 L/day, more with activity and sweating; pale urine = good."
+          "a": "~2 - 3 L/day, more with activity and sweating; pale urine = good."
         },
         {
           "q": "Where do I actually buy it?",
@@ -292,8 +301,8 @@ export const locales: Record<Lang, Dict> = {
       ]
     },
     "footer": {
-      "statement": "Official statement: on June 24th, the Sun went too far. We’ve filed a complaint. Meanwhile — close your curtains.",
-      "legal": "Wet Water™ — water the way nature intended, now with a landing page. Wetness not guaranteed below 0°C. The jokes are jokes; the heat advice is not.",
+      "statement": "Official statement: on June 24th, the Sun went too far. We’ve filed a complaint. Meanwhile - close your curtains.",
+      "legal": "Wet Water™ - water the way nature intended, now with a landing page. Wetness not guaranteed below 0°C. The jokes are jokes; the heat advice is not.",
       "backToTop": "↑ come up for air",
       "newsletter": "Hydration updates. Max one drop per week.",
       "newsletterThanks": "💧 One drop, incoming.",
@@ -371,26 +380,26 @@ export const locales: Record<Lang, Dict> = {
       "body": "Асфальт плавится, город вздыхает, а организм тихо варится. Тепловому удару всё равно, кто ты."
     },
     "reveal": {
-      "headline": "Мы делаем воду мокрой. Но не продаём — это делают наши партнёры.",
-      "body": "Честно: мы продаём идею, что вода — которая у вас уже есть — это прекрасно. А саму воду берите у партнёров. Идите.",
+      "headline": "Мы делаем воду мокрой. Но не продаём - это делают наши партнёры.",
+      "body": "Честно: мы продаём идею, что вода - которая у вас уже есть - это прекрасно. А саму воду берите у партнёров. Идите.",
       "sub": "Считайте нас посредником, который не добавляет ничего. Как и большинство посредников.",
       "cta": "Купить воду у партнёров"
     },
     "partners": {
       "eyebrow": "Авторизованные партнёры по гидратации",
-      "title": "Вода — с доставкой или рядом с домом",
-      "note": "// Слоты партнёров — вставьте сюда свои аффилиат-ссылки.",
+      "title": "Вода - с доставкой или рядом с домом",
+      "note": "// Слоты партнёров - вставьте сюда свои аффилиат-ссылки.",
       "cards": [
         {
           "icon": "🛒",
           "name": "Супермаркет",
-          "desc": "Бутилированная вода, сегодня. Дойти пешком — считается за спорт.",
+          "desc": "Бутилированная вода, сегодня. Дойти пешком - считается за спорт.",
           "button": "В магазин"
         },
         {
           "icon": "🚚",
           "name": "Доставка",
-          "desc": "Упаковки к двери — на улицу сегодня отменяется.",
+          "desc": "Упаковки к двери - на улицу сегодня отменяется.",
           "button": "Заказать доставку"
         },
         {
@@ -408,6 +417,7 @@ export const locales: Record<Lang, Dict> = {
       ]
     },
     "features": {
+      "eyebrow": "Возможности",
       "title": "Чего вы не знали о воде",
       "items": [
         {
@@ -446,23 +456,23 @@ export const locales: Record<Lang, Dict> = {
     "guideHome": {
       "title": "Как охладить квартиру без кондиционера (не продавая почку)",
       "steps": [
-        "Днём закрывай шторы/жалюзи — стекло греет сильнее всего; приоритет юг и запад.",
-        "Ночью и на рассвете — сквозняк (окна на разных сторонах).",
-        "Мокрая простыня перед открытым окном/вентилятором — испарительное охлаждение.",
+        "Днём закрывай шторы/жалюзи - стекло греет сильнее всего; приоритет юг и запад.",
+        "Ночью и на рассвете - сквозняк (окна на разных сторонах).",
+        "Мокрая простыня перед открытым окном/вентилятором - испарительное охлаждение.",
         "Вентилятор + миска льда = «бедный кондиционер».",
         "Выключай всё, что греет: духовку, плиту, лампы накаливания.",
-        "Тёплый воздух поднимается — спи ниже."
+        "Тёплый воздух поднимается - спи ниже."
       ]
     },
     "guideBody": {
       "title": "Как не расплавиться: инструкция для людей",
       "steps": [
         "Пей до жажды; алкоголь и кофе обезвоживают.",
-        "При сильном поте — электролиты (соль, калий, магний).",
-        "Не выходи на солнце 11:00–17:00.",
+        "При сильном поте - электролиты (соль, калий, магний).",
+        "Не выходи на солнце 11:00 - 17:00.",
         "Охлаждай пульсовые точки: запястья, шея.",
         "Прохладный, не ледяной душ; лёгкая свободная одежда.",
-        "⚠️ Тепловой удар (сухая горячая кожа, спутанность, тошнота) — это 112."
+        "⚠️ Тепловой удар (сухая горячая кожа, спутанность, тошнота) - это 112."
       ]
     },
     "pricing": {
@@ -505,7 +515,7 @@ export const locales: Record<Lang, Dict> = {
       "title": "Нас любят увлажнённые люди",
       "items": [
         {
-          "quote": "Выпил Wet Water — и она правда мокрая. Точно как в рекламе. Редкость в наше время.",
+          "quote": "Выпил Wet Water - и она правда мокрая. Точно как в рекламе. Редкость в наше время.",
           "author": "Сергей, профессиональный скептик"
         },
         {
@@ -542,12 +552,12 @@ export const locales: Record<Lang, Dict> = {
           "a": "Бутылка. И ощущение, что вы сделали выбор."
         },
         {
-          "q": "…погодите, название — это что-то…?",
+          "q": "…погодите, название - это что-то…?",
           "a": "Это вода. Выньте мысли из канавы."
         },
         {
           "q": "Сколько пить в жару?",
-          "a": "~2–3 л/день, больше при нагрузке и поте; светлая моча = норма."
+          "a": "~2 - 3 л/день, больше при нагрузке и поте; светлая моча = норма."
         },
         {
           "q": "А где её вообще купить?",
@@ -556,8 +566,8 @@ export const locales: Record<Lang, Dict> = {
       ]
     },
     "footer": {
-      "statement": "Официальное заявление: 24 июня Солнце зашло слишком далеко. Мы подали жалобу. А пока — закройте шторы.",
-      "legal": "Wet Water™ — вода, какой её задумала природа, только теперь с лендингом. Мокрость не гарантируется ниже 0°C. Шутки — это шутки, а советы по жаре — нет.",
+      "statement": "Официальное заявление: 24 июня Солнце зашло слишком далеко. Мы подали жалобу. А пока - закройте шторы.",
+      "legal": "Wet Water™ - вода, какой её задумала природа, только теперь с лендингом. Мокрость не гарантируется ниже 0°C. Шутки - это шутки, а советы по жаре - нет.",
       "backToTop": "↑ всплыть за воздухом",
       "newsletter": "Сводки влажности. Не больше капли в неделю.",
       "newsletterThanks": "💧 Капля уже в пути.",
@@ -635,15 +645,15 @@ export const locales: Record<Lang, Dict> = {
       "body": "Het asfalt smelt, de stad zucht en je lichaam staat stilletjes te koken. Een hitteberoerte maakt het niet uit wie je bent."
     },
     "reveal": {
-      "headline": "Wij maken water nat. Verkopen doen we niet — dat doen onze partners.",
-      "body": "Eerlijk: wij verkopen het idee dat water — dat je al hebt — geweldig is. Het water zelf komt van onze partners. Ga maar.",
+      "headline": "Wij maken water nat. Verkopen doen we niet - dat doen onze partners.",
+      "body": "Eerlijk: wij verkopen het idee dat water - dat je al hebt - geweldig is. Het water zelf komt van onze partners. Ga maar.",
       "sub": "Zie ons als een tussenpersoon die niets toevoegt. Net als de meeste tussenpersonen.",
       "cta": "Water kopen bij onze partners"
     },
     "partners": {
       "eyebrow": "Erkende hydratiepartners",
       "title": "Water, bezorgd of om de hoek",
-      "note": "// Partnerplekken — zet hier je affiliate-links.",
+      "note": "// Partnerplekken - zet hier je affiliate-links.",
       "cards": [
         {
           "icon": "🛒",
@@ -654,7 +664,7 @@ export const locales: Record<Lang, Dict> = {
         {
           "icon": "🚚",
           "name": "Bezorging",
-          "desc": "Kratten aan je deur — naar buiten gaan is vandaag afgelast.",
+          "desc": "Kratten aan je deur - naar buiten gaan is vandaag afgelast.",
           "button": "Bezorging bestellen"
         },
         {
@@ -672,6 +682,7 @@ export const locales: Record<Lang, Dict> = {
       ]
     },
     "features": {
+      "eyebrow": "Kenmerken",
       "title": "Dingen die je niet wist dat water kon",
       "items": [
         {
@@ -710,12 +721,12 @@ export const locales: Record<Lang, Dict> = {
     "guideHome": {
       "title": "Je woning koelen zonder airco (zonder een nier te verkopen)",
       "steps": [
-        "Sluit overdag gordijnen/jaloezieën — glas geeft de meeste warmte; voorrang aan zuid en west.",
-        "’s Nachts en bij zonsopgang — tocht (ramen aan weerszijden).",
-        "Een nat laken voor een open raam/ventilator — verdampingskoeling.",
+        "Sluit overdag gordijnen/jaloezieën - glas geeft de meeste warmte; voorrang aan zuid en west.",
+        "’s Nachts en bij zonsopgang - tocht (ramen aan weerszijden).",
+        "Een nat laken voor een open raam/ventilator - verdampingskoeling.",
         "Ventilator + een kom ijs = armemensenairco.",
         "Zet alles uit wat warmte geeft: oven, fornuis, gloeilampen.",
-        "Warme lucht stijgt — slaap laag."
+        "Warme lucht stijgt - slaap laag."
       ]
     },
     "guideBody": {
@@ -725,8 +736,8 @@ export const locales: Record<Lang, Dict> = {
         "Bij flink zweten → elektrolyten (zout, kalium, magnesium).",
         "Vermijd de zon van 11:00 tot 17:00.",
         "Koel je polsslagpunten: polsen, nek.",
-        "Koele — niet ijskoude — douche; lichte, losse kleding.",
-        "⚠️ Hitteberoerte (hete droge huid, verwardheid, misselijkheid) — bel 112."
+        "Koele - niet ijskoude - douche; lichte, losse kleding.",
+        "⚠️ Hitteberoerte (hete droge huid, verwardheid, misselijkheid) - bel 112."
       ]
     },
     "pricing": {
@@ -769,7 +780,7 @@ export const locales: Record<Lang, Dict> = {
       "title": "Geliefd bij gehydrateerde mensen",
       "items": [
         {
-          "quote": "Ik dronk Wet Water en het was inderdaad nat. Precies zoals beloofd — zeldzaam tegenwoordig.",
+          "quote": "Ik dronk Wet Water en het was inderdaad nat. Precies zoals beloofd - zeldzaam tegenwoordig.",
           "author": "Sergei, beroepsscepticus"
         },
         {
@@ -806,12 +817,12 @@ export const locales: Record<Lang, Dict> = {
           "a": "De fles. En het gevoel dat je een keuze hebt gemaakt."
         },
         {
-          "q": "…wacht, is de naam een—?",
+          "q": "…wacht, is de naam een - ?",
           "a": "Het is water. Haal je hoofd uit de goot."
         },
         {
           "q": "Hoeveel moet ik drinken in de hitte?",
-          "a": "~2–3 liter/dag, meer bij inspanning en zweten; lichte urine = goed."
+          "a": "~2 - 3 liter/dag, meer bij inspanning en zweten; lichte urine = goed."
         },
         {
           "q": "Waar koop ik het eigenlijk?",
@@ -821,7 +832,7 @@ export const locales: Record<Lang, Dict> = {
     },
     "footer": {
       "statement": "Officiële verklaring: op 24 juni ging de zon te ver. We hebben een klacht ingediend. Sluit ondertussen je gordijnen.",
-      "legal": "Wet Water™ — water zoals de natuur het bedoelde, nu met een landingspagina. Natheid niet gegarandeerd onder 0°C. De grappen zijn grappen; het hitte-advies niet.",
+      "legal": "Wet Water™ - water zoals de natuur het bedoelde, nu met een landingspagina. Natheid niet gegarandeerd onder 0°C. De grappen zijn grappen; het hitte-advies niet.",
       "backToTop": "↑ kom boven voor lucht",
       "newsletter": "Natheidsupdates. Max één druppel per week.",
       "newsletterThanks": "💧 Eén druppel onderweg.",
@@ -832,6 +843,271 @@ export const locales: Record<Lang, Dict> = {
       "text": "We gebruiken cookies. En water. Vooral water.",
       "accept": "Accepteren",
       "dismiss": "Ga iets drinken"
+    }
+  },
+  "es": {
+    "tagline": "Agua. Pero mojada.",
+    "factTitle": "DATOS",
+    "thermLabel": "enfriando",
+    "loading": "Hirviendo… enfriando… condensando… 💧",
+    "nav": {
+      "product": "Producto",
+      "survive": "Sobrevivir al calor",
+      "partners": "Socios",
+      "pricing": "Precios",
+      "faq": "FAQ",
+      "getWater": "Conseguir agua"
+    },
+    "hero": {
+      "kicker": "Avalada por la gravedad · Ganadora del premio «Lo que más se parece al agua», 14 000 millones de años seguidos",
+      "headline": "No inventamos el agua. Solo la metimos en una botella más bonita y creímos en nosotros mismos.",
+      "subhead": "La primera agua de Europa con humedad certificada. Obtenida de forma responsable de nubes, ríos y un grifo muy generoso. Sigue mojada hasta los +43°C.",
+      "cta1": "Quiero agua ya",
+      "cta2": "Tengo sed",
+      "trust": "Con la confianza de 7800 millones de humanos"
+    },
+    "fact": [
+      {
+        "label": "Fuera",
+        "value": "43°C 🔥",
+        "note": "(demasiado)"
+      },
+      {
+        "label": "Humedad",
+        "value": "100%",
+        "note": "(como prometimos)"
+      },
+      {
+        "label": "Calorías",
+        "value": "0",
+        "note": "(comprobado dos veces)"
+      },
+      {
+        "label": "Ingredientes",
+        "value": "agua",
+        "note": "(esa es la lista entera)"
+      },
+      {
+        "label": "Origen",
+        "value": "una nube, probablemente",
+        "note": ""
+      }
+    ],
+    "trustedRow": {
+      "label": "Confían en nosotros:",
+      "items": [
+        "tus riñones",
+        "todas las plantas de casa",
+        "el Mediterráneo",
+        "el sudor",
+        "las cubiteras",
+        "el concepto entero de la sopa"
+      ]
+    },
+    "problem": {
+      "label": "Condiciones actuales",
+      "title": "Europa se está recalentando.",
+      "body": "El asfalto se derrite, la ciudad suspira y tu cuerpo se está cociendo en silencio. Al golpe de calor le da igual quién seas."
+    },
+    "reveal": {
+      "headline": "Nosotros mojamos el agua. No la vendemos: eso lo hacen nuestros socios.",
+      "body": "Con total honestidad: vendemos la idea de que el agua - que ya tienes - es estupenda. El agua en sí viene de nuestros socios. Adelante.",
+      "sub": "Considéranos un intermediario que no aporta nada. Como casi todos los intermediarios.",
+      "cta": "Comprar agua a nuestros socios"
+    },
+    "partners": {
+      "eyebrow": "Socios de hidratación autorizados",
+      "title": "Agua, a domicilio o a la vuelta de la esquina",
+      "note": "// Espacios para socios: pon aquí tus enlaces de afiliado.",
+      "cards": [
+        {
+          "icon": "🛒",
+          "name": "Supermercado",
+          "desc": "Agua embotellada, hoy mismo. Ir andando cuenta como deporte.",
+          "button": "Ir a la tienda"
+        },
+        {
+          "icon": "🚚",
+          "name": "Entrega a domicilio",
+          "desc": "Cajas en tu puerta: hoy se cancela lo de salir a la calle.",
+          "button": "Pedir a domicilio"
+        },
+        {
+          "icon": "💧",
+          "name": "Suscripción",
+          "desc": "Agua, pero para siempre. Como una mascota que nunca se muere.",
+          "button": "Suscribirme"
+        },
+        {
+          "icon": "🥤",
+          "name": "Trae tu botella",
+          "desc": "La opción más barata, y el planeta te da las gracias.",
+          "button": "Buscar una fuente"
+        }
+      ]
+    },
+    "features": {
+      "eyebrow": "Características",
+      "title": "Cosas que no sabías que el agua podía hacer",
+      "items": [
+        {
+          "icon": "💧",
+          "title": "100% mojada",
+          "desc": "cada gota, garantizado"
+        },
+        {
+          "icon": "❄️",
+          "title": "Compatible con hielo",
+          "desc": "añade frío, sale más fría"
+        },
+        {
+          "icon": "☁️",
+          "title": "De origen nuboso",
+          "desc": "literalmente cayó del cielo"
+        },
+        {
+          "icon": "🔁",
+          "title": "Rellenable hasta el infinito",
+          "desc": "¿se acabó? Pon más"
+        },
+        {
+          "icon": "🚫",
+          "title": "Sin azúcar, sin gluten, sin nada",
+          "desc": ""
+        },
+        {
+          "icon": "🌍",
+          "title": "Avalada por el 71% de la superficie del planeta",
+          "desc": ""
+        }
+      ]
+    },
+    "surviveEyebrow": "Guía de supervivencia",
+    "guideHome": {
+      "title": "Cómo enfriar tu casa sin aire acondicionado (sin vender un riñón)",
+      "steps": [
+        "De día, cierra cortinas y persianas: el cristal es la mayor fuente de calor; prioriza sur y oeste.",
+        "De noche y al amanecer, corriente cruzada (ventanas en lados opuestos).",
+        "Una sábana mojada delante de una ventana abierta o de un ventilador: enfriamiento por evaporación.",
+        "Ventilador + un bol de hielo = aire acondicionado de los pobres.",
+        "Apaga todo lo que caliente: horno, fogones, bombillas incandescentes.",
+        "El aire caliente sube: duerme abajo."
+      ]
+    },
+    "guideBody": {
+      "title": "Cómo no derretirse: guía para humanos",
+      "steps": [
+        "Bebe antes de tener sed; el alcohol y el café deshidratan.",
+        "Si sudas mucho → electrolitos (sal, potasio, magnesio).",
+        "Evita el sol entre las 11:00 y las 17:00.",
+        "Enfría los puntos de pulso: muñecas y cuello.",
+        "Ducha fresca, no helada; ropa ligera y holgada.",
+        "⚠️ Golpe de calor (piel caliente y seca, confusión, náuseas): llama al 112."
+      ]
+    },
+    "pricing": {
+      "eyebrow": "Precios",
+      "title": "Sencillo, transparente y casi todo agua",
+      "popularBadge": "El más elegido",
+      "footnote": "El agua es idéntica en todos los planes. Esta es la página de precios más honesta de internet.",
+      "tiers": [
+        {
+          "name": "Free",
+          "price": "0 €",
+          "desc": "Agua del grifo. Humedad incluida. Sin botella y sin el respeto de las visitas.",
+          "button": "Empezar gratis",
+          "popular": false
+        },
+        {
+          "name": "Pro",
+          "price": "9 €",
+          "desc": "La misma agua, botella más bonita. Ahora pareces alguien que tiene su vida en orden.",
+          "button": "Pasar a Pro",
+          "popular": true
+        },
+        {
+          "name": "Family",
+          "price": "29 €",
+          "desc": "Suficiente para todos, incluida la familia que solo aparece cuando hace calor.",
+          "button": "Elegir Family",
+          "popular": false
+        },
+        {
+          "name": "Enterprise",
+          "price": "Hablemos",
+          "desc": "Una piscina. Aire acondicionado. Una danza de la lluvia. Mudarse a Noruega.",
+          "button": "Contactar con ventas",
+          "popular": false
+        }
+      ]
+    },
+    "testimonials": {
+      "title": "Adorada por gente hidratada",
+      "items": [
+        {
+          "quote": "Bebí Wet Water y, en efecto, estaba mojada. Exactamente como en el anuncio: una rareza hoy en día.",
+          "author": "Sergio, escéptico profesional"
+        },
+        {
+          "quote": "Me pasé del agua seca de la competencia. No pienso volver.",
+          "author": "Ana, entusiasta de la hidratación"
+        },
+        {
+          "quote": "Cinco estrellas. Es agua.",
+          "author": "un vaso de agua (compra verificada)"
+        },
+        {
+          "quote": "Soy una planta de interior y esto lo ha cambiado todo. Sobre todo porque por fin me regaron.",
+          "author": "Borja, un helecho"
+        },
+        {
+          "quote": "10/10, volvería a ser líquido.",
+          "author": "el océano"
+        }
+      ]
+    },
+    "faq": {
+      "title": "FAQ",
+      "items": [
+        {
+          "q": "¿El agua está mojada de verdad?",
+          "a": "Sí. En eso consiste todo nuestro modelo de negocio."
+        },
+        {
+          "q": "¿En qué se diferencia del agua normal?",
+          "a": "En nada. Estamos tan sorprendidos como tú."
+        },
+        {
+          "q": "¿Por qué pagar si el agua del grifo es gratis?",
+          "a": "Por la botella. Y por la sensación de haber tomado una decisión."
+        },
+        {
+          "q": "…un momento, el nombre ¿es una - ?",
+          "a": "Es agua. Saca la mente de la cuneta."
+        },
+        {
+          "q": "¿Cuánto debo beber con calor?",
+          "a": "Unos 2-3 l al día, más con actividad y sudoración; orina clara = bien."
+        },
+        {
+          "q": "¿Y dónde la compro en realidad?",
+          "a": "A nuestros socios de arriba. De eso se trata, literalmente."
+        }
+      ]
+    },
+    "footer": {
+      "statement": "Declaración oficial: el 24 de junio el Sol se pasó de la raya. Hemos presentado una queja. Mientras tanto, cierra las cortinas.",
+      "legal": "Wet Water™: el agua tal y como la concibió la naturaleza, ahora con página de aterrizaje. No se garantiza la humedad por debajo de 0°C. Los chistes son chistes; los consejos sobre el calor, no.",
+      "backToTop": "↑ sube a tomar aire",
+      "newsletter": "Novedades sobre hidratación. Máximo una gota por semana.",
+      "newsletterThanks": "💧 Va una gota para allá.",
+      "subscribe": "Recibir gotas",
+      "placeholder": "tu@hidratado.com"
+    },
+    "cookie": {
+      "text": "Usamos cookies. Y agua. Sobre todo agua.",
+      "accept": "Aceptar",
+      "dismiss": "Vete a beber algo"
     }
   }
 };

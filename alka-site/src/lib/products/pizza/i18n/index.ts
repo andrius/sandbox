@@ -3,13 +3,14 @@ import { locale } from '$lib/i18n';
 import { en, type Dict } from './en';
 import { ru } from './ru';
 import { nl } from './nl';
+import { es } from './es';
 
 /**
  * Pizza's dictionary namespace, derived off the single shared `locale` store
  * from `$lib/i18n` (the standalone site's own `en|ru` store and its private
  * storage key are gone). Missing keys fall back to English.
  */
-const dictionaries: Record<string, Dict> = { ru, nl, en };
+const dictionaries: Record<string, Dict> = { ru, nl, en, es };
 
 function resolve(dict: unknown, path: string): unknown {
 	return path.split('.').reduce<unknown>((acc, key) => {

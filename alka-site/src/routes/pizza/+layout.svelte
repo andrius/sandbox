@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { product } from '$lib/products/registry';
 	import { initKonami, rainNothing } from '$lib/products/pizza/easter';
+	import { pizzaT } from '$lib/products/pizza/i18n';
 	import ProductHead from '$lib/components/ProductHead.svelte';
 	import Header from '$lib/products/pizza/components/Header.svelte';
 	import Footer from '$lib/products/pizza/components/Footer.svelte';
@@ -31,7 +32,7 @@
 	style="z-index:200"
 	class="sr-only rounded-full bg-cream-50 px-4 py-2 text-sm font-bold text-void-950 focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
 >
-	Skip to content
+	{$pizzaT('a11y.skip')}
 </a>
 
 <div class={pizza.rootClass}>

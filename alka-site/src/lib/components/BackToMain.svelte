@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { BACK_LABEL, locale } from '$lib/i18n';
+
 	/**
 	 * The one piece of chrome every product shares: a way back to the AL.KA
 	 * menu at `/`.
@@ -33,7 +35,7 @@
 	let { label = 'AL.KA', compact = false, href = '/', text }: Props = $props();
 </script>
 
-<a class="back-to-main" class:compact {href} aria-label="{label} - назад / terug / back">
+<a class="back-to-main" class:compact {href} aria-label="{label} - {BACK_LABEL[$locale]}">
 	<svg class="arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
 		<path
 			d="M10 3.5 5.5 8 10 12.5"
