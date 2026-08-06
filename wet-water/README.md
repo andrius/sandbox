@@ -52,7 +52,7 @@ npm run check      # astro type-check (0 errors)
 
 ## Deploy to Cloudflare
 
-Same shape as `../alka-site`: build, then `wrangler deploy` ships `dist/` as a
+Same shape as [`alka-sites`](https://github.com/andrius/alka-sites): build, then `wrangler deploy` ships `dist/` as a
 static-asset Worker named **wet-water**.
 
 ```bash
@@ -64,7 +64,7 @@ First time: `npx wrangler login` to authenticate against the Cloudflare account.
 **Custom domain** `wet-water.c0.lt`: after the first deploy, attach it in the
 Cloudflare dashboard (Workers & Pages → wet-water → Settings → Domains & Routes
 → Add custom domain), or via `wrangler`. The `c0.lt` zone must live in the same
-account. No route is hard-coded in `wrangler.jsonc` (mirrors alka-site).
+account. No route is hard-coded in `wrangler.jsonc` (mirrors alka-sites).
 
 ## Accessibility / motion
 
