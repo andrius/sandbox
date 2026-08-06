@@ -3,7 +3,7 @@
 	import { cartCount } from '$lib/products/pizza/cart.svelte';
 	import { openCall } from '$lib/products/pizza/ui.svelte';
 	import Logo from './Logo.svelte';
-	import LanguageSwitcher from './LanguageSwitcher.svelte';
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
 	import BackToMain from '$lib/components/BackToMain.svelte';
 	import { trapFocus } from '$lib/products/pizza/actions/trapFocus';
 
@@ -58,7 +58,15 @@
 		</nav>
 
 		<div class="flex items-center gap-2">
-			<LanguageSwitcher />
+			<!-- Four language pills plus the cart and the hamburger do not fit on a
+			     phone - the menu button ended up past the right edge. The switcher
+			     moves into the mobile sheet, which is roomier and already open when
+			     someone is looking for it.
+			     The breakpoint is `md`, matching the hamburger's own `md:hidden`,
+			     so the header and the sheet never both show it - at `sm` there was
+			     a 640-767px band where they did, and the menu button went back off
+			     the edge. -->
+			<span class="hidden md:inline-flex"><LanguageSwitcher variant="group" /></span>
 
 			<button
 				type="button"
@@ -76,7 +84,7 @@
 			<a
 				href="/pizza/checkout"
 				class="relative inline-flex h-9 items-center gap-2 rounded-full border border-white/12 bg-white/5 px-3 text-sm font-bold text-cream-50 transition-colors hover:bg-white/12"
-				aria-label="Cart"
+				aria-label={$pizzaT('a11y.cart')}
 			>
 				<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 					<path d="M4 5h2l1.6 9.3a2 2 0 0 0 2 1.7h6.9a2 2 0 0 0 2-1.6L20 8H7" />
@@ -99,7 +107,7 @@
 			<button
 				type="button"
 				onclick={() => (mobileOpen = !mobileOpen)}
-				aria-label="Menu"
+				aria-label={$pizzaT('a11y.menu')}
 				aria-expanded={mobileOpen}
 				aria-controls="mobile-menu"
 				class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/12 bg-white/5 text-cream-50 transition-colors hover:bg-white/12 md:hidden"
@@ -143,6 +151,14 @@
 			<a href="/pizza/checkout" onclick={() => (mobileOpen = false)} class="btn btn-primary mt-2 w-full">
 				{$pizzaT('nav.order')}
 			</a>
+
+			<!-- The sheet itself is `md:hidden`, which is exactly the range where
+			     the header hides the switcher, so this needs no breakpoint of its
+			     own - the two can never both be on screen. -->
+			<div class="mt-4 flex items-center justify-between border-t border-white/8 pt-4">
+				<span class="text-sm font-semibold text-void-300">{$pizzaT('lang.label')}</span>
+				<LanguageSwitcher variant="group" />
+			</div>
 		</nav>
 	</div>
 {/if}

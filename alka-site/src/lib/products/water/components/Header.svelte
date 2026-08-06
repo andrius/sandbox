@@ -1,15 +1,17 @@
 <script lang="ts">
-	import type { Dict, Lang } from '$lib/products/water/i18n/content';
+	import type { Dict } from '$lib/products/water/i18n/content';
 	import BackToMain from '$lib/components/BackToMain.svelte';
-	import { locale, locales as allLocales, setLocale } from '$lib/i18n';
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
 
 	let { t }: { t: Dict } = $props();
 
 	// The original rendered three locale tabs (EN/RU/NL) as anchors to per-locale
-	// URLs. The merge drops per-locale URLs in favour of the shared store, so the
-	// tabs become buttons that call `setLocale`. Visual identity is preserved.
-	const langCodes: Lang[] = ['en', 'ru', 'nl'];
-	let current = $derived($locale as Lang);
+	// URLs. The merge dropped per-locale URLs in favour of the shared store, and
+	// the tabs became hand-written buttons here - carrying their own copy of the
+	// language list, which was still `['en','ru','nl']` and would have hidden
+	// Spanish on this page alone. The markup is now the shared component; the
+	// look is still this division's, painted by `.water-root .lang-switch` in
+	// styles.css.
 </script>
 
 <header class="site-header" id="top">
@@ -30,18 +32,7 @@
 			<a href="#faq">{t.nav.faq}</a>
 		</nav>
 		<div class="header-right">
-			<div class="lang-switch">
-				{#each langCodes as code (code)}
-					<button
-						type="button"
-						class={code === current ? 'active' : ''}
-						aria-pressed={code === current}
-						onclick={() => setLocale(code as (typeof allLocales)[number])}
-					>
-						{code.toUpperCase()}
-					</button>
-				{/each}
-			</div>
+			<LanguageSwitcher variant="group" />
 			<a href="#partners" class="btn btn-primary btn-sm">💧 {t.nav.getWater}</a>
 		</div>
 	</div>

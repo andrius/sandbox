@@ -148,6 +148,87 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Language chooser - the `cards` variant of $lib/components/LanguageSwitcher,
+   used on the start page only.
+   ---------------------------------------------------------------------------
+   The register strip in the AL.KA header uses the same component's `rule`
+   variant and is styled by the component itself, which is why every selector
+   here names `.cards`: without it these rules would repaint the strip too.
+
+   Three classes deep, so it outranks the component's own defaults without
+   needing `!important` - see the note in LanguageSwitcher.svelte.
+
+   Sized for the people who actually use this site. The strip is 10px mono
+   tuned to disappear into a line of chrome; that is the right control for an
+   adult who knows what it is and the wrong one for a seven-year-old looking
+   for the flag they recognise.
+   --------------------------------------------------------------------------- */
+.alka-root .lang-switch.cards {
+	gap: 10px;
+	margin-top: 28px;
+}
+
+.alka-root .lang-switch.cards .lang-option {
+	gap: 10px;
+	/* 52px tall at rest - comfortably past the 44px touch minimum, which
+	   matters more here than anywhere else on the site. */
+	padding: 13px 18px;
+	border: 2px solid var(--ink);
+	/* 2px, matching BackToMain, rather than a pill. The house style is
+	   hairlines and right angles; a rounded chip would read as a control
+	   borrowed from a different site. */
+	border-radius: 2px;
+	background: transparent;
+	color: var(--ink);
+	font-family: var(--font-sans);
+	font-size: 17px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	line-height: 1;
+	transition:
+		background 200ms var(--ease-out),
+		color 200ms var(--ease-out);
+}
+
+.alka-root .lang-switch.cards .lang-flag {
+	font-size: 22px;
+	line-height: 1;
+}
+
+.alka-root .lang-switch.cards .lang-option:hover {
+	background: rgba(255, 122, 26, 0.16);
+}
+
+/* The selected language is filled, not merely outlined. Ink on --orng is
+   7.1:1, so the brand orange is safe as a background for body-size text here
+   even though it fails as a foreground on cream (which is what --orng-text
+   exists for). */
+.alka-root .lang-switch.cards .lang-option.is-active {
+	background: var(--orng);
+	color: var(--ink);
+}
+
+.alka-root .lang-switch.cards .lang-option:focus-visible {
+	outline: 2px solid var(--orng-text);
+	outline-offset: 3px;
+}
+
+@media (max-width: 639px) {
+	.alka-root .lang-switch.cards {
+		gap: 8px;
+		margin-top: 22px;
+	}
+	.alka-root .lang-switch.cards .lang-option {
+		/* Two per row on a phone, so all four stay one glance apart instead of
+		   becoming a scrolling list. */
+		flex: 1 1 calc(50% - 4px);
+		justify-content: center;
+		padding: 13px 12px;
+		font-size: 15px;
+	}
+}
+
+/* ---------------------------------------------------------------------------
    Scroll-reveal - fades content in once the section enters the viewport.
    Scoped: the Pizza route ships its own `.reveal` with different timing.
    --------------------------------------------------------------------------- */

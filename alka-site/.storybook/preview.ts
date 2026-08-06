@@ -16,7 +16,7 @@ import '../src/lib/products/pizza/styles.css';
 import './preview.css';
 
 import { products, type ProductId } from '../src/lib/products/registry';
-import { locales, setLocale, type Locale } from '../src/lib/i18n';
+import { LOCALE_META, locales, setLocale, type Locale } from '../src/lib/i18n';
 
 const byId = new Map(products.map((p) => [p.id, p]));
 
@@ -80,9 +80,12 @@ const preview: Preview = {
 			toolbar: {
 				title: 'Locale',
 				icon: 'globe',
+				/* Names come from the registry rather than a local map, which was a
+				   fifth hand-kept copy of the language list and would have
+				   labelled Spanish `undefined`. */
 				items: locales.map((code) => ({
 					value: code,
-					title: { ru: 'Русский', nl: 'Nederlands', en: 'English' }[code]
+					title: `${LOCALE_META[code].flag} ${LOCALE_META[code].native}`
 				})),
 				dynamicTitle: true
 			}

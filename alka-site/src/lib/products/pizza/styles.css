@@ -389,6 +389,49 @@
 }
 
 /* ----------------------------------------------------------------------------
+   Language pills
+
+   Markup is the shared LanguageSwitcher in `group` mode; this is the costume.
+   It was a second switcher component carrying Tailwind utilities in its
+   markup, which meant Pizza owned a copy of the language list. The list is
+   shared now and the look moved here, unlayered so it reads at the same
+   specificity story as the rest of this file's `.pizza-root` rules.
+
+   Values are the utilities it replaced, one for one: p-0.5, px-2.5, py-1,
+   text-xs, tracking-wider, font-extrabold, border-white/12, bg-white/5.
+---------------------------------------------------------------------------- */
+.pizza-root .lang-switch {
+	display: inline-flex;
+	align-items: center;
+	padding: 2px;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 9999px;
+	background: rgba(255, 255, 255, 0.05);
+}
+
+.pizza-root .lang-switch .lang-option {
+	padding: 4px 10px;
+	border-radius: 9999px;
+	font-size: 0.75rem;
+	line-height: 1rem;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--color-void-300);
+	background: transparent;
+	transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.pizza-root .lang-switch .lang-option:hover {
+	color: var(--color-cream-50);
+}
+
+.pizza-root .lang-switch .lang-option.is-active {
+	background: var(--color-cream-50);
+	color: var(--color-void-950);
+}
+
+/* ----------------------------------------------------------------------------
    Scroll reveal (unlayered, as in the original - no utility ever overrides it)
 ---------------------------------------------------------------------------- */
 .pizza-root .reveal {

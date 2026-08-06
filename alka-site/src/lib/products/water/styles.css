@@ -139,13 +139,16 @@
 .water-root .nav { display: flex; gap: 22px; margin-left: auto; align-items: center; font-size: 15px; font-weight: 500; }
 .water-root .nav a { color: var(--ink-2); text-decoration: none; }
 .water-root .header-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+/* The locale tabs. Markup is the shared LanguageSwitcher in `group` mode; the
+   look is this division's and stays here. Selectors are three classes deep so
+   they outrank the component's own structural defaults. */
 .water-root .lang-switch { display: flex; border: 1px solid rgba(6, 40, 59, 0.16); border-radius: 999px; overflow: hidden; }
-.water-root .lang-switch button {
+.water-root .lang-switch .lang-option {
   padding: 8px 13px; border: none; cursor: pointer;
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.05em;
   background: transparent; color: var(--ink-2); transition: background 0.2s ease;
 }
-.water-root .lang-switch button.active { background: var(--grad); color: #fff; font-weight: 700; }
+.water-root .lang-switch .lang-option.is-active { background: var(--grad); color: #fff; font-weight: 700; }
 
 /* ---- hero ---- */
 .water-root .hero {
@@ -351,7 +354,7 @@
   .water-root .brand .name { font-size: 17px; white-space: nowrap; }
   .water-root .brand .drop { font-size: 22px; }
   .water-root .site-header .btn { display: none; }
-  .water-root .lang-switch button { padding: 7px 9px; font-size: 11px; }
+  .water-root .lang-switch .lang-option { padding: 7px 9px; font-size: 11px; }
 }
 
 @media (max-width: 520px) {

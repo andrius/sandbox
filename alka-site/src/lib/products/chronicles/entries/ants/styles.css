@@ -64,6 +64,77 @@
 	}
 }
 
+/* The language pills.
+ *
+ * Markup is the shared LanguageSwitcher in `group` mode; this is the costume.
+ * It lives here rather than inline - which is how the rest of this ported
+ * artifact is styled - for one specific reason: an inline `style` shorthand
+ * outranks any stylesheet rule, media query or not, so pills sized inline
+ * could not be made smaller on a narrow screen.
+ *
+ * That mattered the moment a fourth language arrived. `.ants-root` sets
+ * `overflow-x: hidden`, so the row did not scroll when it stopped fitting -
+ * it was simply cut off, and the last pill became unclickable on anything
+ * narrower than about 430px. Three languages hid the problem by fitting; ES
+ * exposed it. */
+.ants-root .lang-switch {
+	display: flex;
+	gap: 6px;
+	padding: 4px;
+	background: rgba(42, 33, 28, 0.07);
+	border-radius: 999px;
+}
+
+.ants-root .lang-switch .lang-option {
+	font-family: Nunito, sans-serif;
+	font-weight: 700;
+	font-size: 13px;
+	letter-spacing: 0.06em;
+	border: 0;
+	cursor: pointer;
+	padding: 8px 14px;
+	border-radius: 999px;
+	background: transparent;
+	color: #5a4a3e;
+}
+
+.ants-root .lang-switch .lang-option.is-active {
+	background: #2e5b45;
+	color: #f6ead2;
+}
+
+@media (max-width: 719px) {
+	.ants-root .republic-bar {
+		gap: 10px;
+	}
+	.ants-root .lang-switch {
+		gap: 2px;
+	}
+	.ants-root .lang-switch .lang-option {
+		padding: 8px 9px;
+		font-size: 12px;
+		letter-spacing: 0.02em;
+	}
+}
+
+/* Under 480px the back link drops its label and keeps its arrow. The label is
+   the longest flexible thing in the bar ("Хроники основателя", "Crónicas del
+   fundador") and it is the only element whose meaning survives being dropped:
+   the link still announces itself through its aria-label, whereas a language
+   pill that is not on screen cannot be pressed at all. */
+@media (max-width: 479px) {
+	.ants-root .republic-back .wm {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+}
+
 @keyframes ants-wobble {
 	0%,
 	100% {

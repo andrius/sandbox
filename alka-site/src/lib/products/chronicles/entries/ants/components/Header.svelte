@@ -1,17 +1,19 @@
 <script lang="ts">
 	import { antsDict } from '$lib/products/chronicles/entries/ants/i18n';
-	import { locale, locales, setLocale } from '$lib/i18n';
 	import { dict } from '$lib/products/alka/i18n';
 	import BackToMain from '$lib/components/BackToMain.svelte';
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
 
 	/**
 	 * The sticky bar: the republic's crown, its name, and the way back.
 	 *
 	 * The artifact shipped its own en/ru/nl pills backed by component state.
-	 * The pills are kept - they belong to this entry's look - but they now
-	 * drive the shared `locale` store, so the language a visitor picked on the
-	 * AL.KA menu is already selected when they get here, and picking Dutch on
-	 * the beach carries back to the menu.
+	 * The pills LOOK the same - they belong to this entry - but the markup is
+	 * now the shared LanguageSwitcher and the look is painted by
+	 * `.ants-root .lang-switch` in styles.css. They drive the shared `locale`
+	 * store, so the language a visitor picked on the AL.KA menu is already
+	 * selected when they get here, and picking Dutch on the beach carries back
+	 * to the menu.
 	 *
 	 * The back link points at `/chronicles`, not the holding menu. This is a
 	 * blog entry, and a reader who came from the index wants the index back,
@@ -25,8 +27,8 @@
 <div
 	style="position: sticky; top: 0; z-index: 50; display: flex; justify-content: center; padding: 14px 16px; background: rgba(246,234,210,.82); backdrop-filter: blur(8px); border-bottom: 2px solid rgba(42,33,28,.10);"
 >
-	<div style="display: flex; align-items: center; gap: 18px; width: 100%; max-width: 1120px;">
-		<span style="font-family: Nunito, sans-serif; font-size: 13px; font-weight: 700; color: #5A4A3E;">
+	<div class="republic-bar" style="display: flex; align-items: center; gap: 18px; width: 100%; max-width: 1120px;">
+		<span class="republic-back" style="font-family: Nunito, sans-serif; font-size: 13px; font-weight: 700; color: #5A4A3E;">
 			<BackToMain compact href="/chronicles" text={$dict.chronicles.title} label={$dict.chronicles.title} />
 		</span>
 
@@ -46,25 +48,6 @@
 			>
 		</div>
 
-		<div
-			style="display: flex; gap: 6px; padding: 4px; background: rgba(42,33,28,.07); border-radius: 999px;"
-			role="group"
-			aria-label="Language / Taal / Язык"
-		>
-			{#each locales as code (code)}
-				<button
-					type="button"
-					aria-pressed={$locale === code}
-					lang={code}
-					onclick={() => setLocale(code)}
-					style="font-family: Nunito, sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .06em; border: 0; cursor: pointer; padding: 8px 14px; border-radius: 999px; background: {$locale ===
-					code
-						? '#2E5B45'
-						: 'transparent'}; color: {$locale === code ? '#F6EAD2' : '#5A4A3E'};"
-				>
-					{code.toUpperCase()}
-				</button>
-			{/each}
-		</div>
+		<LanguageSwitcher variant="group" />
 	</div>
 </div>

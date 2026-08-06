@@ -6,6 +6,7 @@
 	import ProductHead from '$lib/components/ProductHead.svelte';
 	import Wordmark from '$lib/products/alka/components/Wordmark.svelte';
 	import Header from '$lib/products/alka/components/Header.svelte';
+	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
 
 	/* The menu is the one place that reads the whole registry. Structure comes
 	   from there (ordinal, route, ships-or-not), copy from the dictionary, so
@@ -28,6 +29,12 @@
 			<span class="sr-only">{$dict.name}</span>
 		</h1>
 		<p class="tagline reveal-up" use:reveal={{ delay: 600 }}>{$dict.tagline}</p>
+		<!-- Directly under the tagline, not tucked into the register strip: the
+		     visitor who most needs this control is the one who cannot read the
+		     page it is on. -->
+		<div class="reveal-up" use:reveal={{ delay: 720 }}>
+			<LanguageSwitcher variant="cards" />
+		</div>
 	</header>
 
 	<nav class="portfolio" aria-label={$dict.labels.portfolio}>
