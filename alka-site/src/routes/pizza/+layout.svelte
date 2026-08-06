@@ -1,12 +1,16 @@
 <script lang="ts">
-	import '$lib/pizza/styles.css';
+	import '$lib/products/pizza/styles.css';
 	import { onMount } from 'svelte';
-	import { initKonami, rainNothing } from '$lib/pizza/easter';
-	import Header from '$lib/pizza/components/Header.svelte';
-	import Footer from '$lib/pizza/components/Footer.svelte';
-	import CallModal from '$lib/pizza/components/CallModal.svelte';
+	import { product } from '$lib/products/registry';
+	import { initKonami, rainNothing } from '$lib/products/pizza/easter';
+	import ProductHead from '$lib/components/ProductHead.svelte';
+	import Header from '$lib/products/pizza/components/Header.svelte';
+	import Footer from '$lib/products/pizza/components/Footer.svelte';
+	import CallModal from '$lib/products/pizza/components/CallModal.svelte';
 
 	let { children } = $props();
+
+	const pizza = product('pizza');
 
 	onMount(() => {
 		console.info(
@@ -18,6 +22,10 @@
 	});
 </script>
 
+<!-- Faces are requested once for the whole division, so /pizza and
+     /pizza/checkout no longer carry two copies of the same Google Fonts URL. -->
+<ProductHead id="pizza" />
+
 <a
 	href="#main"
 	style="z-index:200"
@@ -26,7 +34,7 @@
 	Skip to content
 </a>
 
-<div class="pizza-root">
+<div class={pizza.rootClass}>
 	<Header />
 	<main id="main">
 		{@render children()}

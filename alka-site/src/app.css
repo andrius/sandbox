@@ -33,7 +33,7 @@
 /* Pizza's palette tokens + the `@source inline(...)` safelist that its Oxide
    build needs. Owned by the pizza route; imported here because Tailwind
    resolves `@theme` and `@source` from the root stylesheet. */
-@import './lib/pizza/tailwind.css';
+@import './lib/products/pizza/tailwind.css';
 
 /* --------------------------------------------------------------------------
    Universal reset - the smallest set that no product wants to override.

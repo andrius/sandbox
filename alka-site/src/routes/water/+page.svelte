@@ -1,20 +1,24 @@
 <script lang="ts">
-	import '$lib/water/styles.css';
+	import '$lib/products/water/styles.css';
 	import { onMount } from 'svelte';
-	import { waterDict } from '$lib/i18n/water';
-	import Header from '$lib/water/sections/Header.svelte';
-	import Hero from '$lib/water/sections/Hero.svelte';
-	import Problem from '$lib/water/sections/Problem.svelte';
-	import RevealSection from '$lib/water/sections/RevealSection.svelte';
-	import Partners from '$lib/water/sections/Partners.svelte';
-	import Features from '$lib/water/sections/Features.svelte';
-	import Survive from '$lib/water/sections/Survive.svelte';
-	import Pricing from '$lib/water/sections/Pricing.svelte';
-	import Testimonials from '$lib/water/sections/Testimonials.svelte';
-	import Faq from '$lib/water/sections/Faq.svelte';
-	import Footer from '$lib/water/sections/Footer.svelte';
+	import { waterDict } from '$lib/products/water/i18n';
+	import { revealWithin } from '$lib/actions/reveal';
+	import { product } from '$lib/products/registry';
+	import ProductHead from '$lib/components/ProductHead.svelte';
+	import Header from '$lib/products/water/components/Header.svelte';
+	import Hero from '$lib/products/water/components/Hero.svelte';
+	import Problem from '$lib/products/water/components/Problem.svelte';
+	import RevealSection from '$lib/products/water/components/RevealSection.svelte';
+	import Partners from '$lib/products/water/components/Partners.svelte';
+	import Features from '$lib/products/water/components/Features.svelte';
+	import Survive from '$lib/products/water/components/Survive.svelte';
+	import Pricing from '$lib/products/water/components/Pricing.svelte';
+	import Testimonials from '$lib/products/water/components/Testimonials.svelte';
+	import Faq from '$lib/products/water/components/Faq.svelte';
+	import Footer from '$lib/products/water/components/Footer.svelte';
 
 	const t = $derived($waterDict); // unwrap once; reference `t` directly in markup
+	const water = product('water');
 
 	// Page-level UI state. Sections that own their own behaviour (FAQ accordion
 	// in Faq.svelte, newsletter swap in Footer.svelte) keep their state local;
@@ -22,6 +26,7 @@
 	let splashDone = $state(false);
 	let cookieHidden = $state(false);
 
+	let root: HTMLElement | undefined = undefined;
 	let splashDrop: HTMLElement | undefined = undefined;
 	let thermFill: HTMLElement | undefined = undefined;
 
@@ -42,32 +47,12 @@
 		// ---- loading splash ----
 		const splashTimer = window.setTimeout(() => (splashDone = true), reduce ? 200 : 1500);
 
-		// ---- reveal-on-scroll: the CSS contract (.js [data-reveal] / .in) is
-		// shipped by src/app.css and shared across all products, but each
-		// product still has to toggle .in itself. The IntersectionObserver and
-		// 4.5s safety net match the original client.ts so the visual reveal is
+		// ---- reveal-on-scroll. The CSS contract (.js [data-reveal] / .in) is
+		// shipped by src/app.css and shared across all products; the observer
+		// itself is `revealWithin` in $lib/actions/reveal, whose defaults are
+		// the ones the original client.ts used, so the visual reveal is still
 		// identical to the standalone Astro build. ----
-		const revealEls = Array.from(document.querySelectorAll<HTMLElement>('.water-root [data-reveal]'));
-		let io: IntersectionObserver | null = null;
-		if (reduce || !('IntersectionObserver' in window)) {
-			revealEls.forEach((el) => el.classList.add('in'));
-		} else {
-			io = new IntersectionObserver(
-				(entries) =>
-					entries.forEach((e) => {
-						if (e.isIntersecting) {
-							e.target.classList.add('in');
-							io?.unobserve(e.target);
-						}
-					}),
-				{ rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
-			);
-			revealEls.forEach((el) => io!.observe(el));
-		}
-		const safetyNet = window.setTimeout(
-			() => revealEls.forEach((el) => el.classList.add('in')),
-			4500
-		);
+		const stopReveal = revealWithin(root!, { reduced: reduce });
 
 		// ---- motion (droplet float, problem glow, scroll-linked thermometer,
 		// splash drop pulse). Imported lazily inside onMount so the module
@@ -118,8 +103,7 @@
 
 		return () => {
 			window.clearTimeout(splashTimer);
-			window.clearTimeout(safetyNet);
-			io?.disconnect();
+			stopReveal();
 			html.style.scrollBehavior = prevScrollBehavior;
 			void motionPromise.then((controls) =>
 				controls.forEach((c) => (typeof c === 'function' ? c() : c.cancel()))
@@ -128,22 +112,9 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Wet Water - {t.tagline}</title>
-	<meta name="description" content={t.hero.subhead} />
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-	<link
-		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap"
-		rel="stylesheet"
-	/>
-	<link
-		rel="icon"
-		href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💧</text></svg>"
-	/>
-</svelte:head>
+<ProductHead id="water" title="Wet Water - {t.tagline}" description={t.hero.subhead} />
 
-<main class="water-root">
+<main class={water.rootClass} bind:this={root}>
 	<div class="splash" id="splash" class:done={splashDone}>
 		<div class="drop" id="splash-drop" bind:this={splashDrop}>💧</div>
 		<div class="text">{t.loading}</div>

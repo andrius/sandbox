@@ -7,5 +7,14 @@
 	"assets": {
 		"binding": "ASSETS",
 		"directory": ".svelte-kit/cloudflare"
-	}
+	},
+	// The site's real home. Cloudflare issued the hostname and certificate
+	// while the ka.fyi zone was still pending its nameserver switch, so this
+	// starts serving the moment the zone goes active - no redeploy needed.
+	"routes": [{ "pattern": "al.ka.fyi", "custom_domain": true }],
+	// Declaring any route turns the workers.dev URL OFF by default, which
+	// would have taken the site down entirely: al.ka.fyi cannot serve until
+	// the nameservers move. Keep both live; drop this once the domain is the
+	// only address anyone uses.
+	"workers_dev": true
 }

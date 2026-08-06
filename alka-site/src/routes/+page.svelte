@@ -1,28 +1,26 @@
 <script lang="ts">
-	import '$lib/styles/tokens.css';
-	import { dict } from '$lib/i18n/alka';
+	import '$lib/products/alka/styles/tokens.css';
+	import { dict } from '$lib/products/alka/i18n';
 	import { reveal } from '$lib/actions/reveal';
-	import Wordmark from '$lib/components/Wordmark.svelte';
-	import LanguageSwitcher from '$lib/components/LanguageSwitcher.svelte';
+	import { products } from '$lib/products/registry';
+	import ProductHead from '$lib/components/ProductHead.svelte';
+	import Wordmark from '$lib/products/alka/components/Wordmark.svelte';
+	import Header from '$lib/products/alka/components/Header.svelte';
+
+	/* The menu is the one place that reads the whole registry. Structure comes
+	   from there (ordinal, route, ships-or-not), copy from the dictionary, so
+	   a new division is one registry entry plus three translated names. */
+	const rows = $derived(products.map((p) => ({ ...p, ...$dict.products[p.id] })));
 </script>
 
-<svelte:head>
-	<title>{$dict.meta_home_title}</title>
-	<meta name="description" content={$dict.meta_home_description} />
-	<meta property="og:title" content={$dict.meta_home_title} />
-	<meta property="og:description" content={$dict.meta_home_description} />
-	<meta property="og:type" content="website" />
-</svelte:head>
+<ProductHead title={$dict.meta_home_title} description={$dict.meta_home_description} />
 
 <main class="alka-root menu">
 	<!-- The strip that used to print "AL.KA · Годовой отчёт · 2026 · стр. 01 / 12
 	     · Частная компания". The pagination and the document type are gone: a
 	     holding page has no page 1 of 12. What is left is what a visitor
 	     actually needs - who this is, and what language to read it in. -->
-	<div class="strip rule-wipe" use:reveal>
-		<span class="who">{$dict.name} · {$dict.labels.established} {$dict.estd}</span>
-		<LanguageSwitcher />
-	</div>
+	<Header />
 
 	<header class="hero">
 		<h1 class="wordmark-wrap">
@@ -35,7 +33,7 @@
 	<nav class="portfolio" aria-label={$dict.labels.portfolio}>
 		<h2 class="portfolio-label reveal-up" use:reveal>{$dict.labels.portfolio}</h2>
 		<ul class="rows">
-			{#each $dict.products as p, i (p.code)}
+			{#each rows as p, i (p.id)}
 				<li>
 					<a
 						class="row reveal-up"
@@ -65,6 +63,7 @@
 		<div class="cell">
 			<div class="k">{$dict.labels.email}</div>
 			<div class="v"><a href="mailto:{$dict.contact.email}">{$dict.contact.email}</a></div>
+			<div class="v"><a href="mailto:{$dict.contact.email_alt}">{$dict.contact.email_alt}</a></div>
 		</div>
 		<div class="goodnight">{$dict.labels.keep_dreaming}</div>
 	</footer>
@@ -77,21 +76,6 @@
 		padding: 40px var(--s-section-x) 48px;
 	}
 
-	.strip {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 24px;
-		font-family: var(--font-mono);
-		font-size: 12px;
-		text-transform: uppercase;
-		letter-spacing: 0.16em;
-		padding-bottom: 14px;
-		border-bottom: 1px solid var(--rule);
-		--lang-active: var(--ink);
-		color: var(--dim);
-	}
-	.strip .who { color: var(--orng-text); font-weight: 700; }
 
 	/* The wordmark is the whole hero. It gets the space a cover would get,
 	   because on a menu page there is nothing else competing for attention. */
@@ -225,6 +209,8 @@
 		margin-bottom: 6px;
 	}
 	.foot .v { font-size: 14px; color: var(--ink); }
+	/* The email cell carries two addresses; everything else carries one. */
+	.foot .v + .v { margin-top: 4px; }
 	.foot .v a {
 		color: var(--orng-text);
 		text-decoration: underline;
@@ -264,7 +250,6 @@
 
 	@media (max-width: 639px) {
 		.menu { padding-bottom: 36px; }
-		.strip { font-size: 10px; letter-spacing: 0.1em; }
 		.row { padding: 20px 0; }
 		.name { font-size: 20px; }
 		.blurb { font-size: 14px; }

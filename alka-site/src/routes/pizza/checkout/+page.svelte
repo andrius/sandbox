@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { fade, fly, scale } from 'svelte/transition';
-	import { pizzaT } from '$lib/i18n/pizza';
+	import { pizzaT } from '$lib/products/pizza/i18n';
 	import { locale } from '$lib/i18n';
-	import { cart, setQty, removeFromCart, clearCart } from '$lib/pizza/cart.svelte';
-	import { menuById } from '$lib/pizza/data/menu';
-	import { formatMoney } from '$lib/pizza/format';
-	import { TAX_RATE, TEST_CARD } from '$lib/pizza/constants';
-	import VoidPizza from '$lib/pizza/components/VoidPizza.svelte';
+	import { cart, setQty, removeFromCart, clearCart } from '$lib/products/pizza/cart.svelte';
+	import { menuById } from '$lib/products/pizza/data/menu';
+	import { formatMoney } from '$lib/products/pizza/format';
+	import { TAX_RATE, TEST_CARD } from '$lib/products/pizza/constants';
+	import VoidPizza from '$lib/products/pizza/components/VoidPizza.svelte';
+	import ProductHead from '$lib/components/ProductHead.svelte';
 
 	type Stage = 'form' | 'processing' | 'success';
 	let stage = $state<Stage>('form');
@@ -147,13 +148,10 @@
 	});
 </script>
 
-<svelte:head>
-	<title>{$pizzaT('checkout.title')} · {$pizzaT('brand.short')}</title>
-	<link
-		href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap"
-		rel="stylesheet"
-	/>
-</svelte:head>
+<ProductHead
+	title="{$pizzaT('checkout.title')} · {$pizzaT('brand.short')}"
+	description={$pizzaT('checkout.simBanner')}
+/>
 
 <section class="shell pt-24 pb-10">
 	<a

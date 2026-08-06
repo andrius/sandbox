@@ -1,25 +1,27 @@
 <script lang="ts">
-	import '$lib/styles/tokens.css';
-	import { dict } from '$lib/i18n/alka';
-	import Cover from '$lib/components/sleep/Cover.svelte';
-	import Letter from '$lib/components/sleep/Letter.svelte';
-	import Numbers from '$lib/components/sleep/Numbers.svelte';
-	import Services from '$lib/components/sleep/Services.svelte';
-	import Team from '$lib/components/sleep/Team.svelte';
-	import Press from '$lib/components/sleep/Press.svelte';
-	import Contact from '$lib/components/sleep/Contact.svelte';
-	import Disclaimer from '$lib/components/sleep/Disclaimer.svelte';
+	import '$lib/products/alka/styles/tokens.css';
+	import { dict } from '$lib/products/alka/i18n';
+	import { product } from '$lib/products/registry';
+	import ProductHead from '$lib/components/ProductHead.svelte';
+	import Cover from '$lib/products/sleep/components/Cover.svelte';
+	import Letter from '$lib/products/sleep/components/Letter.svelte';
+	import Numbers from '$lib/products/sleep/components/Numbers.svelte';
+	import Services from '$lib/products/sleep/components/Services.svelte';
+	import Team from '$lib/products/sleep/components/Team.svelte';
+	import Press from '$lib/products/sleep/components/Press.svelte';
+	import Contact from '$lib/products/sleep/components/Contact.svelte';
+	import Disclaimer from '$lib/products/sleep/components/Disclaimer.svelte';
+
+	const sleep = product('sleep');
 </script>
 
-<svelte:head>
-	<title>{$dict.meta_sleep_title}</title>
-	<meta name="description" content={$dict.meta_sleep_description} />
-	<meta property="og:title" content={$dict.meta_sleep_title} />
-	<meta property="og:description" content={$dict.meta_sleep_description} />
-	<meta property="og:type" content="website" />
-</svelte:head>
+<ProductHead
+	id="sleep"
+	title={$dict.meta_sleep_title}
+	description={$dict.meta_sleep_description}
+/>
 
-<main class="alka-root">
+<main class={sleep.rootClass}>
 	<Cover />
 	<Letter />
 	<Numbers />

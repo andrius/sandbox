@@ -1,0 +1,32 @@
+/* ---------------------------------------------------------------------------
+   Storybook-only canvas adjustments.
+   ---------------------------------------------------------------------------
+   Nothing here is allowed to change how a component looks - only how the
+   canvas around it behaves. Product styling comes entirely from the product's
+   own stylesheet, which is the point of the exercise.
+   --------------------------------------------------------------------------- */
+
+/* The decorator puts the product's wrapper class on this node, so it is the
+   element each product paints its own background on. Only the height is set
+   here - deliberately no `background`, because an id selector would outrank
+   `.pizza-root` / `.water-root` and blank the product colour.
+
+   Full-height only for the full-page stories. `layout: 'centered'` stories
+   (the wordmark, the logo, the BackToMain contexts) want a box the size of
+   their content, and Storybook marks those with `sb-main-centered`. */
+#storybook-root {
+	min-height: 100vh;
+}
+
+/* Centered stories get the full canvas too, and centre their own content.
+   Storybook's own centering shrinks this node to its content, which on a dark
+   product leaves the near-black background as a narrow strip down the middle
+   of a cream page. Note the class sits on <body>, not on the root div. */
+body.sb-main-centered #storybook-root {
+	/* Storybook centres by making this a flex item, which sizes it to its
+	   content; the width claws the canvas back so the product background
+	   covers it. */
+	width: 100%;
+	display: grid;
+	place-items: center;
+}
