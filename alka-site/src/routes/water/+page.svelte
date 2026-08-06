@@ -2,6 +2,7 @@
 	import '$lib/products/water/styles.css';
 	import { onMount } from 'svelte';
 	import { waterDict } from '$lib/products/water/i18n';
+	import { readCookie, writeCookie } from '$lib/cookies';
 	import { revealWithin } from '$lib/actions/reveal';
 	import { product } from '$lib/products/registry';
 	import ProductHead from '$lib/components/ProductHead.svelte';
@@ -24,7 +25,18 @@
 	// in Faq.svelte, newsletter swap in Footer.svelte) keep their state local;
 	// only the splash, cookie and thermometer live here.
 	let splashDone = $state(false);
+
+	/* The banner used to hide itself in component state and come back on every
+	   single page load, which is the one thing a cookie notice must not do.
+	   Both buttons now record the answer in a cookie - fittingly, the notice
+	   about cookies is the second and last cookie this site sets. */
+	const COOKIE_NOTICE = 'alka_cookie_notice';
 	let cookieHidden = $state(false);
+
+	function answerCookieNotice(answer: 'accepted' | 'dismissed') {
+		cookieHidden = true;
+		writeCookie(COOKIE_NOTICE, answer);
+	}
 
 	let root: HTMLElement | undefined = undefined;
 	let splashDrop: HTMLElement | undefined = undefined;
@@ -32,6 +44,10 @@
 
 	onMount(() => {
 		const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		// Read after mount, not at module scope: this page is prerendered, so
+		// the served HTML has to be the same for everybody.
+		if (readCookie(COOKIE_NOTICE)) cookieHidden = true;
 
 		// ---- smooth anchor scrolling. The original had `html { scroll-behavior:
 		// smooth }` plus a reduced-motion override to `auto`. We cannot put that
@@ -142,8 +158,8 @@
 		<div class="inner">
 			<span class="text">{t.cookie.text}</span>
 			<div style="display:flex;gap:8px">
-				<button class="accept" onclick={() => (cookieHidden = true)}>{t.cookie.accept}</button>
-				<button class="dismiss" onclick={() => (cookieHidden = true)}>{t.cookie.dismiss}</button>
+				<button class="accept" onclick={() => answerCookieNotice('accepted')}>{t.cookie.accept}</button>
+				<button class="dismiss" onclick={() => answerCookieNotice('dismissed')}>{t.cookie.dismiss}</button>
 			</div>
 		</div>
 	</div>

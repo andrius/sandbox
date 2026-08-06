@@ -116,8 +116,30 @@ static/
 ## Notes
 
 - The CEO is a real ten-year-old; his name is intentionally left as
-  initials `A. K.` in `src/lib/i18n/ru.ts` and `nl.ts`. Swap when ready.
+  initials `A. K.` in `src/lib/products/alka/i18n/{ru,nl,en,es}.ts`. Swap when
+  ready.
 - The email `ceo@al.ka` is part of the joke. `.ka` is a real ccTLD
   (Åland Islands); it does not need to resolve.
-- All copy lives in `src/lib/i18n/{ru,nl}.ts`. Edits there flow
-  everywhere via the `dict` store.
+- AL.KA copy lives in `src/lib/products/alka/i18n/{ru,nl,en,es}.ts` and flows
+  everywhere via the `dict` store. Each other division keeps its own
+  dictionary next to it (`products/<id>/i18n/`), all four derived off the one
+  `locale` store in `src/lib/i18n`.
+
+## Languages
+
+Russian, Dutch, English and Spanish. The list is declared once, in
+`src/lib/i18n/index.ts` - add a code to `Locale` and `LOCALE_META` and the
+typecheck will name every dictionary that still needs the copy.
+
+The choice is resolved in this order, highest first:
+
+1. `?lang=` on the URL - exactly `ru`, `nl`, `en` or `es` (`/water?lang=es`)
+2. the `alka_lang` cookie, set for a year
+3. the pre-cookie `alka:loc` localStorage key, so old visitors keep their pick
+4. `navigator.languages`
+5. Russian
+
+Anything the visitor picks is written back to the cookie, so a `?lang=` link
+survives the first click away from the page it landed on. `alka_lang` and
+`alka_cookie_notice` are the only two cookies the site sets; both hold one
+value from a fixed list and neither identifies anybody.

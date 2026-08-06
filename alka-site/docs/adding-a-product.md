@@ -78,7 +78,7 @@ use `$lib/products/alka/components/Header.svelte` instead of writing your own.
 
 ## 3. Write the copy
 
-`src/lib/products/alka/i18n/{ru,nl,en}.ts`, in the `products` record:
+`src/lib/products/alka/i18n/{ru,nl,en,es}.ts`, in the `products` record:
 
 ```ts
 lawn: {
