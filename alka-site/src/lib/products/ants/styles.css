@@ -1,0 +1,161 @@
+/* ---------------------------------------------------------------------------
+   Division 05 - "The President and the Queen".
+   ---------------------------------------------------------------------------
+   Ported from a standalone artifact whose markup is styled almost entirely
+   inline. That is unusual for this codebase and it is left alone on purpose:
+   inline styles cannot leak into another division, which is exactly the
+   property the whole multi-product arrangement is built on, and rewriting six
+   hundred lines of hand-tuned decoration into classes would risk the look for
+   no structural gain.
+
+   What could NOT stay as it arrived is everything below. The artifact styled
+   bare `body`, `*` and `a`, which under the hard rule in app.css would repaint
+   the other four divisions. All of it is scoped under `.ants-root` instead.
+
+   The keyframes carry an `ants-` prefix. Animation names are global no matter
+   where they are declared, and the original `spinSlow` sat one hyphen away
+   from the `spin-slow` that Wet Water already ships.
+   --------------------------------------------------------------------------- */
+
+.ants-root {
+	margin: 0;
+	background: #f6ead2;
+	color: #2a211c;
+	-webkit-font-smoothing: antialiased;
+	/* From the wrapper div the artifact put around its whole body. */
+	font-family: Nunito, system-ui, sans-serif;
+	overflow-x: hidden;
+	/* BackToMain picks up the treaty green rather than the page ink. */
+	--btm-accent: #2e5b45;
+	--btm-hover: rgba(42, 33, 28, 0.07);
+}
+
+.ants-root *,
+.ants-root *::before,
+.ants-root *::after {
+	box-sizing: border-box;
+}
+
+.ants-root a {
+	color: #2e5b45;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.ants-root a:hover {
+	color: #c6402f;
+}
+
+/* "Presidential Republic of the Bottle" is 36 characters and wraps to three
+   lines on a phone, turning a sticky bar into a sticky block that follows the
+   reader down the whole story. Below 560px the crown carries the identity on
+   its own and the name goes to the accessible layer, which also leaves the
+   back link and the language pills room to stay on one line. */
+@media (max-width: 559px) {
+	.ants-root .republic-name {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+}
+
+@keyframes ants-wobble {
+	0%,
+	100% {
+		transform: rotate(-1.6deg);
+	}
+	50% {
+		transform: rotate(2.2deg);
+	}
+}
+
+@keyframes ants-marchRight {
+	0% {
+		transform: translateX(-6%);
+	}
+	100% {
+		transform: translateX(104%);
+	}
+}
+
+@keyframes ants-bob {
+	0%,
+	100% {
+		transform: translateY(0) rotate(-1deg);
+	}
+	50% {
+		transform: translateY(-3px) rotate(1deg);
+	}
+}
+
+@keyframes ants-drift {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-120px);
+	}
+}
+
+@keyframes ants-spinSlow {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes ants-sway {
+	0%,
+	100% {
+		transform: rotate(-3deg);
+	}
+	50% {
+		transform: rotate(3deg);
+	}
+}
+
+@keyframes ants-shimmer {
+	0%,
+	100% {
+		opacity: 0.35;
+	}
+	50% {
+		opacity: 0.9;
+	}
+}
+
+/* The story is a keepsake as much as a page, so the artifact shipped a print
+   sheet. Kept, scoped, and with the page rule left global - `@page` cannot be
+   scoped and applies to the document either way. */
+@media print {
+	@page {
+		size: landscape;
+		margin: 12mm;
+	}
+
+	.ants-root {
+		background: #fff;
+	}
+
+	.ants-root * {
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+}
+
+/* The decoration is ambient and endless - drifting clouds, marching ants, a
+   swaying pine. None of it carries meaning, so under reduced-motion it simply
+   stops rather than being replaced with something quieter. */
+@media (prefers-reduced-motion: reduce) {
+	.ants-root * {
+		animation: none !important;
+	}
+}

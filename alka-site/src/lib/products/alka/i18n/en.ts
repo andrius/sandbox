@@ -40,6 +40,11 @@ export const en: Dict = {
 		water: {
 			name: 'Wet Water',
 			blurb: "Europe's first water with certified wetness. Plus a genuinely useful heatwave guide."
+		},
+		ants: {
+			name: 'The President and the Queen',
+			blurb:
+				'A summer dispatch from Palanga. One shampoo bottle, two deported terminators, and a treaty of three terms.'
 		}
 	},
 

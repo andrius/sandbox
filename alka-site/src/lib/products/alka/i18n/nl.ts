@@ -41,6 +41,11 @@ export const nl: Dict = {
 			name: 'Wet Water',
 			blurb:
 				'Het eerste water van Europa met gecertificeerde natheid. Plus een oprecht bruikbare hittegids.'
+		},
+		ants: {
+			name: 'De President en de Koningin',
+			blurb:
+				'Een zomerbericht uit Palanga. Eén shampoofles, twee gedeporteerde terminators en een verdrag van drie artikelen.'
 		}
 	},
 
