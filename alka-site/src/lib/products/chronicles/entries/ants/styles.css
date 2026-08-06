@@ -76,24 +76,48 @@
 
 /* The ant that walks the length of the beach.
  *
- * The artifact wrote this as `translateX(-6%)` to `translateX(104%)` on an SVG
- * `<g>`. Blink resolves a percentage transform on an SVG element against the
- * viewBox, so on desktop Chrome the ant crosses the full 1200-unit scene. WebKit
- * does not - SVG elements have no CSS layout box, percentages there are
- * undefined, and the whole animation collapses to nothing. The ant stood still
- * on every iPhone regardless of which browser was on it, because they are all
- * WebKit underneath.
+ * Written in user units rather than the artifact's original `-6%` to `104%`.
+ * The two are exactly equivalent - `transform-box` defaults to `view-box` for
+ * SVG, so a percentage resolves against the 1200-wide viewBox and -6% IS -72 -
+ * and both forms animate identically in Blink and WebKit, which was measured
+ * rather than assumed. The units are kept only because they say plainly what
+ * the numbers mean.
  *
- * The percentages are now the user units they were always meant to be: the
- * scene is `viewBox="0 0 1200 520"`, so -6% is -72 and 104% is 1248. In SVG a
- * CSS `px` IS one user unit, so this is exact rather than approximate, and it
- * means the same thing in every engine. */
+ * The reason the ant looked broken on phones is below, and it was never the
+ * transform. */
 @keyframes ants-marchRight {
 	0% {
 		transform: translateX(-72px);
 	}
 	100% {
 		transform: translateX(1248px);
+	}
+}
+
+/* The hero SVG is `viewBox="0 0 1200 520"` drawn with
+ * `preserveAspectRatio="xMidYMax slice"`, so once the box is narrower than
+ * about 692px it stops showing the whole scene and crops to a centred slice.
+ * At 390px only viewBox x 262..938 is on screen - a bit over half of it.
+ *
+ * The ant marches the full 1320-unit span, so on a phone it spends roughly
+ * half of every cycle outside the crop, and the cycle starts with it out
+ * there. At the authored 26s that is around thirteen seconds of staring at a
+ * beach where nothing happens, which reads exactly like a broken animation.
+ *
+ * So on cropped viewports the march runs quicker and starts part-way through:
+ * the negative delay puts the ant at roughly x=373 on load, inside the visible
+ * slice at every phone width, and it walks off the right edge about five
+ * seconds later. The span is deliberately left alone - the ant still enters
+ * and leaves past the edges, which is what stops the loop from visibly
+ * snapping back. */
+.ants-root .marching-ant {
+	animation: ants-marchRight 26s linear infinite;
+}
+
+@media (max-width: 691px) {
+	.ants-root .marching-ant {
+		animation-duration: 12s;
+		animation-delay: -3.5s;
 	}
 }
 

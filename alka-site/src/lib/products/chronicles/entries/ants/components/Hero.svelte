@@ -104,7 +104,7 @@
         </g>
       </g>
 
-      <g style="animation: ants-marchRight 26s linear infinite;">
+      <g class="marching-ant">
         <g transform="translate(60 462) scale(-.8 .8)">
           <g style="animation: ants-bob 0.5s ease-in-out infinite;">
             <g stroke="#14100F" stroke-width="4" stroke-linecap="round" fill="none">
