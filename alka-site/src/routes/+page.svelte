@@ -28,13 +28,17 @@
 			<Wordmark animated={true} />
 			<span class="sr-only">{$dict.name}</span>
 		</h1>
-		<p class="tagline reveal-up" use:reveal={{ delay: 600 }}>{$dict.tagline}</p>
-		<!-- Directly under the tagline, not tucked into the register strip: the
-		     visitor who most needs this control is the one who cannot read the
-		     page it is on. -->
-		<div class="reveal-up" use:reveal={{ delay: 720 }}>
+		<!-- Straight after the wordmark, ahead of the tagline.
+		     The tagline is a full sentence in whichever language happens to be
+		     active, so putting it first means a child who cannot read that
+		     language meets a wall of words before they reach the control that
+		     would fix it. The logo needs no translating; the language names do
+		     the rest, written out so they are recognised rather than decoded
+		     from a two-letter code. -->
+		<div class="reveal-up" use:reveal={{ delay: 600 }}>
 			<LanguageSwitcher variant="cards" />
 		</div>
+		<p class="tagline reveal-up" use:reveal={{ delay: 720 }}>{$dict.tagline}</p>
 	</header>
 
 	<nav class="portfolio" aria-label={$dict.labels.portfolio}>
@@ -107,7 +111,12 @@
 		font-weight: 700;
 		font-size: clamp(20px, 2.6vw, 34px);
 		line-height: 1.1;
-		margin-top: 24px;
+		/* The chooser now sits between the wordmark and this line. At the old
+		   24px all three gaps were within 4px of each other and the hero read
+		   as one evenly-spaced stack, which made the tagline look like a
+		   caption on the language buttons. The wider gap puts it back to being
+		   the brand statement, and gives the chooser a band of its own. */
+		margin-top: 36px;
 		color: var(--ink);
 		letter-spacing: -0.02em;
 		max-width: 22ch;
@@ -257,6 +266,7 @@
 
 	@media (max-width: 639px) {
 		.menu { padding-bottom: 36px; }
+		.tagline { margin-top: 28px; }
 		.row { padding: 20px 0; }
 		.name { font-size: 20px; }
 		.blurb { font-size: 14px; }
