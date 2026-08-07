@@ -1,0 +1,178 @@
+# Bubble Tea Crystal Port (Draft)
+
+This folder is the starting point for migrating
+[charmbracelet/bubbletea](https://github.com/charmbracelet/bubbletea) from Go to Crystal.
+
+## Current status
+
+Implemented runtime features:
+
+- Core MVU contract:
+  - `Message` (`Msg`)
+  - `Cmd` (`Proc(Msg?)`)
+  - `Model` (`init`, `update`, `view`)
+- Program runtime:
+  - asynchronous command execution
+  - internal mailbox/event loop
+  - line-mode input and key-mode input
+  - best-effort raw terminal mode for key input
+  - signal hooks for `INT` / `TERM` (configurable)
+  - suspend/resume lifecycle hooks (`TSTP` / `CONT`) and program commands
+  - optional window size message dispatch (`WindowSizeMessage`)
+  - optional mouse tracking dispatch (`MouseMessage`)
+  - optional focus/blur and bracketed-paste dispatch
+  - startup commands via program options
+  - event filter pipeline (`event_filter` + `event_filters`)
+  - option-builder helpers (`with_*`) and `new_program(...)` constructor
+  - module-level wrappers `BubbleTea.run(...)` / `BubbleTea.start(...)`
+  - optional renderer disable mode (`without_renderer`)
+  - startup window title option (`with_window_title`)
+  - `Program#run` result API (`ProgramResult`) alongside `Program#start`
+- Renderer:
+  - full-frame rendering
+  - diff rendering mode
+  - alternate screen support
+  - cursor hide/show and clear screen controls
+- Command helpers:
+  - `BubbleTea.quit`
+  - `BubbleTea.batch`
+  - `BubbleTea.sequence`
+  - `BubbleTea.tick`
+  - `BubbleTea.every`
+  - renderer control commands (`enter_alt_screen`, `exit_alt_screen`, etc.)
+  - mouse tracking commands (`enable_mouse_tracking`, `disable_mouse_tracking`)
+  - focus reporting commands (`enable_focus_reporting`, `disable_focus_reporting`)
+  - bracketed paste commands (`enable_bracketed_paste`, `disable_bracketed_paste`)
+  - terminal helpers (`set_window_title`, `beep`)
+  - lifecycle helpers (`suspend`, `resume`)
+  - mouse modes (`enable_mouse_tracking`, `enable_mouse_all_motion_tracking`)
+  - print helpers (`print`, `println`, `printf`)
+  - `request_window_size`
+  - process helpers (`exec_process`, `exec`)
+  - command error forwarding as `ErrorMessage`
+- Styling:
+  - ANSI color helpers with `FORCE_COLOR` / `NO_COLOR` behavior.
+
+## Structure
+
+- `src/bubbletea.cr` - library entrypoint
+- `src/bubbletea/message.cr` - message types
+- `src/bubbletea/cmd.cr` - command alias
+- `src/bubbletea/model.cr` - abstract model contract
+- `src/bubbletea/program.cr` - runtime loop + mailbox
+- `src/bubbletea/program_options.cr` - runtime options
+- `src/bubbletea/program_result.cr` - run result type
+- `src/bubbletea/input_reader.cr` - line/key input parsing
+- `src/bubbletea/terminal.cr` - raw mode + window size helpers
+- `src/bubbletea/renderer.cr` - terminal frame renderer
+- `src/bubbletea/commands.cr` - helper commands and internal control messages
+- `src/bubbletea/style.cr` - ANSI styling helpers
+- `src/bubbletea/calculator.cr` - calculator model/messages
+- `examples/counter.cr` - quick smoke example
+- `examples/calculator.cr` - interactive calculator (key mode + alt screen by default)
+- `examples/clock.cr` - ticking clock demo using async commands
+- `examples/events.cr` - key/mouse/window-size event inspector
+- `examples/terminal_controls.cr` - title/beep controls demo
+- `examples/external_send.cr` - external message injection demo (`Program#send`)
+- `examples/suspend_resume.cr` - suspend/resume lifecycle demo
+- `examples/print_commands.cr` - print/printf/window-size command demo
+- `examples/exec_process.cr` - process execution command demo
+- `spec/*` - runtime, renderer, command helper, input, and app specs
+
+Keyboard parsing includes:
+
+- arrows/home/end/page keys
+- function keys F1-F12
+- modifier flags (`shift`, `alt`, `ctrl`) on parsed key messages
+- alt-prefixed runes (`Esc`+key) as a single key message
+- UTF-8 rune decoding (including Alt+UTF-8 runes)
+
+Program control API:
+
+- `Program#run` returns `ProgramResult` (`model`, `error`)
+- `Program#start` remains backward-compatible and returns `model`
+- `Program#send(msg)` injects external messages
+- `Program#quit` requests shutdown
+- `Program#run_model_error` returns `{model, error}`
+- `ProgramOptions#event_filter` can transform/drop incoming messages
+- `BubbleTea.new_program(model, ..., BubbleTea.with_alt_screen, ...)` provides option-builder style setup
+- `BubbleTea.without_renderer` disables terminal rendering output
+
+Compatibility aliases:
+
+- `KeyMsg`, `WindowSizeMsg`, `MouseMsg`, `PasteMsg`, `QuitMsg`, `ErrorMsg`, etc.
+
+## Run locally
+
+```bash
+cd crystal/bubbletea
+crystal run examples/counter.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/calculator.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/clock.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/events.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/terminal_controls.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/external_send.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/suspend_resume.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/print_commands.cr
+```
+
+```bash
+cd crystal/bubbletea
+crystal run examples/exec_process.cr
+```
+
+Color behavior:
+
+- The calculator demo (`examples/calculator.cr`) is color-on by default.
+- Set `DEMO_NO_COLOR=1` to force plain output for the demo.
+- In library mode, `FORCE_COLOR=1` enables colors and overrides `NO_COLOR`.
+- For calculator, use `DEMO_LINE_MODE=1` to run without raw key mode.
+- For mouse/key event demos, run in an interactive terminal (not piped output).
+
+## Run with Docker (Crystal 1.19)
+
+```bash
+cd crystal/bubbletea
+docker build -t bubbletea-crystal:1.19 .
+docker run --rm -it bubbletea-crystal:1.19
+```
+
+## Run tests
+
+```bash
+cd crystal/bubbletea
+crystal spec
+```
+
+Test run artifacts generated in this repo:
+
+- `artifacts/calculator-app-run-output.txt`
+- `artifacts/calculator-app-run-screenshot.png`
